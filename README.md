@@ -1,4 +1,4 @@
-jCUBE
+jKube
 =====
 
 An open source java implementation of CubeWorld's server.
