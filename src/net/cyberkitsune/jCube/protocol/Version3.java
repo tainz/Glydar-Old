@@ -138,7 +138,7 @@ public class Version3 implements NetworkProtocol{
 	public void handleReadPacket17(Packet p) {
 		// TODO actually handle this correctly
 		// For now, we just complain that the server is full.
-		if((new Random().nextInt() % 2) == 1) {
+		if(new Random().nextBoolean()) {
 			handleSendPacket17(p.context);
 		} else {
 			handleSendPacket18(p.context);
@@ -197,7 +197,7 @@ public class Version3 implements NetworkProtocol{
 	public void handleSendPacket17(Socket context) { // Version Mismatch
 		Packet reply = new Packet(context);
 		reply.id = 17;
-		int vNum = new Random().nextInt(255);
+		int vNum = new Random().nextInt(9001);
 		Server.getLog().info("Random version number: "+vNum+" or "+Integer.toHexString(vNum));
 		reply.data = Util.hexStringToByteArray(Util.createZeros(Integer.toHexString(vNum), 8)+Integer.toHexString(vNum));
 		sendOutgoingPacket(reply);
