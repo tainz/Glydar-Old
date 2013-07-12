@@ -73,8 +73,9 @@ public class Version3 implements NetworkProtocol{
 		DataOutputStream pout = new DataOutputStream(packSkt.getOutputStream());
 		StringBuilder outputString = new StringBuilder();
 		outputString.append(Integer.toHexString(p.id));
-		//TODO: Do this right
-		outputString.append("000000");
+		for(int n = 0; n <= (8-(Integer.toHexString(p.id).length())); n++) {
+			outputString.append("0");
+		}
 		if(p.data != null) {
 			outputString.append(Util.byteArrayToString(p.data));
 		}
