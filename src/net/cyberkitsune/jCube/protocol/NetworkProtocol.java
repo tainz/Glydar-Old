@@ -3,8 +3,8 @@ package net.cyberkitsune.jCube.protocol;
 import java.io.IOException;
 import java.net.Socket;
 
-import net.cyberkitsune.jCube.Server;
 import net.cyberkitsune.jCube.packets.Packet;
+import net.cyberkitsune.jKube.Server;
 
 public interface NetworkProtocol {
 

@@ -1,4 +1,4 @@
-package net.cyberkitsune.jCube;
+package net.cyberkitsune.jKube;
 
 public final class Util {
 	public static int fromByteArray(byte[] bytes) {

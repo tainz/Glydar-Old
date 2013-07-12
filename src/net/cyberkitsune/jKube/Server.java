@@ -1,4 +1,4 @@
-package net.cyberkitsune.jCube;
+package net.cyberkitsune.jKube;
 
 import java.io.IOException;
 import java.net.ServerSocket;

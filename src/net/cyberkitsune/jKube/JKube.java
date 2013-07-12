@@ -1,6 +1,6 @@
-package net.cyberkitsune.jCube;
+package net.cyberkitsune.jKube;
 
-public class JCube {
+public class JKube {
 
 	public static void main(String[] args) {
 	

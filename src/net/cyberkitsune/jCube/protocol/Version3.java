@@ -4,9 +4,9 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Random;
 
-import net.cyberkitsune.jCube.Server;
-import net.cyberkitsune.jCube.Util;
 import net.cyberkitsune.jCube.packets.Packet;
+import net.cyberkitsune.jKube.Server;
+import net.cyberkitsune.jKube.Util;
 
 public class Version3 implements NetworkProtocol{
 
