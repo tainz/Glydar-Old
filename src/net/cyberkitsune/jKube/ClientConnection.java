@@ -2,7 +2,8 @@ package net.cyberkitsune.jKube;
 
 import java.io.DataInputStream;
 import java.net.Socket;
-import net.cyberkitsune.jCube.packets.Packet;
+
+import net.cyberkitsune.jKube.packets.Packet;
 
 public class ClientConnection extends Thread {
 	

@@ -1,4 +1,4 @@
-package net.cyberkitsune.jCube.packets;
+package net.cyberkitsune.jKube.packets;
 
 import java.net.Socket;
 

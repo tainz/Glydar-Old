@@ -5,8 +5,8 @@ import java.net.ServerSocket;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
-import net.cyberkitsune.jCube.protocol.NetworkProtocol;
-import net.cyberkitsune.jCube.protocol.Version3;
+import net.cyberkitsune.jKube.protocol.NetworkProtocol;
+import net.cyberkitsune.jKube.protocol.Version3;
 
 public class Server {
 
