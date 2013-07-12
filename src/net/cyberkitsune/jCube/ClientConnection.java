@@ -19,7 +19,7 @@ public class ClientConnection extends Thread {
 	@Override
 	public void run() {
 		try {
-			while(true) {
+			while(!skt.isClosed()) {
 				DataInputStream dis = new DataInputStream(skt.getInputStream());
 				Server.getLog().info("Incoming Packet from "+skt.getRemoteSocketAddress());
 				//context.log.info("Reading Packet.");
@@ -39,6 +39,8 @@ public class ClientConnection extends Thread {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			Server.getLog().info("Connection Closed.");
 		}
 	}
 
