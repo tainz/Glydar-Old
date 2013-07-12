@@ -23,8 +23,8 @@ public class ClientConnection extends Thread {
 		try {
 			while(true) {
 				DataInputStream dis = new DataInputStream(skt.getInputStream());
-				context.log.info("Incoming Packet from "+skt.getRemoteSocketAddress());
-				context.log.info("Reading Packet.");
+				context.getLog().info("Incoming Packet from "+skt.getRemoteSocketAddress());
+				//context.log.info("Reading Packet.");
 				byte[] idByteArray = new byte[4];
 				dis.read(idByteArray); // ID
 				//byte[] restByteBuf = {0};
@@ -36,7 +36,7 @@ public class ClientConnection extends Thread {
 				pktIn.id = Integer.parseInt(Util.byteArrayToString(idByteArray),16);
 				//Byte[] data = (Byte[]) dataBytes.toArray();
 				//pktIn.data = data;
-				context.log.info("Packet ID: "+pktIn.id);
+				context.getLog().info("Packet ID: "+pktIn.id);
 				context.activeProto.handleIncomingPacket(pktIn);
 			}
 		} catch (Exception e) {

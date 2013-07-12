@@ -10,7 +10,7 @@ import net.cyberkitsune.jCube.protocol.Version3;
 
 public class Server {
 
-	public static final Logger log = Logger.getLogger(Server.class.getName());
+	private static final Logger log = Logger.getLogger(Server.class.getName());
 	public NetworkProtocol activeProto = new Version3(this);
 	boolean running = true;
 	int numConnections = -1;
@@ -19,15 +19,15 @@ public class Server {
 		LogFormatter formatter = new LogFormatter();
 		ConsoleHandler cH = new ConsoleHandler();
 		cH.setFormatter(formatter);
-		log.setUseParentHandlers(false);
-		log.addHandler(cH);
+		getLog().setUseParentHandlers(false);
+		getLog().addHandler(cH);
 	}
 	
 	public void run() throws IOException {
-		log.info("Starting Server on Port 12345");
+		getLog().info("Starting Server on Port 12345");
 		ServerSocket listener = new ServerSocket(12345);
 		try {
-			log.info("Server running. Waiting for connection...");
+			getLog().info("Server running. Waiting for connection...");
 			while(running) {
 				new ClientConnection(listener.accept(), this, numConnections++).start();
 			}
@@ -36,6 +36,10 @@ public class Server {
 		} finally {
 			listener.close();
 		}
+	}
+
+	public static Logger getLog() {
+		return log;
 	}
 	
 }

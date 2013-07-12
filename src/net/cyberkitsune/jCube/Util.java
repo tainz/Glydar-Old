@@ -22,4 +22,12 @@ public final class Util {
 	    }
 	    return data;
 	}
+	
+	public static String createZeros(String s, int length) {
+		StringBuilder b = new StringBuilder();
+		for(int n = 0; n < (length-(s.length())); n++) {
+			b.append("0");
+		}
+		return b.toString();
+	}
 }

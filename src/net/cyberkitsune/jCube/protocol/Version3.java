@@ -60,7 +60,7 @@ public class Version3 implements NetworkProtocol{
 			handleReadPacket17(p);
 			break;
 		default:
-			getServer().log.info("Unknown Packet ID! Received: "+p.id); //TODO Dump packet for debug
+			Server.getLog().info("Unknown Packet ID! Received: "+p.id); //TODO Dump packet for debug
 			break;
 		}
 		
@@ -73,13 +73,12 @@ public class Version3 implements NetworkProtocol{
 		DataOutputStream pout = new DataOutputStream(packSkt.getOutputStream());
 		StringBuilder outputString = new StringBuilder();
 		outputString.append(Integer.toHexString(p.id));
-		for(int n = 0; n <= (8-(Integer.toHexString(p.id).length())); n++) {
-			outputString.append("0");
-		}
+		outputString.append(Util.createZeros(Integer.toHexString(p.id), 8));
 		if(p.data != null) {
 			outputString.append(Util.byteArrayToString(p.data));
 		}
 		byte[] packetToSend = Util.hexStringToByteArray(outputString.toString());
+		Server.getLog().info("Sending packet id: "+p.id+" data: "+Integer.toHexString(Util.fromByteArray(packetToSend)));
 		pout.write(packetToSend);
 		pout.close();
 		pout.flush();
@@ -200,7 +199,9 @@ public class Version3 implements NetworkProtocol{
 	public void handleSendPacket17(Socket context) { // Version Mismatch
 		Packet reply = new Packet(context);
 		reply.id = 17;
-		reply.data = Util.hexStringToByteArray("000000"+Integer.toHexString(new Random().nextInt(225)));
+		int vNum = new Random().nextInt(255);
+		Server.getLog().info("Random version number: "+vNum+" or "+Integer.toHexString(vNum));
+		reply.data = Util.hexStringToByteArray(Util.createZeros(Integer.toHexString(vNum), 8)+Integer.toHexString(vNum));
 		sendOutgoingPacket(reply);
 	}
 
