@@ -1,6 +1,5 @@
 jCUBE
 =====
-<small>jCUBE - java CubeWorld Universal Broadcasting Engine</small>
 
 An open source java implementation of CubeWorld's server.
 
