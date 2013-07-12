@@ -76,7 +76,7 @@ public class Version3 implements NetworkProtocol{
 			outputString.append(Util.byteArrayToString(p.data));
 		}
 		byte[] packetToSend = Util.hexStringToByteArray(outputString.toString());
-		Server.getLog().info("Sending packet id: "+p.id+" data: "+Integer.toHexString(Util.fromByteArray(packetToSend)));
+		Server.getLog().info("Sending packet id: "+p.id+" data: "+Util.byteArrayToString(packetToSend));
 		pout.write(packetToSend);
 		pout.close();
 		pout.flush();
