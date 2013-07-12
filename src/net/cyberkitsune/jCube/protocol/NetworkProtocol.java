@@ -5,7 +5,6 @@ import java.net.Socket;
 
 import net.cyberkitsune.jCube.Server;
 import net.cyberkitsune.jCube.packets.Packet;
-import net.cyberkitsune.jCube.packets.PacketArgs;
 
 public interface NetworkProtocol {
 

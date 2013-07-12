@@ -1,14 +1,12 @@
 package net.cyberkitsune.jCube.protocol;
 
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 import java.util.Random;
 
 import net.cyberkitsune.jCube.Server;
 import net.cyberkitsune.jCube.Util;
 import net.cyberkitsune.jCube.packets.Packet;
-import net.cyberkitsune.jCube.packets.PacketArgs;
 
 public class Version3 implements NetworkProtocol{
 
