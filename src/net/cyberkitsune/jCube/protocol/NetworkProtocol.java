@@ -1,5 +1,8 @@
 package net.cyberkitsune.jCube.protocol;
 
+import java.io.IOException;
+import java.net.Socket;
+
 import net.cyberkitsune.jCube.Server;
 import net.cyberkitsune.jCube.packets.Packet;
 import net.cyberkitsune.jCube.packets.PacketArgs;
@@ -12,7 +15,7 @@ public interface NetworkProtocol {
 	
 	// Handler Wrappers
 	public void handleIncomingPacket(Packet p);
-	public Packet createOutgoingPacket(int id, PacketArgs args);
+	public void sendOutgoingPacket(Packet p) throws IOException;
 	
 	// Incoming packets
 	public void handleReadPacket0(Packet p);
@@ -26,14 +29,14 @@ public interface NetworkProtocol {
 	public void handleReadPacket17(Packet p); // Handshake
 	
 	// Outgoing packets 
-	public Packet handleSendPacket1(PacketArgs a); // Unknown
-	public Packet handleSendPacket2(PacketArgs a); // Unknown
-	public Packet handleSendPacket3(PacketArgs a); // Unknown
-	public Packet handleSendPacket4(PacketArgs a); // Unknown
-	public Packet handleSendPacket5(PacketArgs a); // Unknown
-	public Packet handleSendPacket10(PacketArgs a); // Chat Message
-	public Packet handleSendPacket15(PacketArgs a); // Seed Data
-	public Packet handleSendPacket16(PacketArgs a); // Connection Data
-	public Packet handleSendPacket17(); // Server full error
-	public Packet handleSendPacket18(); // Version mismatch error
+	public void handleSendPacket1(Socket context); // Unknown
+	public void handleSendPacket2(Socket context); // Unknown
+	public void handleSendPacket3(Socket context); // Unknown
+	public void handleSendPacket4(Socket context); // Unknown
+	public void handleSendPacket5(Socket context); // Unknown
+	public void handleSendPacket10(Socket context); // Chat Message
+	public void handleSendPacket15(Socket context); // Seed Data
+	public void handleSendPacket16(Socket context); // Connection Data
+	public void handleSendPacket17(Socket context); // Server full error
+	public void handleSendPacket18(Socket context); // Version mismatch error
 }

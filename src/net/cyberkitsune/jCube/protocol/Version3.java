@@ -1,6 +1,12 @@
 package net.cyberkitsune.jCube.protocol;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Random;
+
 import net.cyberkitsune.jCube.Server;
+import net.cyberkitsune.jCube.Util;
 import net.cyberkitsune.jCube.packets.Packet;
 import net.cyberkitsune.jCube.packets.PacketArgs;
 
@@ -61,9 +67,25 @@ public class Version3 implements NetworkProtocol{
 	}
 
 	@Override
-	public Packet createOutgoingPacket(int id, PacketArgs args) {
-		// TODO Auto-generated method stub
-		return null;
+	public void sendOutgoingPacket(Packet p) {
+		try {
+		Socket packSkt = p.context;
+		DataOutputStream pout = new DataOutputStream(packSkt.getOutputStream());
+		StringBuilder outputString = new StringBuilder();
+		outputString.append(Integer.toHexString(p.id));
+		//TODO: Do this right
+		outputString.append("000000");
+		if(p.data != null) {
+			outputString.append(Util.byteArrayToString(p.data));
+		}
+		byte[] packetToSend = Util.hexStringToByteArray(outputString.toString());
+		pout.write(packetToSend);
+		pout.close();
+		pout.flush();
+		} catch (Exception ex) {
+			
+		}
+		
 	}
 
 	@Override
@@ -114,70 +136,78 @@ public class Version3 implements NetworkProtocol{
 		
 	}
 
-
-	@Override
-	public Packet handleSendPacket1(PacketArgs a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Packet handleSendPacket2(PacketArgs a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Packet handleSendPacket3(PacketArgs a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Packet handleSendPacket4(PacketArgs a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Packet handleSendPacket5(PacketArgs a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Packet handleSendPacket10(PacketArgs a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Packet handleSendPacket15(PacketArgs a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Packet handleSendPacket16(PacketArgs a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Packet handleSendPacket17() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Packet handleSendPacket18() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public void handleReadPacket17(Packet p) {
+		// TODO actually handle this correctly
+		// For now, we just complain that the server is full.
+		if((new Random().nextInt() % 2) == 1) {
+			handleSendPacket17(p.context);
+		} else {
+			handleSendPacket18(p.context);
+		}
+	}
+
+	@Override
+	public void handleSendPacket1(Socket context) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleSendPacket2(Socket context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleSendPacket3(Socket context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleSendPacket4(Socket context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleSendPacket5(Socket context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleSendPacket10(Socket context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleSendPacket15(Socket context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleSendPacket16(Socket context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleSendPacket17(Socket context) { // Version Mismatch
+		Packet reply = new Packet(context);
+		reply.id = 17;
+		reply.data = Util.hexStringToByteArray("000000"+Integer.toHexString(new Random().nextInt(225)));
+		sendOutgoingPacket(reply);
+	}
+
+	@Override
+	public void handleSendPacket18(Socket context) { // Full
+		Packet reply = new Packet(context);
+		reply.id = 18;
+		sendOutgoingPacket(reply);
 		
 	}
 

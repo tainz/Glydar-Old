@@ -1,7 +1,16 @@
 package net.cyberkitsune.jCube.packets;
 
+import java.net.Socket;
+
 public class Packet {
-	public byte[] raw;
+	
+	public Socket context;
+	
+	public Packet(Socket context) {
+		this.context = context;
+	}
+	
+	public Byte[] raw;
 	public int id; //4B
 	public byte[] data;
 }
