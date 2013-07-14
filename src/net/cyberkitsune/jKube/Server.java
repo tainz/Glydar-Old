@@ -33,7 +33,8 @@ public class Server {
 		while(running) {
 			handleCommand(br.readLine());
 		}
-		lT.interrupt();
+		lT.interrupt(); // Stops the listener thread.
+		//TODO: Save map, cleanup, etc.
 		return;
 	}
 	
