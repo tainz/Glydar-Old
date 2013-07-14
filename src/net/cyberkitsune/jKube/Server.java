@@ -1,7 +1,8 @@
 package net.cyberkitsune.jKube;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.io.InputStreamReader;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
@@ -24,17 +25,29 @@ public class Server {
 	}
 	
 	public void run() throws IOException {
+		ListenThread lT = new ListenThread(this);
 		getLog().info("Starting Server on Port 12345");
-		ServerSocket listener = new ServerSocket(12345);
-		try {
-			getLog().info("Server running. Waiting for connection...");
-			while(running) {
-				new ClientConnection(listener.accept(), this, numConnections++).start();
-			}
-		} catch (Exception e) {
-			
-		} finally {
-			listener.close();
+		lT.start();
+		getLog().info("Server running. Enter Q to quit.");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		while(running) {
+			handleCommand(br.readLine());
+		}
+		lT.interrupt();
+		return;
+	}
+	
+	//TODO Make this bool.
+	public void handleCommand(String cmd) {
+		switch (cmd.toLowerCase()) {
+		case "q":
+			getLog().info("Quitting server...");
+			running = false;
+			break;
+
+		default:
+			getLog().info("Unknown Command: "+cmd);
+			break;
 		}
 	}
 
