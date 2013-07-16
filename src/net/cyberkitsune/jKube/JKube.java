@@ -3,8 +3,9 @@ package net.cyberkitsune.jKube;
 /**
  * JKube - Java CubeWorld Server
  * TODO List (In order of importance)
+ * * Make Packet Operations less stupid. (Migrate to JavaNIO)
  * * Structures
- * * Packet Logic
+ * * Packet Logic / Connection Management
  * * Server... stuff? (Map simulation, entity management, etc)
  * * World Generation
  * * World parsing / saving
