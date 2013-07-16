@@ -18,7 +18,7 @@ public class PacketReader
 		this.packetCreator = packetCreator;
 	}
 	
-	public Packet readPacket() throws IOException
+	public Packet readPacket() throws Exception
 	{
 		
 		ByteBuffer buf = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN);
@@ -40,7 +40,9 @@ public class PacketReader
 		
 		datBuf.flip();
 		
-		return packetCreator.createPacket(id, datBuf.array());
+		Packet packet = packetCreator.createPacket(id, datBuf.array());
+		
+		return packet;
 		
 	}
 	

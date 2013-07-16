@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.glydar.Util;
 
-
 public class PacketData
 {
 	
@@ -24,16 +23,20 @@ public class PacketData
 		data = Util.toByteList(dat);
 	}
 	
-	public <T> void addData(T dat)
+	public <T> PacketData addData(T dat)
 	{
 		
+		if (dat instanceof Float)
+		{
+			data.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putFloat((Float) dat).array()));
+		}
+		else if (dat instanceof Long)
+		{
+			data.addAll(Util.toByteList(ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).putLong((Long) dat).array()));
+		}
 		if (dat instanceof Integer)
 		{
 			data.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt((Integer) dat).array()));
-		}
-		else if (dat instanceof Float)
-		{
-			data.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putFloat((Float) dat).array()));
 		}
 		else if (dat instanceof String)
 		{
@@ -45,26 +48,36 @@ public class PacketData
 			
 		}
 		
+		return this;
+		
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getDataAtIndex(Class<T> dataType, int index)
 	{
 		
+		if (dataType.isAssignableFrom(Float.class))
+		{
+			
+			byte[] dt = getPrimByteData(data, index, 4);
+			
+			return (T) new Double(ByteBuffer.wrap(dt).order(ByteOrder.LITTLE_ENDIAN).getFloat());
+			
+		}
+		else if (dataType.isAssignableFrom(Long.class))
+		{
+			
+			byte[] dt = getPrimByteData(data, index, 8);
+			
+			return (T) new Long(ByteBuffer.wrap(dt).order(ByteOrder.LITTLE_ENDIAN).getLong());
+			
+		}
 		if (dataType.isAssignableFrom(Integer.class))
 		{
 			
 			byte[] dt = getPrimByteData(data, index, 4);
 			
 			return (T) new Integer(ByteBuffer.wrap(dt).order(ByteOrder.LITTLE_ENDIAN).getInt());
-			
-		}
-		else if (dataType.isAssignableFrom(Float.class))
-		{
-			
-			byte[] dt = getPrimByteData(data, index, 4);
-			
-			return (T) new Double(ByteBuffer.wrap(dt).order(ByteOrder.LITTLE_ENDIAN).getFloat());
 			
 		}
 		else if (dataType.isAssignableFrom(String.class))

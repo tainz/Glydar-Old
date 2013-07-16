@@ -20,6 +20,6 @@ public interface IPacketCreator
 	 * @param data The packet data
 	 * @return A Packet Object
 	 */
-	Packet createPacket(int id, byte[] data);
+	Packet createPacket(int id, byte[] data) throws Exception;
 	
 }
