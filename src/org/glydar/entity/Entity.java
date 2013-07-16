@@ -1,24 +1,16 @@
 package org.glydar.entity;
 
+import java.util.Vector;
+
 public class Entity {
 	
 	public int id;
 	
-	public int xPos; //Uint
-	public int yPos; //Uint
-	public int zPos; //Uint
+	private Location loc; //x, y, z, yaw, pitch, roll
 	
-	public float xRot; //Pitch
-	public float zRot; //Roll
-	public float yRot; //Yaw
+	public Vector<Float> vel; //Velocity
 	
-	public float xVel; //Velocity
-	public float yVel; //""
-	public float zVel; //""
-	
-	public float xAcc; //Acceleration
-	public float yAcc; //""
-	public float zAcc; //""
+	public Vector<Float> acc; //Acceleration
 	
 	public float xSkillVel;
 	public float ySkillVel;
