@@ -20,7 +20,7 @@ public class ListenThread extends Thread {
 			try {
 				Server.getLog().info("Server running. Waiting for connection...");
 				while (!Thread.interrupted()) {
-					new ClientConnection(listenerChannel.accept().socket(), s, s.numConnections++)
+					new ClientConnection(listenerChannel.accept(), s, s.numConnections++)
 							.start();
 				}
 			} catch (Exception e) {

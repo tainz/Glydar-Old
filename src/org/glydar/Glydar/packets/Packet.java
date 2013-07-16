@@ -1,12 +1,13 @@
 package org.glydar.Glydar.packets;
 
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 
 public class Packet {
 	
-	public Socket context;
+	public SocketChannel context;
 	
-	public Packet(Socket context) {
+	public Packet(SocketChannel context) {
 		this.context = context;
 	}
 	

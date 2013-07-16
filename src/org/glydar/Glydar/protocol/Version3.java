@@ -2,6 +2,7 @@ package org.glydar.Glydar.protocol;
 
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 import java.util.Random;
 
 import org.glydar.Glydar.Server;
@@ -67,8 +68,8 @@ public class Version3 implements NetworkProtocol{
 	@Override
 	public void sendOutgoingPacket(Packet p) {
 		try {
-		Socket packSkt = p.context;
-		DataOutputStream pout = new DataOutputStream(packSkt.getOutputStream());
+		SocketChannel packSkt = p.context;
+		DataOutputStream pout = new DataOutputStream(packSkt.socket().getOutputStream());
 		StringBuilder outputString = new StringBuilder();
 		outputString.append(Integer.toHexString(p.id));
 		outputString.append(Util.createZeros(Integer.toHexString(p.id), 8));
@@ -146,55 +147,55 @@ public class Version3 implements NetworkProtocol{
 	}
 
 	@Override
-	public void handleSendPacket1(Socket context) {
+	public void handleSendPacket1(SocketChannel context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void handleSendPacket2(Socket context) {
+	public void handleSendPacket2(SocketChannel context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void handleSendPacket3(Socket context) {
+	public void handleSendPacket3(SocketChannel context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void handleSendPacket4(Socket context) {
+	public void handleSendPacket4(SocketChannel context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void handleSendPacket5(Socket context) {
+	public void handleSendPacket5(SocketChannel context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void handleSendPacket10(Socket context) {
+	public void handleSendPacket10(SocketChannel context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void handleSendPacket15(Socket context) {
+	public void handleSendPacket15(SocketChannel context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void handleSendPacket16(Socket context) {
+	public void handleSendPacket16(SocketChannel context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void handleSendPacket17(Socket context) { // Version Mismatch
+	public void handleSendPacket17(SocketChannel context) { // Version Mismatch
 		Packet reply = new Packet(context);
 		reply.id = 17;
 		int vNum = new Random().nextInt(9001);
@@ -204,7 +205,7 @@ public class Version3 implements NetworkProtocol{
 	}
 
 	@Override
-	public void handleSendPacket18(Socket context) { // Full
+	public void handleSendPacket18(SocketChannel context) { // Full
 		Packet reply = new Packet(context);
 		reply.id = 18;
 		sendOutgoingPacket(reply);

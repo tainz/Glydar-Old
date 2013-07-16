@@ -2,16 +2,17 @@ package org.glydar.Glydar;
 
 import java.io.DataInputStream;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 
 import org.glydar.Glydar.packets.Packet;
 
 public class ClientConnection extends Thread {
 	
-	private Socket skt;
+	private SocketChannel skt;
 	private Server context;
 	//private int connectionID;
 	
-	public ClientConnection(Socket skt, Server s, int id) {
+	public ClientConnection(SocketChannel skt, Server s, int id) {
 		this.skt = skt;
 		this.context = s;
 		//this.connectionID = id;
@@ -20,9 +21,9 @@ public class ClientConnection extends Thread {
 	@Override
 	public void run() {
 		try {
-			while(!skt.isClosed()) {
-				DataInputStream dis = new DataInputStream(skt.getInputStream());
-				Server.getLog().info("Incoming Packet from "+skt.getRemoteSocketAddress());
+			while(skt.isOpen()) {
+				DataInputStream dis = new DataInputStream(skt.socket().getInputStream());
+				Server.getLog().info("Incoming Packet from "+skt.getRemoteAddress());
 				//context.log.info("Reading Packet.");
 				byte[] idByteArray = new byte[4];
 				dis.read(idByteArray); // ID

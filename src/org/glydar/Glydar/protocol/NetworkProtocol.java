@@ -2,6 +2,7 @@ package org.glydar.Glydar.protocol;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 
 import org.glydar.Glydar.Server;
 import org.glydar.Glydar.packets.Packet;
@@ -28,14 +29,14 @@ public interface NetworkProtocol {
 	public void handleReadPacket17(Packet p); // Handshake
 	
 	// Outgoing packets 
-	public void handleSendPacket1(Socket context); // Unknown
-	public void handleSendPacket2(Socket context); // Unknown
-	public void handleSendPacket3(Socket context); // Unknown
-	public void handleSendPacket4(Socket context); // Unknown
-	public void handleSendPacket5(Socket context); // Unknown
-	public void handleSendPacket10(Socket context); // Chat Message
-	public void handleSendPacket15(Socket context); // Seed Data
-	public void handleSendPacket16(Socket context); // Connection Data
-	public void handleSendPacket17(Socket context); // Server full error
-	public void handleSendPacket18(Socket context); // Version mismatch error
+	public void handleSendPacket1(SocketChannel context); // Unknown
+	public void handleSendPacket2(SocketChannel context); // Unknown
+	public void handleSendPacket3(SocketChannel context); // Unknown
+	public void handleSendPacket4(SocketChannel context); // Unknown
+	public void handleSendPacket5(SocketChannel context); // Unknown
+	public void handleSendPacket10(SocketChannel context); // Chat Message
+	public void handleSendPacket15(SocketChannel context); // Seed Data
+	public void handleSendPacket16(SocketChannel context); // Connection Data
+	public void handleSendPacket17(SocketChannel context); // Server full error
+	public void handleSendPacket18(SocketChannel context); // Version mismatch error
 }
