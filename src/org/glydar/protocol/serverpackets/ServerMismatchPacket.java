@@ -1,28 +1,38 @@
 package org.glydar.protocol.serverpackets;
 
-import org.glydar.exceptions.StructureMismatchException;
 import org.glydar.packets.Packet;
 import org.glydar.packets.PacketData;
-import org.glydar.packets.PacketStructure;
+import org.glydar.packets.PacketDataType;
 import org.glydar.protocol.Version3.ServerPacketType;
 
 public class ServerMismatchPacket extends Packet
 {
-
-	public ServerMismatchPacket(int version) throws StructureMismatchException
+	
+	public final int PacketSize = 4;
+	
+	public ServerMismatchPacket() throws Exception
 	{
-		super(ServerPacketType.ServerMismatch.getId(), new PacketData().addData(version));
+		
+		super(ServerPacketType.ServerMismatch.getId(), null);
+		
+		structure.addDataType(new PacketDataType(Integer.class));
+		
+		data = new PacketData(structure);
+		
 	}
-
-	@Override
-	public PacketStructure getStructure()
+	
+	public ServerMismatchPacket setVersion(int newVersion)
 	{
 		
-		PacketStructure structure = new PacketStructure();
-		structure.addDataType(Integer.class);
+		data.setDataAtIndex(structure.getLengthFromIndex(0), newVersion);
 		
-		return structure;
+		return this;
 		
+	}
+	
+	public int getVersion()
+	{
+		return data.getDataAtIndex(Integer.class, structure.getLengthFromIndex(0));
 	}
 	
 }

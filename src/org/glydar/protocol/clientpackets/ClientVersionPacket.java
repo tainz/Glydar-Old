@@ -1,7 +1,8 @@
 package org.glydar.protocol.clientpackets;
 
-import org.glydar.exceptions.StructureMismatchException;
 import org.glydar.packets.Packet;
+import org.glydar.packets.PacketData;
+import org.glydar.packets.PacketDataType;
 import org.glydar.packets.PacketStructure;
 import org.glydar.protocol.Version3.ClientPacketType;
 
@@ -11,9 +12,9 @@ public class ClientVersionPacket extends Packet
 	
 	public static final int PacketSize = 4;
 	
-	public ClientVersionPacket(byte[] data) throws StructureMismatchException
+	public ClientVersionPacket(byte[] data) throws Exception
 	{
-		super(ClientPacketType.ClientVersion.getId(), data);
+		super(ClientPacketType.ClientVersion.getId(), new PacketData(data));
 	}
 	
 	public int getVersion()
@@ -22,11 +23,11 @@ public class ClientVersionPacket extends Packet
 	}
 
 	@Override
-	public PacketStructure getStructure()
+	public PacketStructure getStructure() throws Exception
 	{
 		
 		PacketStructure structure = new PacketStructure();
-		structure.addDataType(Integer.class);
+		structure.addDataType(new PacketDataType(Integer.class));
 		
 		return structure;
 		

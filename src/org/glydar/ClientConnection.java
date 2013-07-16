@@ -18,7 +18,6 @@ import org.glydar.protocol.clientpackets.ClientPacketCreator;
 import org.glydar.protocol.clientpackets.ClientVersionPacket;
 import org.glydar.protocol.serverpackets.ServerMismatchPacket;
 
-
 public class ClientConnection implements Runnable
 {
 	
@@ -75,10 +74,13 @@ public class ClientConnection implements Runnable
 						System.out.println("Packet Read!");
 						
 						System.out.println("ID: " + packet.getId());
-						System.out.println("Version: " + ((ClientVersionPacket)packet).getVersion());
+						System.out.println("Version: " + ((ClientVersionPacket) packet).getVersion());
 						
-						packetWriteQueue.add(new ServerMismatchPacket(15));
-//						packetWriteQueue.add(new RawPacket(17, ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(5).array()));
+						ServerMismatchPacket smp = new ServerMismatchPacket();
+						smp.setVersion(1);
+						
+						packetWriteQueue.add(smp);
+						//						packetWriteQueue.add(new RawPacket(17, ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(5).array()));
 						
 					}
 					catch (Exception e)
@@ -107,13 +109,13 @@ public class ClientConnection implements Runnable
 						Packet packet = packetWriteQueue.take();
 						
 						System.out.println("Writing Packet...");
-					
+						
 						packetWriter.writePacket(packet);
 						
 					}
 					catch (Exception e)
 					{
-					}	
+					}
 					
 				}
 				

@@ -1,25 +1,30 @@
 package org.glydar.packets;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public class PacketStructure
 {
 	
-	private static final int IntegerSize = 4;
-	private static final int FloatSize = 4;
-	private static final int LongSize = 8;
-	
-	private ArrayList<Class<?>> dataTypes;
+	private ArrayList<PacketDataType> dataTypes;
 	
 	public PacketStructure()
 	{
-		dataTypes = new ArrayList<Class<?>>();
+		dataTypes = new ArrayList<PacketDataType>();
 	}
 	
-	public void addDataType(Class<?> dataType)
+	public PacketStructure(PacketStructure structure)
 	{
-		dataTypes.add(dataType);
+		dataTypes = new ArrayList<PacketDataType>(structure.getDataTypes());
+	}
+	
+	public void addDataType(PacketDataType type) throws Exception
+	{
+		dataTypes.add(type);
+	}
+	
+	public ArrayList<PacketDataType> getDataTypes()
+	{
+		return new ArrayList<PacketDataType>(dataTypes);
 	}
 	
 	public boolean matchesStructureLength(byte[] data)
@@ -27,35 +32,33 @@ public class PacketStructure
 		
 		int len = 0;
 		
-		for (Class<?> clazz : dataTypes)
+		for (PacketDataType dType : dataTypes)
 		{
-			
-			if (clazz.isAssignableFrom(Float.class))
-			{
-				len += FloatSize;
-			}
-			else if (clazz.isAssignableFrom(Long.class))
-			{
-				len += LongSize;
-			}
-			else if (clazz.isAssignableFrom(Integer.class))
-			{
-				len += IntegerSize;
-			}
-			else if (clazz.isAssignableFrom(String.class))
-			{
-				
-				ByteBuffer buf = ByteBuffer.wrap(data);
-				
-				int size = buf.getInt();
-				
-				len += size;
-				
-			}
-			
+			len += dType.getLength();
 		}
 		
 		return data.length == len;
+		
+	}
+	
+	public int getLengthFromIndex(int index)
+	{
+		
+		int len = 0;
+		
+		for (int i = 0; i < dataTypes.size(); i++)
+		{
+			
+			if (i == index)
+				break;
+			
+			PacketDataType dType = dataTypes.get(i);
+			
+			len += dType.getLength();
+			
+		}
+		
+		return len;
 		
 	}
 	

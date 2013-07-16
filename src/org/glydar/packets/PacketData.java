@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.glydar.Util;
@@ -23,32 +24,111 @@ public class PacketData
 		data = Util.toByteList(dat);
 	}
 	
+	public PacketData(PacketStructure structure)
+	{
+		
+		this();
+		
+		for (PacketDataType dType : structure.getDataTypes())
+		{
+			
+			Byte[] emptyDat = new Byte[dType.getLength()];
+			
+			for (int i = 0; i < emptyDat.length; i++)
+			{
+				emptyDat[i] = 0;
+			}
+			
+			data.addAll(Arrays.asList(emptyDat));
+			
+		}
+		
+	}
+	
 	public <T> PacketData addData(T dat)
 	{
 		
+		data.addAll(getDataList(dat));
+		
+		return this;
+		
+	}
+	
+	public <T> List<Byte> getDataList(T dat)
+	{
+		
+		List<Byte> tmpDat = new ArrayList<Byte>();
+		
 		if (dat instanceof Float)
 		{
-			data.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putFloat((Float) dat).array()));
+			tmpDat.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putFloat((Float) dat).array()));
 		}
 		else if (dat instanceof Long)
 		{
-			data.addAll(Util.toByteList(ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).putLong((Long) dat).array()));
+			tmpDat.addAll(Util.toByteList(ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).putLong((Long) dat).array()));
 		}
 		if (dat instanceof Integer)
 		{
-			data.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt((Integer) dat).array()));
+			tmpDat.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt((Integer) dat).array()));
 		}
 		else if (dat instanceof String)
 		{
 			
 			byte[] dt = ((String) dat).getBytes(Charset.forName("UTF-16LE"));
 			
-			data.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(dt.length / 2).array()));
-			data.addAll(Util.toByteList(dt));
+			tmpDat.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(dt.length / 2).array()));
+			tmpDat.addAll(Util.toByteList(dt));
 			
 		}
+		else if (dat instanceof byte[])
+		{
+			tmpDat.addAll(Util.toByteList((byte[]) dat));
+		}
 		
-		return this;
+		return tmpDat;
+		
+	}
+	
+	public void setDataAtIndex(int index, byte[] dat)
+	{
+		
+		for (int i = 0; i < dat.length; i++)
+		{
+			data.set(index, dat[i]);
+		}
+		
+	}
+	
+	public <T> void setDataAtIndex(int index, T dat)
+	{
+		
+		List<Byte> tmp = getDataList(dat);
+		
+		System.out.println(tmp.size());
+		
+		for (int i = 0; i < tmp.size(); i++)
+		{
+			data.set(index + i, tmp.get(i));
+		}
+		
+	}
+	
+	public byte[] getDataAtIndex(int index, int len) throws Exception
+	{
+		
+		byte[] dat = new byte[len];
+		
+		if (dat.length > data.size())
+		{
+			throw new Exception("Out of bounds!");
+		}
+		
+		for (int i = index; i < len; i++)
+		{
+			dat[i] = data.get(i);
+		}
+		
+		return dat;
 		
 	}
 	
