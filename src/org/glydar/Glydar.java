@@ -1,17 +1,10 @@
 package org.glydar;
 
 /**
- * JKube - Java CubeWorld Server
+ * Glydar - Java CubeWorld Server
  * TODO List (In order of importance)
- * * Make Packet Operations less stupid. (Migrate to JavaNIO)
- * * Structures
- * * Packet Logic / Connection Management
- * * Server... stuff? (Map simulation, entity management, etc)
- * * World Generation
- * * World parsing / saving
- * * Event Management
- * * APIs / Plugins
- * @author Sean McClenaghan, Doridian
+ * See development board on private trello
+ * @author Glydar Team
  *
  */
 
