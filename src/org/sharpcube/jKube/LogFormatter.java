@@ -1,4 +1,4 @@
-package net.cyberkitsune.jKube;
+package org.sharpcube.jKube;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

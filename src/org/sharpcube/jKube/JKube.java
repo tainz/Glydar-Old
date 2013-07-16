@@ -1,4 +1,4 @@
-package net.cyberkitsune.jKube;
+package org.sharpcube.jKube;
 
 /**
  * JKube - Java CubeWorld Server

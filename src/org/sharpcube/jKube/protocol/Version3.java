@@ -1,12 +1,12 @@
-package net.cyberkitsune.jKube.protocol;
+package org.sharpcube.jKube.protocol;
 
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Random;
 
-import net.cyberkitsune.jKube.Server;
-import net.cyberkitsune.jKube.Util;
-import net.cyberkitsune.jKube.packets.Packet;
+import org.sharpcube.jKube.Server;
+import org.sharpcube.jKube.Util;
+import org.sharpcube.jKube.packets.Packet;
 
 public class Version3 implements NetworkProtocol{
 

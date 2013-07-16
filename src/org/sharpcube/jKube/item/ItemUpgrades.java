@@ -1,4 +1,4 @@
-package net.cyberkitsune.jKube.item;
+package org.sharpcube.jKube.item;
 
 public class ItemUpgrades {
 	public ItemUpgrade slot1;

@@ -1,4 +1,4 @@
-package net.cyberkitsune.jKube.entity;
+package org.sharpcube.jKube.entity;
 
 public class ActionFlags {
 	

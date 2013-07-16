@@ -1,9 +1,9 @@
-package net.cyberkitsune.jKube;
+package org.sharpcube.jKube;
 
 import java.io.DataInputStream;
 import java.net.Socket;
 
-import net.cyberkitsune.jKube.packets.Packet;
+import org.sharpcube.jKube.packets.Packet;
 
 public class ClientConnection extends Thread {
 	

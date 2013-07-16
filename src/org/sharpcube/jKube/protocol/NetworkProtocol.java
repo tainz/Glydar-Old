@@ -1,10 +1,10 @@
-package net.cyberkitsune.jKube.protocol;
+package org.sharpcube.jKube.protocol;
 
 import java.io.IOException;
 import java.net.Socket;
 
-import net.cyberkitsune.jKube.Server;
-import net.cyberkitsune.jKube.packets.Packet;
+import org.sharpcube.jKube.Server;
+import org.sharpcube.jKube.packets.Packet;
 
 public interface NetworkProtocol {
 

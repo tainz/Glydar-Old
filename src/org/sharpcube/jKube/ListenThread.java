@@ -1,4 +1,4 @@
-package net.cyberkitsune.jKube;
+package org.sharpcube.jKube;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
