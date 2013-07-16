@@ -1,4 +1,4 @@
-package org.sharpcube.jKube.item;
+package org.glydar.Glydar.item;
 
 public class ItemUpgrades {
 	public ItemUpgrade slot1;

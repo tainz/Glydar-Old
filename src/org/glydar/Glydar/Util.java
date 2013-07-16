@@ -1,4 +1,4 @@
-package org.sharpcube.jKube;
+package org.glydar.Glydar;
 
 public final class Util {
 	public static int fromByteArray(byte[] bytes) {

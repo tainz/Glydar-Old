@@ -1,4 +1,4 @@
-package org.sharpcube.jKube;
+package org.glydar.Glydar;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

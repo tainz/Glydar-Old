@@ -1,12 +1,12 @@
-package org.sharpcube.jKube.protocol;
+package org.glydar.Glydar.protocol;
 
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Random;
 
-import org.sharpcube.jKube.Server;
-import org.sharpcube.jKube.Util;
-import org.sharpcube.jKube.packets.Packet;
+import org.glydar.Glydar.Server;
+import org.glydar.Glydar.Util;
+import org.glydar.Glydar.packets.Packet;
 
 public class Version3 implements NetworkProtocol{
 

@@ -1,7 +1,7 @@
-package org.sharpcube.jKube;
+package org.glydar.Glydar;
 
 /**
- * JKube - Java CubeWorld Server
+ * Glydar - Java CubeWorld Server
  * TODO List (In order of importance)
  * * Make Packet Operations less stupid. (Migrate to JavaNIO)
  * * Structures
@@ -11,11 +11,11 @@ package org.sharpcube.jKube;
  * * World parsing / saving
  * * Event Management
  * * APIs / Plugins
- * @author Sean McClenaghan, Doridian
+ * @author The Glydar Team
  *
  */
 
-public class JKube {
+public class Glydar {
 
 	public static void main(String[] args) {
 	

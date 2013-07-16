@@ -1,9 +1,9 @@
-package org.sharpcube.jKube;
+package org.glydar.Glydar;
 
 import java.io.DataInputStream;
 import java.net.Socket;
 
-import org.sharpcube.jKube.packets.Packet;
+import org.glydar.Glydar.packets.Packet;
 
 public class ClientConnection extends Thread {
 	

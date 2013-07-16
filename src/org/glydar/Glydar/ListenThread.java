@@ -1,4 +1,4 @@
-package org.sharpcube.jKube;
+package org.glydar.Glydar;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

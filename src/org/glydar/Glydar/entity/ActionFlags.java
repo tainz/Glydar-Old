@@ -1,4 +1,4 @@
-package org.sharpcube.jKube.entity;
+package org.glydar.Glydar.entity;
 
 public class ActionFlags {
 	

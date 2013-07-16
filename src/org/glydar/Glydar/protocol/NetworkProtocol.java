@@ -1,10 +1,10 @@
-package org.sharpcube.jKube.protocol;
+package org.glydar.Glydar.protocol;
 
 import java.io.IOException;
 import java.net.Socket;
 
-import org.sharpcube.jKube.Server;
-import org.sharpcube.jKube.packets.Packet;
+import org.glydar.Glydar.Server;
+import org.glydar.Glydar.packets.Packet;
 
 public interface NetworkProtocol {
 

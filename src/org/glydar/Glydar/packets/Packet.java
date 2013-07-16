@@ -1,4 +1,4 @@
-package org.sharpcube.jKube.packets;
+package org.glydar.Glydar.packets;
 
 import java.net.Socket;
 
