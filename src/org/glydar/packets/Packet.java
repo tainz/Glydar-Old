@@ -1,20 +1,31 @@
 package org.glydar.packets;
 
-public class Packet
+import org.glydar.exceptions.StructureMismatchException;
+
+public abstract class Packet
 {
 	
 	protected int id;
 	protected PacketData data;
 	
-	public Packet(int id)
+	public abstract PacketStructure getStructure();
+	
+	public Packet(int id, PacketData data) throws StructureMismatchException
 	{
+		
+		if (getStructure() != null && !getStructure().matchesStructureLength(data.getByteData()))
+		{
+			throw new StructureMismatchException("Data length does not match the structure length!");
+		}
+		
 		this.id = id;
+		this.data = data;
+	
 	}
 	
-	public Packet(int id, byte[] dat)
+	public Packet(int id, byte[] dat) throws StructureMismatchException
 	{
-		this.id = id;
-		this.data = new PacketData(dat);
+		this(id, new PacketData(dat));
 	}
 	
 	public int getId()

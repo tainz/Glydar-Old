@@ -8,13 +8,15 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.glydar.packets.ClientPacketCreator;
 import org.glydar.packets.Packet;
 import org.glydar.packets.PacketReader;
 import org.glydar.packets.PacketWriter;
+import org.glydar.packets.RawPacket;
 import org.glydar.protocol.NetworkProtocol;
 import org.glydar.protocol.Version3;
+import org.glydar.protocol.clientpackets.ClientPacketCreator;
 import org.glydar.protocol.clientpackets.ClientVersionPacket;
+import org.glydar.protocol.serverpackets.ServerMismatchPacket;
 
 
 public class ClientConnection implements Runnable
@@ -75,10 +77,11 @@ public class ClientConnection implements Runnable
 						System.out.println("ID: " + packet.getId());
 						System.out.println("Version: " + ((ClientVersionPacket)packet).getVersion());
 						
-						packetWriteQueue.add(new Packet(17, ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(5).array()));
+						packetWriteQueue.add(new ServerMismatchPacket(15));
+//						packetWriteQueue.add(new RawPacket(17, ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(5).array()));
 						
 					}
-					catch (IOException e)
+					catch (Exception e)
 					{
 						e.printStackTrace();
 					}

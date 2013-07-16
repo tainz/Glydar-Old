@@ -1,7 +1,8 @@
-package org.glydar.packets;
+package org.glydar.protocol.clientpackets;
 
+import org.glydar.packets.IPacketCreator;
+import org.glydar.packets.Packet;
 import org.glydar.protocol.Version3.ClientPacketType;
-import org.glydar.protocol.clientpackets.ClientVersionPacket;
 
 
 public class ClientPacketCreator implements IPacketCreator
@@ -37,7 +38,7 @@ public class ClientPacketCreator implements IPacketCreator
 	}
 	
 	@Override
-	public Packet createPacket(int id, byte[] data)
+	public Packet createPacket(int id, byte[] data) throws Exception
 	{
 		
 		ClientPacketType type = ClientPacketType.getPacketType(id);
