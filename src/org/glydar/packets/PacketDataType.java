@@ -1,5 +1,9 @@
 package org.glydar.packets;
 
+/**
+ * Class of all packet data types
+ * @author JohSketch
+ */
 public class PacketDataType
 {
 	

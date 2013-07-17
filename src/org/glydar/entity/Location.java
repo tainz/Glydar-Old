@@ -145,5 +145,4 @@ public class Location {
 	public void setRoll(float roll) {
 		this.roll = roll;
 	}
-
 }

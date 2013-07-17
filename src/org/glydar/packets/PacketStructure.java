@@ -2,9 +2,12 @@ package org.glydar.packets;
 
 import java.util.ArrayList;
 
+/**
+ * Class for packet structure
+ * @author JohSketch
+ */
 public class PacketStructure
 {
-	
 	private ArrayList<PacketDataType> dataTypes;
 	
 	public PacketStructure()
@@ -77,7 +80,5 @@ public class PacketStructure
 		}
 		
 		return len;
-		
 	}
-	
 }

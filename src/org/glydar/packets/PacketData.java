@@ -6,9 +6,12 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.glydar.Util;
 
+/**
+ * Class for inserting and checking packet data
+ * @author JohSketch
+ */
 public class PacketData
 {
 	
@@ -26,12 +29,10 @@ public class PacketData
 	
 	public PacketData(PacketStructure structure)
 	{
-		
 		this();
 		
 		for (PacketDataType dType : structure.getDataTypes())
 		{
-			
 			Byte[] emptyDat = new Byte[dType.getLength()];
 			
 			for (int i = 0; i < emptyDat.length; i++)
@@ -40,23 +41,18 @@ public class PacketData
 			}
 			
 			data.addAll(Arrays.asList(emptyDat));
-			
 		}
-		
 	}
 	
 	public <T> PacketData addData(T dat)
 	{
-		
 		data.addAll(getDataList(dat));
 		
 		return this;
-		
 	}
 	
 	public <T> List<Byte> getDataList(T dat)
 	{
-		
 		List<Byte> tmpDat = new ArrayList<Byte>();
 		
 		if (dat instanceof Float)
@@ -86,22 +82,18 @@ public class PacketData
 		}
 		
 		return tmpDat;
-		
 	}
 	
 	public void setDataAtIndex(int index, byte[] dat)
 	{
-		
 		for (int i = 0; i < dat.length; i++)
 		{
 			data.set(index, dat[i]);
 		}
-		
 	}
 	
 	public <T> void setDataAtIndex(int index, T dat)
 	{
-		
 		List<Byte> tmp = getDataList(dat);
 		
 		System.out.println(tmp.size());
@@ -110,12 +102,10 @@ public class PacketData
 		{
 			data.set(index + i, tmp.get(i));
 		}
-		
 	}
 	
 	public byte[] getDataAtIndex(int index, int len) throws Exception
 	{
-		
 		byte[] dat = new byte[len];
 		
 		if (dat.length > data.size())
@@ -129,13 +119,11 @@ public class PacketData
 		}
 		
 		return dat;
-		
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getDataAtIndex(Class<T> dataType, int index)
 	{
-		
 		if (dataType.isAssignableFrom(Float.class))
 		{
 			
@@ -154,15 +142,13 @@ public class PacketData
 		}
 		if (dataType.isAssignableFrom(Integer.class))
 		{
-			
 			byte[] dt = getPrimByteData(data, index, 4);
 			
 			return (T) new Integer(ByteBuffer.wrap(dt).order(ByteOrder.LITTLE_ENDIAN).getInt());
-			
 		}
+                
 		else if (dataType.isAssignableFrom(String.class))
 		{
-			
 			byte[] sizeDt = getPrimByteData(data, 0, 4);
 			
 			int size = ByteBuffer.wrap(sizeDt).order(ByteOrder.LITTLE_ENDIAN).getInt();
@@ -170,44 +156,32 @@ public class PacketData
 			byte[] dt = getPrimByteData(data, 4, size);
 			
 			return (T) new String(dt);
-			
 		}
-		
 		return null;
-		
 	}
 	
 	public byte[] getByteData()
 	{
-		
 		byte[] bData = new byte[data.size()];
 		
 		for (int i = 0; i < data.size(); i++)
 		{
 			bData[i] = data.get(i).byteValue();
 		}
-		
 		return bData;
-		
 	}
 	
 	private static byte[] getPrimByteData(List<Byte> data, int index, int size)
 	{
-		
 		byte[] dt = new byte[size];
 		
 		int ctr = 0;
 		for (int i = index; i < size; i++)
 		{
-			
 			dt[ctr] = data.get(i).byteValue();
 			
 			ctr++;
-			
 		}
-		
 		return dt;
-		
-	}
-	
+	}	
 }

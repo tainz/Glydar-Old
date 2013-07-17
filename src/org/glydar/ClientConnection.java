@@ -16,24 +16,17 @@ import org.glydar.protocol.serverpackets.ServerMismatchPacket;
 
 public class ClientConnection implements Runnable
 {
-	
 	private SocketChannel channel;
-	
 	private AtomicBoolean isRunning;
-	
 	private NetworkProtocol protocol = new Version3();
-	
 	private PacketReader packetReader;
 	private PacketWriter packetWriter;
-	
 	private BlockingQueue<Packet> packetWriteQueue;
-	
 	private Thread readThread;
 	private Thread writeThread;
 	
 	public ClientConnection(SocketChannel channel)
 	{
-		
 		this.channel = channel;
 		
 		packetReader = new PacketReader(channel, new ClientPacketCreator());
@@ -42,26 +35,20 @@ public class ClientConnection implements Runnable
 		packetWriteQueue = new LinkedBlockingQueue<Packet>();
 		
 		isRunning = new AtomicBoolean(true);
-		
 	}
 	
 	@Override
 	public void run()
 	{
-		
 		readThread = new Thread(new Runnable()
 		{
-			
 			@Override
 			public void run()
 			{
-				
 				while (isRunning.get())
 				{
-					
 					try
 					{
-						
 						Packet packet = packetReader.readPacket();
 						
 						if (packet == null)
@@ -74,39 +61,32 @@ public class ClientConnection implements Runnable
 						
 						if (Glydar.getServer().getClientConnections().size() > Glydar.getServer().getMaxPlayers())
 						{
-							//TODO: Insert code to send a ServerFullPacket to the player!
+						//TODO: Insert code to send a ServerFullPacket to the player!
 						}
 						
 						ServerMismatchPacket smp = new ServerMismatchPacket();
 						smp.setVersion(Glydar.getServer().getVersion());
 						
 						packetWriteQueue.add(smp);
-						//						packetWriteQueue.add(new RawPacket(17, ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(5).array()));
-						
+						//packetWriteQueue.add(new RawPacket(17, ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(5).array()));
 					}
 					catch (Exception e)
 					{
 						e.printStackTrace();
 					}
-					
 				}
-				
 			}
 		});
 		
 		writeThread = new Thread(new Runnable()
 		{
-			
 			@Override
 			public void run()
 			{
-				
 				while (isRunning.get())
 				{
-					
 					try
 					{
-						
 						Packet packet = packetWriteQueue.take();
 						
 						System.out.println("Writing Packet...");
@@ -116,16 +96,12 @@ public class ClientConnection implements Runnable
 					}
 					catch (Exception e)
 					{
+                                            	System.out.println("Could not write packet...");
 					}
-					
 				}
-				
 			}
 		});
-		
 		readThread.start();
 		writeThread.start();
-		
 	}
-	
 }

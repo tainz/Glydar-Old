@@ -1,5 +1,9 @@
 package org.glydar.packets;
 
+/**
+ * Class for packets and what they are
+ * @author JohSketch
+ */
 public abstract class Packet
 {
 	

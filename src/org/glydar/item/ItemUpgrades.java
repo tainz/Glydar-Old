@@ -1,5 +1,9 @@
 package org.glydar.item;
 
+/**
+ * Class for item upgrades
+ * @author JohSketch
+ */
 public class ItemUpgrades {
 	public ItemUpgrade slot1;
 	public ItemUpgrade slot2;
