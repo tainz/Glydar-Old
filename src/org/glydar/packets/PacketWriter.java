@@ -5,6 +5,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.SocketChannel;
 
+/**
+ * Class for writing packets
+ * @author JohSketch
+ */
 public class PacketWriter
 {
 	

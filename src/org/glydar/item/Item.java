@@ -1,7 +1,10 @@
 package org.glydar.item;
 
+/**
+ * Class for items
+ * @author JohSketch
+ */
 public class Item {
-	
 	public ItemType type;
 	public ItemType subType;
 	public int unknown; //TODO Research (0x02)
@@ -13,6 +16,4 @@ public class Item {
 	public int level;
 	public int unknown3;
 	public ItemUpgrades upgrades;
-	
-
 }

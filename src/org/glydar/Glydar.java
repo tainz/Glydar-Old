@@ -14,8 +14,9 @@ public class Glydar
 	
 	public static void main(String[] args)
 	{
-		
-		//TODO Argument Processing
+	        if (args.length > 0 && args[0].equals("")) {
+                    
+                }
 		
 		SERVER = new CWServer();
 		
@@ -35,5 +36,4 @@ public class Glydar
 	{
 		return SERVER;
 	}
-	
 }

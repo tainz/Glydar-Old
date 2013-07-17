@@ -5,7 +5,6 @@ import java.util.List;
 
 public final class Util
 {
-	
 	public static int fromByteArray(byte[] bytes)
 	{
 		return bytes[0] << 24 | (bytes[1] & 0xFF) << 16 | (bytes[2] & 0xFF) << 8 | (bytes[3] & 0xFF);
@@ -44,7 +43,6 @@ public final class Util
 	
 	public static List<Byte> toByteList(byte[] arr)
 	{
-		
 		List<Byte> byteList = new ArrayList<Byte>();
 		
 		for (byte b : arr)
@@ -53,7 +51,5 @@ public final class Util
 		}
 		
 		return byteList;
-		
 	}
-	
 }

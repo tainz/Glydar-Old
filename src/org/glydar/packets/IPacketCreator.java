@@ -1,8 +1,11 @@
 package org.glydar.packets;
 
+/**
+ * Creates and checks packets
+ * @author JohSketch
+ */
 public interface IPacketCreator
 {
-	
 	/***
 	 * 
 	 * Get the length of the packet (in bytes)
@@ -21,5 +24,4 @@ public interface IPacketCreator
 	 * @return A Packet Object
 	 */
 	Packet createPacket(int id, byte[] data) throws Exception;
-	
 }

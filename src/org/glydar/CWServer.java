@@ -13,17 +13,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CWServer implements Runnable
 {
-	
 	private static final int PORT = 12345;
-	
 	private static final int MAX_PLAYERS = 4;
-	
 	private static final int SERVER_VERSION = 1;
-	
 	private ServerSocketChannel ssChannel;
-	
 	private AtomicBoolean isRunning;
-	
 	private List<ClientConnection> clients;
 	
 	public CWServer()
@@ -55,10 +49,8 @@ public class CWServer implements Runnable
 	@Override
 	public void run()
 	{
-		
 		try
 		{
-			
 			System.out.println("Starting Server...");
 			
 			Selector sel = Selector.open();
@@ -70,7 +62,6 @@ public class CWServer implements Runnable
 			
 			while (isRunning.get())
 			{
-				
 				sel.select();
 				
 				Iterator<SelectionKey> selectedKeys = sel.selectedKeys().iterator();
@@ -94,25 +85,19 @@ public class CWServer implements Runnable
 						Socket socket = socketChannel.socket();
 						socketChannel.configureBlocking(true);
 						
-						//						socketChannel.register(sel, SelectionKey.OP_READ);
+						//socketChannel.register(sel, SelectionKey.OP_READ);
 						
 						ClientConnection cc = new ClientConnection(socketChannel);
 						new Thread(cc).run();
 						
 						clients.add(cc);
-						
 					}
-					
 				}
-				
 			}
-			
 		}
 		catch (Exception ex)
 		{
 			ex.printStackTrace();
 		}
-		
 	}
-	
 }
