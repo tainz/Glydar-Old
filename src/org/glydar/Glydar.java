@@ -1,5 +1,9 @@
 package org.glydar;
 
+import java.util.Scanner;
+
+import org.glydar.network.CWServer;
+
 /**
  * Glydar - Java CubeWorld Server
  * TODO List (In order of importance)
@@ -10,30 +14,34 @@ package org.glydar;
 
 public class Glydar
 {
-	static CWServer SERVER;
+	
+	private static CWServer server;
 	
 	public static void main(String[] args)
 	{
 		
 		//TODO Argument Processing
 		
-		SERVER = new CWServer();
+		server = new CWServer();
 		
-		try
+		server.startServer();
+		
+		String commandLine = null;
+		
+		Scanner in = new Scanner(System.in);
+		
+		while ((commandLine = in.nextLine()) != null)
 		{
-			SERVER.run();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
+			
 		}
 		
-		return;
+		in.close();
+		
 	}
 	
-	public static CWServer getServer() 
+	public static CWServer getServer()
 	{
-		return SERVER;
+		return server;
 	}
 	
 }

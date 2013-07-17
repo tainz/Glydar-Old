@@ -104,8 +104,6 @@ public class PacketData
 		
 		List<Byte> tmp = getDataList(dat);
 		
-		System.out.println(tmp.size());
-		
 		for (int i = 0; i < tmp.size(); i++)
 		{
 			data.set(index + i, tmp.get(i));

@@ -11,18 +11,27 @@ public class PacketDataType
 	
 	private int length;
 	
+	private boolean dynamicLength;
+	
 	public PacketDataType(Class<?> dataType)
 	{
-		
 		this.dataType = dataType;
 		this.length = determinePacketLength(dataType);
-		
+		this.dynamicLength = false;
 	}
 	
 	public PacketDataType(Class<?> dataType, int len)
 	{
 		this.dataType = dataType;
-		length = len;
+		this.length = len;
+		this.dynamicLength = false;
+	}
+	
+	public PacketDataType(Class<?> dataType, boolean isDynamic)
+	{
+		this.dataType = dataType;
+		this.length = 0;
+		this.dynamicLength = isDynamic;
 	}
 	
 	private static int determinePacketLength(Class<?> clazz)
@@ -59,6 +68,11 @@ public class PacketDataType
 	public int getLength()
 	{
 		return length;
+	}
+	
+	public boolean isDynamicLength()
+	{
+		return dynamicLength;
 	}
 	
 }

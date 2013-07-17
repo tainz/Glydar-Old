@@ -17,7 +17,7 @@ public class ClientVersionPacket extends Packet
 		structure.addDataType(new PacketDataType(Integer.class));
 	}
 	
-	public ClientVersionPacket(byte[] data) throws Exception
+	public ClientVersionPacket(byte[] data)
 	{
 		super(ClientPacketType.ClientVersion.getId(), new PacketData(data));
 	}
