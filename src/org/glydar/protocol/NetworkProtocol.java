@@ -3,7 +3,6 @@ package org.glydar.protocol;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.glydar.Server;
 import org.glydar.packets.Packet;
 
 

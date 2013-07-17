@@ -11,7 +11,7 @@ public class PacketDataType
 	
 	private int length;
 	
-	public PacketDataType(Class<?> dataType) throws Exception
+	public PacketDataType(Class<?> dataType)
 	{
 		
 		this.dataType = dataType;
@@ -25,7 +25,7 @@ public class PacketDataType
 		length = len;
 	}
 	
-	private static int determinePacketLength(Class<?> clazz) throws Exception
+	private static int determinePacketLength(Class<?> clazz)
 	{
 		
 		int len = 0;
@@ -42,13 +42,9 @@ public class PacketDataType
 		{
 			len += IntegerSize;
 		}
-		else if (clazz.isAssignableFrom(String.class))
-		{
-			throw new Exception("Cannot determine String length");
-		}
 		else
 		{
-			throw new Exception("Unsupported data type!");
+			return 0;
 		}
 		
 		return len;

@@ -1,11 +1,7 @@
 package org.glydar.protocol;
 
-import java.io.DataOutputStream;
 import java.net.Socket;
-import java.util.Random;
 
-import org.glydar.Server;
-import org.glydar.Util;
 import org.glydar.packets.Packet;
 
 public class Version3 implements NetworkProtocol
@@ -44,7 +40,7 @@ public class Version3 implements NetworkProtocol
 				handleReadPacket17(p);
 				break;
 			default:
-				Server.getLog().info("Unknown Packet ID! Received: " + p.getId()); //TODO Dump packet for debug
+				//				Server.getLog().info("Unknown Packet ID! Received: " + p.getId()); //TODO Dump packet for debug
 				break;
 		}
 		

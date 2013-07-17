@@ -6,11 +6,16 @@ import org.glydar.packets.PacketDataType;
 import org.glydar.packets.PacketStructure;
 import org.glydar.protocol.Version3.ClientPacketType;
 
-
 public class ClientVersionPacket extends Packet
 {
 	
-	public static final int PacketSize = 4;
+	private static PacketStructure structure;
+	
+	static
+	{
+		structure = new PacketStructure();
+		structure.addDataType(new PacketDataType(Integer.class));
+	}
 	
 	public ClientVersionPacket(byte[] data) throws Exception
 	{
@@ -21,16 +26,10 @@ public class ClientVersionPacket extends Packet
 	{
 		return data.getDataAtIndex(Integer.class, 0);
 	}
-
-	@Override
-	public PacketStructure getStructure() throws Exception
+	
+	public static PacketStructure getStructure()
 	{
-		
-		PacketStructure structure = new PacketStructure();
-		structure.addDataType(new PacketDataType(Integer.class));
-		
 		return structure;
-		
 	}
 	
 }

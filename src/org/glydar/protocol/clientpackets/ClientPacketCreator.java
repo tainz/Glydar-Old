@@ -4,7 +4,6 @@ import org.glydar.packets.IPacketCreator;
 import org.glydar.packets.Packet;
 import org.glydar.protocol.Version3.ClientPacketType;
 
-
 public class ClientPacketCreator implements IPacketCreator
 {
 	
@@ -21,7 +20,7 @@ public class ClientPacketCreator implements IPacketCreator
 		
 			case ClientVersion:
 				
-				size = 4;
+				size = ClientVersionPacket.getStructure().getTotalLength();
 				
 				break;
 			
@@ -47,16 +46,16 @@ public class ClientPacketCreator implements IPacketCreator
 		
 		switch (type)
 		{
-
+		
 			case ClientVersion:
 				
 				packet = new ClientVersionPacket(data);
 				
 				break;
-				
-				default:
-					break;
-
+			
+			default:
+				break;
+		
 		}
 		
 		return packet;

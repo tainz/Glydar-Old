@@ -9,6 +9,7 @@ import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CWServer implements Runnable
 {
@@ -17,11 +18,19 @@ public class CWServer implements Runnable
 	
 	private ServerSocketChannel ssChannel;
 	
+	private AtomicBoolean isRunning;
+	
 	private List<ClientConnection> clients;
 	
 	public CWServer()
 	{
 		clients = new ArrayList<ClientConnection>();
+		isRunning = new AtomicBoolean(true);
+	}
+	
+	public void stopServer()
+	{
+		isRunning.set(false);
 	}
 	
 	@Override
@@ -38,14 +47,14 @@ public class CWServer implements Runnable
 			
 			ssChannel.configureBlocking(false);
 			ssChannel.socket().bind(new InetSocketAddress(PORT));
-			SelectionKey skey = ssChannel.register(sel, SelectionKey.OP_ACCEPT);
+			ssChannel.register(sel, SelectionKey.OP_ACCEPT);
 			
-			while (true)
+			while (isRunning.get())
 			{
 				
 				sel.select();
 				
-				Iterator selectedKeys = sel.selectedKeys().iterator();
+				Iterator<SelectionKey> selectedKeys = sel.selectedKeys().iterator();
 				
 				while (selectedKeys.hasNext())
 				{
@@ -66,7 +75,7 @@ public class CWServer implements Runnable
 						Socket socket = socketChannel.socket();
 						socketChannel.configureBlocking(true);
 						
-//						socketChannel.register(sel, SelectionKey.OP_READ);
+						//						socketChannel.register(sel, SelectionKey.OP_READ);
 						
 						ClientConnection cc = new ClientConnection(socketChannel);
 						new Thread(cc).run();

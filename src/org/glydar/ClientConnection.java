@@ -1,8 +1,5 @@
 package org.glydar;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.channels.SocketChannel;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -11,7 +8,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.glydar.packets.Packet;
 import org.glydar.packets.PacketReader;
 import org.glydar.packets.PacketWriter;
-import org.glydar.packets.RawPacket;
 import org.glydar.protocol.NetworkProtocol;
 import org.glydar.protocol.Version3;
 import org.glydar.protocol.clientpackets.ClientPacketCreator;

@@ -17,7 +17,7 @@ public class PacketStructure
 		dataTypes = new ArrayList<PacketDataType>(structure.getDataTypes());
 	}
 	
-	public void addDataType(PacketDataType type) throws Exception
+	public void addDataType(PacketDataType type)
 	{
 		dataTypes.add(type);
 	}
@@ -51,6 +51,24 @@ public class PacketStructure
 			
 			if (i == index)
 				break;
+			
+			PacketDataType dType = dataTypes.get(i);
+			
+			len += dType.getLength();
+			
+		}
+		
+		return len;
+		
+	}
+	
+	public int getTotalLength()
+	{
+		
+		int len = 0;
+		
+		for (int i = 0; i < dataTypes.size(); i++)
+		{
 			
 			PacketDataType dType = dataTypes.get(i);
 			
