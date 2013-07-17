@@ -13,6 +13,11 @@ public class PacketHandlerList
 		this.handlers = new ArrayList<IPacketHandler>();
 	}
 	
+	public PacketHandlerList(PacketHandlerList handlerList)
+	{
+		this.handlers = new ArrayList<IPacketHandler>(handlerList.handlers);
+	}
+	
 	public PacketHandlerList(List<IPacketHandler> handlers)
 	{
 		this.handlers = handlers;
@@ -22,7 +27,9 @@ public class PacketHandlerList
 	{
 		
 		if (containsHandlerWithId(handler.getPacketId()))
-			throw new Exception("A handler with that id already exists!");
+		{
+			throw new Exception("Already have a handler with that packet id!");
+		}
 		
 		handlers.add(handler);
 		
@@ -51,12 +58,17 @@ public class PacketHandlerList
 				pHandler = handler;
 				
 				break;
-			
+				
 			}
 		}
 		
 		return pHandler;
 		
+	}
+	
+	public List<IPacketHandler> getHandlers()
+	{
+		return this.handlers;
 	}
 	
 }

@@ -1,13 +1,12 @@
 package org.glydar.protocol.handlers;
 
-import org.glydar.packets.IPacketHandler;
 import org.glydar.packets.Packet;
+import org.glydar.packets.PacketHandler;
 import org.glydar.packets.PacketStructure;
-
 import org.glydar.protocol.Version3.ClientPacketType;
 import org.glydar.protocol.clientpackets.ClientVersionPacket;
 
-public class ClientVersionPacketHandler implements IPacketHandler
+public class ClientVersionPacketHandler extends PacketHandler
 {
 
 	@Override

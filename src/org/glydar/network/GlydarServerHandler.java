@@ -10,16 +10,6 @@ public class GlydarServerHandler extends SimpleChannelInboundHandler<Packet>
 {
 	
 	@Override
-	public void handlerAdded(ChannelHandlerContext ctx)
-	{
-	}
-	
-	@Override
-	public void handlerRemoved(ChannelHandlerContext ctx)
-	{
-	}
-	
-	@Override
 	protected void messageReceived(ChannelHandlerContext ctx, Packet msg) throws Exception
 	{
 		
@@ -32,6 +22,7 @@ public class GlydarServerHandler extends SimpleChannelInboundHandler<Packet>
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
 	{
+		cause.printStackTrace();
 		ctx.close();
 	}
 	

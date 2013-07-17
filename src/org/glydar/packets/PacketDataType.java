@@ -51,10 +51,6 @@ public class PacketDataType
 		{
 			len += IntegerSize;
 		}
-		else
-		{
-			return 0;
-		}
 		
 		return len;
 		

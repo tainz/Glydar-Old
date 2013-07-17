@@ -28,7 +28,7 @@ public class GlydarServerInitializer extends ChannelInitializer<SocketChannel>
 		
 		pipeline.addLast("handler", new GlydarServerHandler());
 		
-		clients.add(new GlydarClient(clients.size() + 1, ch.remoteAddress()));
+		clients.add(new GlydarClient(clients.size() + 1, ch));
 		
 	}
 	
