@@ -10,17 +10,18 @@ package org.glydar;
 
 public class Glydar
 {
+	static CWServer SERVER;
 	
 	public static void main(String[] args)
 	{
 		
 		//TODO Argument Processing
 		
-		CWServer srv = new CWServer();
+		SERVER = new CWServer();
 		
 		try
 		{
-			srv.run();
+			SERVER.run();
 		}
 		catch (Exception e)
 		{
@@ -28,6 +29,11 @@ public class Glydar
 		}
 		
 		return;
+	}
+	
+	public static CWServer getServer() 
+	{
+		return SERVER;
 	}
 	
 }

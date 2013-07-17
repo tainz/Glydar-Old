@@ -16,6 +16,10 @@ public class CWServer implements Runnable
 	
 	private static final int PORT = 12345;
 	
+	private static final int MAX_PLAYERS = 4;
+	
+	private static final int SERVER_VERSION = 1;
+	
 	private ServerSocketChannel ssChannel;
 	
 	private AtomicBoolean isRunning;
@@ -31,6 +35,21 @@ public class CWServer implements Runnable
 	public void stopServer()
 	{
 		isRunning.set(false);
+	}
+	
+	public int getVersion()
+	{
+		return SERVER_VERSION;
+	}
+	
+	public int getMaxPlayers()
+	{
+		return MAX_PLAYERS;
+	}
+	
+	public List<ClientConnection> getClientConnections() 
+	{
+		return clients;
 	}
 	
 	@Override

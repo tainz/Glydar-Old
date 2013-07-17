@@ -72,8 +72,13 @@ public class ClientConnection implements Runnable
 						System.out.println("ID: " + packet.getId());
 						System.out.println("Version: " + ((ClientVersionPacket) packet).getVersion());
 						
+						if (Glydar.getServer().getClientConnections().size() > Glydar.getServer().getMaxPlayers())
+						{
+							//TODO: Insert code to send a ServerFullPacket to the player!
+						}
+						
 						ServerMismatchPacket smp = new ServerMismatchPacket();
-						smp.setVersion(1);
+						smp.setVersion(Glydar.getServer().getVersion());
 						
 						packetWriteQueue.add(smp);
 						//						packetWriteQueue.add(new RawPacket(17, ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(5).array()));
