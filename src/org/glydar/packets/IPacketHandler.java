@@ -3,10 +3,8 @@ package org.glydar.packets;
 public interface IPacketHandler
 {
 	
-	PacketStructure getStructure();
+	void handlePacket(Packet packet) throws Exception;
 	
 	int getPacketId();
-	
-	Packet handlePacketData(byte[] packetData) throws Exception;
 	
 }

@@ -4,7 +4,7 @@ import org.glydar.packets.Packet;
 import org.glydar.packets.PacketData;
 import org.glydar.packets.PacketDataType;
 import org.glydar.packets.PacketStructure;
-import org.glydar.protocol.Version3.ServerPacketType;
+import org.glydar.packets.ServerPacketType;
 
 public class ServerMismatchPacket extends Packet
 {

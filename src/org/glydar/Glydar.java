@@ -22,20 +22,28 @@ public class Glydar
 		
 		//TODO Argument Processing
 		
-		server = new CWServer();
-		
-		server.startServer();
-		
-		String commandLine = null;
-		
-		Scanner in = new Scanner(System.in);
-		
-		while ((commandLine = in.nextLine()) != null)
+		try
 		{
+			server = new CWServer();
+			
+			server.startServer();
+			
+			String commandLine = null;
+			
+			Scanner in = new Scanner(System.in);
+			
+			while ((commandLine = in.nextLine()) != null)
+			{
+				
+			}
+			
+			in.close();
 			
 		}
-		
-		in.close();
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		
 	}
 	

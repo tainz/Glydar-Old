@@ -1,5 +1,7 @@
 package org.glydar.network;
 
+import org.glydar.Glydar;
+import org.glydar.packets.IPacketHandler;
 import org.glydar.packets.Packet;
 import org.glydar.protocol.serverpackets.ServerMismatchPacket;
 
@@ -14,6 +16,11 @@ public class GlydarServerHandler extends SimpleChannelInboundHandler<Packet>
 	{
 		
 		System.out.println("Packet id: " + msg.getId());
+		
+		for (IPacketHandler handler : Glydar.getServer().getPacketHandlerList().getHandlersWithId(msg.getId()))
+		{
+			handler.handlePacket(msg);
+		}
 		
 		ctx.write(new ServerMismatchPacket().setVersion(3));
 		

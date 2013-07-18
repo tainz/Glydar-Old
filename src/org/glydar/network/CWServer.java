@@ -5,7 +5,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
+import org.glydar.packets.PacketCreatorList;
 import org.glydar.packets.PacketHandlerList;
+import org.glydar.packets.creators.ClientVersionPacketCreator;
 import org.glydar.protocol.handlers.ClientVersionPacketHandler;
 
 public class CWServer
@@ -13,28 +15,22 @@ public class CWServer
 	
 	private static final int PORT = 12345;
 	
-	private static PacketHandlerList handlerList;
+	private PacketCreatorList creatorList;
+	private PacketHandlerList handlerList;
 	
 	private EventLoopGroup bossGroup;
 	private EventLoopGroup workerGroup;
 	
 	private GlydarServerInitializer initializer;
 	
-	static
+	public CWServer() throws Exception
 	{
 		
-		handlerList = new PacketHandlerList();
+		creatorList = new PacketCreatorList();
+		creatorList.addPacketCreator(new ClientVersionPacketCreator());
 		
-		try
-		{
-			
-			handlerList.addHandler(new ClientVersionPacketHandler());
-			
-		}
-		catch (Exception e)
-		{
-			//log here
-		}
+		handlerList = new PacketHandlerList();
+		handlerList.addHandler(new ClientVersionPacketHandler());
 		
 	}
 	
@@ -90,9 +86,14 @@ public class CWServer
 		}
 	}
 	
-	public synchronized PacketHandlerList getHandlerList()
+	public synchronized PacketCreatorList getPacketCreatorList()
 	{
-		return new PacketHandlerList(handlerList);
+		return new PacketCreatorList(creatorList);
+	}
+	
+	public synchronized PacketHandlerList getPacketHandlerList()
+	{
+		return handlerList;
 	}
 	
 }
