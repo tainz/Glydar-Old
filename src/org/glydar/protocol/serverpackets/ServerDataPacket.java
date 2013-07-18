@@ -13,7 +13,6 @@ public class ServerDataPacket extends Packet {
         structure.addDataType(new PacketDataType(Long.class));
         structure.addDataType(new PacketDataType(Byte.class, 4456));
 
-
     }
 
     public ServerDataPacket() {
