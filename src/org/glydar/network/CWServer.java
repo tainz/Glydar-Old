@@ -4,10 +4,15 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LoggingHandler;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.glydar.Glydar;
+import org.glydar.LogFormatter;
 import org.glydar.packets.PacketCreatorList;
 import org.glydar.packets.PacketHandlerList;
 import org.glydar.packets.creators.ClientVersionPacketCreator;
@@ -35,7 +40,11 @@ public class CWServer
 	
 	public CWServer() throws Exception
 	{
-		
+		LOGGER.setUseParentHandlers(false);
+		LogFormatter format = new LogFormatter();
+		ConsoleHandler lch = new ConsoleHandler();
+		lch.setFormatter(format);
+		LOGGER.addHandler(lch);
 		creatorList = new PacketCreatorList();
 		creatorList.addPacketCreator(new ClientVersionPacketCreator());
 		
@@ -46,7 +55,6 @@ public class CWServer
 	
 	public void startServer()
 	{
-		
 		new Thread(new Runnable()
 		{
 			
