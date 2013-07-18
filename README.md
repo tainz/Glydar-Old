@@ -21,3 +21,4 @@ If you are using *IntelliJ* or any other Maven-enabled IDE, the project should w
 ---
 
 Questions? Comments? Want to contribute to us? Contact us at <strong> #glydar-dev </strong> on <strong> irc.esper.net </strong>.
+
