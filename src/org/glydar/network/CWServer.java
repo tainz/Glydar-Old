@@ -24,6 +24,12 @@ public class CWServer
 	private static final int PORT = 12345;
 	private static final int PROTOCOL_VERSION = 3;
 	
+	//TODO: Read value from an auto-generated Properties file
+	private int maxPlayers = 4;
+	
+	//TODO: Read value from an auto-generated Properties file
+	private int seed = 6969;
+	
 	private PacketCreatorList creatorList;
 	private PacketHandlerList handlerList;
 	
@@ -131,8 +137,18 @@ public class CWServer
 		return initializer.getClients();
 	}
 	
-	public int getCurrentProtocolVersion() {
+	public int getCurrentProtocolVersion() 
+	{
 		return PROTOCOL_VERSION;
 	}
 	
+	public int getMaxPlayers() 
+	{
+		return maxPlayers;
+	}
+	
+	public int getSeed() 
+	{
+		return seed;
+	}
 }
