@@ -19,7 +19,7 @@ public class GlydarServerHandler extends SimpleChannelInboundHandler<Packet>
 		if (client == null)
 		{
 			
-			ctx.channel().closeFuture().sync();
+			ctx.close().sync();
 			
 			return;
 			
