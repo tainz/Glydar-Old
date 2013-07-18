@@ -27,17 +27,14 @@ public class Glydar
 			server = new CWServer();
 			
 			server.startServer();
+
 			
-			String commandLine = null;
-			
-			Scanner in = new Scanner(System.in);
-			
-			while ((commandLine = in.nextLine()) != null)
+			while (server.isRunning())
 			{
 				
 			}
 			
-			in.close();
+			server.getLogger().info("Server shutting down.");
 			
 		}
 		catch (Exception e)

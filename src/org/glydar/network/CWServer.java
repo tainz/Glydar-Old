@@ -40,6 +40,46 @@ public class CWServer
 	private EventLoopGroup workerGroup;
 	
 	private GlydarServerInitializer initializer;
+
+    private Thread serverThread = new Thread(new Runnable() //TODO Move into own class or make it look nicer.
+    {
+
+        @Override
+        public void run()
+        {
+
+            LOGGER.info("Starting server on port " + PORT);
+
+            if (bossGroup != null || workerGroup != null || initializer != null)
+                stopServer();
+
+            initializer = new GlydarServerInitializer();
+
+            bossGroup = new NioEventLoopGroup();
+            workerGroup = new NioEventLoopGroup();
+
+            try
+            {
+
+                ServerBootstrap b = new ServerBootstrap();
+                b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(initializer);
+
+                b.bind(PORT).sync().channel().closeFuture().sync();
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                bossGroup.shutdownGracefully();
+                workerGroup.shutdownGracefully();
+            }
+
+        }
+
+    });
 	
 	public CWServer() throws Exception
 	{
@@ -59,45 +99,7 @@ public class CWServer
 	
 	public void startServer()
 	{
-		new Thread(new Runnable()
-		{
-			
-			@Override
-			public void run()
-			{
-				
-				LOGGER.info("Starting server on port " + PORT);
-				
-				if (bossGroup != null || workerGroup != null || initializer != null)
-					stopServer();
-				
-				initializer = new GlydarServerInitializer();
-				
-				bossGroup = new NioEventLoopGroup();
-				workerGroup = new NioEventLoopGroup();
-				
-				try
-				{
-					
-					ServerBootstrap b = new ServerBootstrap();
-					b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(initializer);
-					
-					b.bind(PORT).sync().channel().closeFuture().sync();
-					
-				}
-				catch (Exception e)
-				{
-					
-				}
-				finally
-				{
-					bossGroup.shutdownGracefully();
-					workerGroup.shutdownGracefully();
-				}
-				
-			}
-			
-		}).start();
+		serverThread.start();
 		
 		loader.loadPlugins();
 		
@@ -127,11 +129,6 @@ public class CWServer
 		return LOGGER;
 	}
 	
-	public void sendPacket(GlydarClient client, Packet packet)
-	{
-		client.getSocketChannel().write(packet);
-	}
-	
 	public List<GlydarClient> getClients()
 	{
 		return initializer.getClients();
@@ -151,4 +148,8 @@ public class CWServer
 	{
 		return seed;
 	}
+
+    public boolean isRunning() {
+        return serverThread.isAlive();
+    }
 }
