@@ -3,7 +3,7 @@ package org.glydar.network;
 import java.nio.ByteOrder;
 
 import org.glydar.Glydar;
-import org.glydar.packets.IPacketHandler;
+import org.glydar.packets.IPacketCreator;
 import org.glydar.packets.PacketDataType;
 import org.glydar.packets.PacketStructure;
 
@@ -25,14 +25,12 @@ public class PacketDecoder extends ByteToMessageDecoder
 		
 		in.markReaderIndex();
 		
-		CWServer server = Glydar.getServer();
-		
 		int id = in.readInt();
 		id = ByteBufUtil.swapInt(id);
 		
-		IPacketHandler handler = server.getHandlerList().getHandlerWithId(id);
+		IPacketCreator creator = Glydar.getServer().getPacketCreatorList().getCreatorWithId(id);
 		
-		PacketStructure structure = handler.getStructure();
+		PacketStructure structure = creator.getStructure();
 		
 		if (structure == null)
 		{
@@ -78,7 +76,7 @@ public class PacketDecoder extends ByteToMessageDecoder
 		
 		in.order(ByteOrder.LITTLE_ENDIAN).readBytes(data);
 		
-		out.add(handler.handlePacketData(data));
+		out.add(creator.createPacket(data));
 		
 	}
 	

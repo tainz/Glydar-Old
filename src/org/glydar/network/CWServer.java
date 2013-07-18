@@ -5,18 +5,13 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
+import org.glydar.Glydar;
+import org.glydar.packets.PacketCreatorList;
 import org.glydar.packets.PacketHandlerList;
+import org.glydar.packets.creators.ClientVersionPacketCreator;
+import org.glydar.plugin.CubePluginLoader;
 import org.glydar.protocol.handlers.ClientVersionPacketHandler;
 
 public class CWServer
@@ -24,43 +19,26 @@ public class CWServer
 	
 	private static final int PORT = 12345;
 	
-	private static final int MAX_PLAYERS = 4;
+	private PacketCreatorList creatorList;
+	private PacketHandlerList handlerList;
 	
-	private static final int SERVER_VERSION = 1;
-	
-	private static PacketHandlerList handlerList;
+	private final Logger LOGGER = Logger.getLogger(Glydar.class.getName());
+	private final CubePluginLoader loader = new CubePluginLoader();
 	
 	private EventLoopGroup bossGroup;
 	private EventLoopGroup workerGroup;
 	
 	private GlydarServerInitializer initializer;
 	
-	static
+	public CWServer() throws Exception
 	{
+		
+		creatorList = new PacketCreatorList();
+		creatorList.addPacketCreator(new ClientVersionPacketCreator());
 		
 		handlerList = new PacketHandlerList();
+		handlerList.addHandler(new ClientVersionPacketHandler());
 		
-		try
-		{
-			
-			handlerList.addHandler(new ClientVersionPacketHandler());
-			
-		}
-		catch (Exception e)
-		{
-			//log here
-		}
-		
-	}
-	
-	public int getVersion()
-	{
-		return SERVER_VERSION;
-	}
-	
-	public int getMaxPlayers()
-	{
-		return MAX_PLAYERS;
 	}
 	
 	public void startServer()
@@ -73,6 +51,8 @@ public class CWServer
 			public void run()
 			{
 				
+				LOGGER.info("Starting server on port " + PORT);
+				
 				if (bossGroup != null || workerGroup != null || initializer != null)
 					stopServer();
 				
@@ -80,7 +60,7 @@ public class CWServer
 				
 				bossGroup = new NioEventLoopGroup();
 				workerGroup = new NioEventLoopGroup();
-				
+
 				try
 				{
 					
@@ -104,6 +84,8 @@ public class CWServer
 			
 		}).start();
 		
+		loader.loadPlugins();
+		
 	}
 	
 	public void stopServer()
@@ -115,9 +97,19 @@ public class CWServer
 		}
 	}
 	
-	public synchronized PacketHandlerList getHandlerList()
+	public synchronized PacketCreatorList getPacketCreatorList()
+	{
+		return new PacketCreatorList(creatorList);
+	}
+	
+	public synchronized PacketHandlerList getPacketHandlerList()
 	{
 		return handlerList;
+	}
+	
+	public Logger getLogger()
+	{
+		return LOGGER;
 	}
 	
 }

@@ -1,5 +1,7 @@
 package org.glydar.network;
 
+import io.netty.channel.socket.SocketChannel;
+
 import java.net.InetSocketAddress;
 
 public class GlydarClient
@@ -7,12 +9,12 @@ public class GlydarClient
 	
 	private int id;
 	
-	private InetSocketAddress address;
+	private SocketChannel channel;
 	
-	public GlydarClient(int id, InetSocketAddress addr)
+	public GlydarClient(int id, SocketChannel channel)
 	{
 		this.id = id;
-		this.address = addr;
+		this.channel = channel;
 	}
 	
 	public int getId()
@@ -22,7 +24,7 @@ public class GlydarClient
 	
 	public InetSocketAddress getAddress()
 	{
-		return this.address;
+		return channel.remoteAddress();
 	}
 	
 }

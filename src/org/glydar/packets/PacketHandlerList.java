@@ -10,52 +10,33 @@ public class PacketHandlerList
 	
 	public PacketHandlerList()
 	{
-		this.handlers = new ArrayList<IPacketHandler>();
+		handlers = new ArrayList<IPacketHandler>();
 	}
 	
-	public PacketHandlerList(List<IPacketHandler> handlers)
+	public void addHandler(IPacketHandler handler)
 	{
-		this.handlers = handlers;
-	}
-	
-	public void addHandler(IPacketHandler handler) throws Exception
-	{
-		
-		if (containsHandlerWithId(handler.getPacketId()))
-			throw new Exception("A handler with that id already exists!");
-		
 		handlers.add(handler);
-		
 	}
 	
-	public void removeHandler(IPacketHandler handler)
+	public List<IPacketHandler> getHandlers()
 	{
-		handlers.remove(handler);
+		return this.handlers;
 	}
 	
-	public boolean containsHandlerWithId(int id)
-	{
-		return getHandlerWithId(id) != null;
-	}
-	
-	public IPacketHandler getHandlerWithId(int id)
+	public List<IPacketHandler> getHandlersWithId(int id)
 	{
 		
-		IPacketHandler pHandler = null;
+		List<IPacketHandler> pHandlers = new ArrayList<IPacketHandler>();
 		
 		for (IPacketHandler handler : handlers)
 		{
 			if (handler.getPacketId() == id)
 			{
-				
-				pHandler = handler;
-				
-				break;
-			
+				pHandlers.add(handler);
 			}
 		}
 		
-		return pHandler;
+		return pHandlers;
 		
 	}
 	

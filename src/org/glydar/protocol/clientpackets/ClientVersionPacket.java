@@ -1,10 +1,10 @@
 package org.glydar.protocol.clientpackets;
 
+import org.glydar.packets.ClientPacketType;
 import org.glydar.packets.Packet;
 import org.glydar.packets.PacketData;
 import org.glydar.packets.PacketDataType;
 import org.glydar.packets.PacketStructure;
-import org.glydar.protocol.Version3.ClientPacketType;
 
 public class ClientVersionPacket extends Packet
 {

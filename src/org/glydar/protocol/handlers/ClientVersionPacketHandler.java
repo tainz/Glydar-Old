@@ -1,31 +1,27 @@
 package org.glydar.protocol.handlers;
 
-import org.glydar.packets.IPacketHandler;
+import org.glydar.packets.ClientPacketType;
 import org.glydar.packets.Packet;
-import org.glydar.packets.PacketStructure;
-
-import org.glydar.protocol.Version3.ClientPacketType;
+import org.glydar.packets.PacketHandler;
 import org.glydar.protocol.clientpackets.ClientVersionPacket;
 
-public class ClientVersionPacketHandler implements IPacketHandler
+public class ClientVersionPacketHandler extends PacketHandler
 {
-
-	@Override
-	public Packet handlePacketData(byte[] data) throws Exception
+	
+	public ClientVersionPacketHandler()
 	{
-		return new ClientVersionPacket(data);
+		super(ClientPacketType.ClientVersion.getId());
 	}
-
+	
 	@Override
-	public int getPacketId()
+	public void handlePacket(Packet packet) throws Exception
 	{
-		return ClientPacketType.ClientVersion.getId();
-	}
-
-	@Override
-	public PacketStructure getStructure()
-	{
-		return ClientVersionPacket.getStructure();
+		
+		super.handlePacket(packet);
+		
+		System.out.println("Client Version Packet Received!");
+		System.out.println("Version: " + ((ClientVersionPacket)packet).getVersion());
+		
 	}
 	
 }
