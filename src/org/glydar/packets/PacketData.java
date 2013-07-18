@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.glydar.Util;
+import org.glydar.util.Util;
 
 public abstract class PacketData {
 	
