@@ -1,5 +1,7 @@
 package org.glydar.packets;
 
+import org.glydar.network.GlydarClient;
+
 public abstract class PacketHandler implements IPacketHandler
 {
 	
@@ -11,7 +13,7 @@ public abstract class PacketHandler implements IPacketHandler
 	}
 	
 	@Override
-	public void handlePacket(Packet packet) throws Exception
+	public void handlePacket(GlydarClient client, Packet packet) throws Exception
 	{
 		
 		if (packet.getId() != packetId)

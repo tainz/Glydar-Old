@@ -6,11 +6,19 @@ import java.util.List;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.util.AttributeKey;
 
 public class GlydarServerInitializer extends ChannelInitializer<SocketChannel>
 {
 	
 	private List<GlydarClient> clients;
+	
+	private static AttributeKey<GlydarClient> clientKey;
+	
+	static
+	{
+		clientKey = new AttributeKey<GlydarClient>("GlydarClient");
+	}
 	
 	public GlydarServerInitializer()
 	{
@@ -28,13 +36,22 @@ public class GlydarServerInitializer extends ChannelInitializer<SocketChannel>
 		
 		pipeline.addLast("handler", new GlydarServerHandler());
 		
-		clients.add(new GlydarClient(clients.size() + 1, ch));
+		GlydarClient client = new GlydarClient(clients.size() + 1, ch);
+		
+		ch.attr(clientKey).set(client);
+		
+		clients.add(client);
 		
 	}
 	
 	public List<GlydarClient> getClients()
 	{
 		return this.clients;
+	}
+	
+	public static AttributeKey<GlydarClient> getClientAttrbKey()
+	{
+		return clientKey;
 	}
 	
 }

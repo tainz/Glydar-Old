@@ -1,5 +1,6 @@
 package org.glydar.protocol.handlers;
 
+import org.glydar.network.GlydarClient;
 import org.glydar.packets.ClientPacketType;
 import org.glydar.packets.Packet;
 import org.glydar.packets.PacketHandler;
@@ -14,10 +15,10 @@ public class ClientVersionPacketHandler extends PacketHandler
 	}
 	
 	@Override
-	public void handlePacket(Packet packet) throws Exception
+	public void handlePacket(GlydarClient client, Packet packet) throws Exception
 	{
 		
-		super.handlePacket(packet);
+		super.handlePacket(client, packet);
 		
 		System.out.println("Client Version Packet Received!");
 		System.out.println("Version: " + ((ClientVersionPacket)packet).getVersion());
