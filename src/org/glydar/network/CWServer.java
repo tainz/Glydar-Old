@@ -22,6 +22,7 @@ public class CWServer
 {
 	
 	private static final int PORT = 12345;
+	private static final int PROTOCOL_VERSION = 3;
 	
 	private PacketCreatorList creatorList;
 	private PacketHandlerList handlerList;
@@ -128,6 +129,10 @@ public class CWServer
 	public List<GlydarClient> getClients()
 	{
 		return initializer.getClients();
+	}
+	
+	public int getCurrentProtocolVersion() {
+		return PROTOCOL_VERSION;
 	}
 	
 }
