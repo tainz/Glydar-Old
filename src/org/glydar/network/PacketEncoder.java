@@ -16,7 +16,9 @@ public class PacketEncoder extends MessageToByteEncoder<Packet>
 	{
 		
 		out.order(ByteOrder.LITTLE_ENDIAN).writeInt(msg.getId());
-		out.order(ByteOrder.LITTLE_ENDIAN).writeBytes(msg.getData().getByteData());
+        if(msg.getData() != null) {
+		    out.order(ByteOrder.LITTLE_ENDIAN).writeBytes(msg.getData().getByteData());
+        }
 		
 	}
 	
