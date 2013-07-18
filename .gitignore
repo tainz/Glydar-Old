@@ -4,3 +4,6 @@
 /.settings
 .project
 .classpath
+atlassian-ide-plugin.xml
+Glydar.iml
+/.idea
