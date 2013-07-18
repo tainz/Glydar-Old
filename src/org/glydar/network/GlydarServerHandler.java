@@ -22,8 +22,6 @@ public class GlydarServerHandler extends SimpleChannelInboundHandler<Packet>
 			handler.handlePacket(msg);
 		}
 		
-		ctx.write(new ServerMismatchPacket().setVersion(3));
-		
 	}
 	
 	@Override

@@ -27,4 +27,9 @@ public class GlydarClient
 		return channel.remoteAddress();
 	}
 	
+	public SocketChannel getSocketChannel()
+	{
+		return channel;
+	}
+	
 }

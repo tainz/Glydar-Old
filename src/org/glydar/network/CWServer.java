@@ -5,11 +5,13 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
 import org.glydar.Glydar;
 import org.glydar.LogFormatter;
+import org.glydar.packets.Packet;
 import org.glydar.packets.PacketCreatorList;
 import org.glydar.packets.PacketHandlerList;
 import org.glydar.packets.creators.ClientVersionPacketCreator;
@@ -65,7 +67,7 @@ public class CWServer
 				
 				bossGroup = new NioEventLoopGroup();
 				workerGroup = new NioEventLoopGroup();
-
+				
 				try
 				{
 					
@@ -115,6 +117,16 @@ public class CWServer
 	public Logger getLogger()
 	{
 		return LOGGER;
+	}
+	
+	public void sendPacket(GlydarClient client, Packet packet)
+	{
+		client.getSocketChannel().write(packet);
+	}
+	
+	public List<GlydarClient> getClients()
+	{
+		return initializer.getClients();
 	}
 	
 }
