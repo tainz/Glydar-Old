@@ -8,6 +8,7 @@ import org.glydar.packets.PacketHandler;
 import org.glydar.protocol.clientpackets.ClientVersionPacket;
 import org.glydar.protocol.serverpackets.ServerDataPacket;
 import org.glydar.protocol.serverpackets.ServerMismatchPacket;
+import org.glydar.protocol.serverpackets.ServerSeedPacket;
 
 public class ClientVersionPacketHandler extends PacketHandler
 {
@@ -26,8 +27,9 @@ public class ClientVersionPacketHandler extends PacketHandler
 		System.out.println("Client Version Packet Received!");
 		System.out.println("Version: " + ((ClientVersionPacket)packet).getVersion());
 		
-		if(Glydar.getServer().getCurrentProtocolVersion() != 3) { //TODO Don't hardcode this?
+		if(Glydar.getServer().getCurrentProtocolVersion() != ((ClientVersionPacket)packet).getVersion()) {
 			client.getSocketChannel().write(new ServerDataPacket().setEntityId(1));
+            client.getSocketChannel().write(new ServerSeedPacket(6969));
 		} else {
 			client.getSocketChannel().write(new ServerMismatchPacket().setVersion(3));
 		}
