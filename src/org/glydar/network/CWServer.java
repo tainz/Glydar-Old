@@ -4,11 +4,8 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LoggingHandler;
 
 import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.glydar.Glydar;
@@ -17,9 +14,6 @@ import org.glydar.packets.PacketCreatorList;
 import org.glydar.packets.PacketHandlerList;
 import org.glydar.packets.creators.ClientVersionPacketCreator;
 import org.glydar.plugin.CubePluginLoader;
-import org.glydar.packets.PacketCreatorList;
-import org.glydar.packets.PacketHandlerList;
-import org.glydar.packets.creators.ClientVersionPacketCreator;
 import org.glydar.protocol.handlers.ClientVersionPacketHandler;
 
 public class CWServer
