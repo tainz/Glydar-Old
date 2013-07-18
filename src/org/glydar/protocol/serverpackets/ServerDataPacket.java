@@ -17,11 +17,8 @@ public class ServerDataPacket extends Packet
 		structure = new PacketStructure();
 		structure.addDataType(new PacketDataType(Integer.class));
 		structure.addDataType(new PacketDataType(Long.class));
-		
-		for (int i = 0; i < 5736; i++)
-		{
-			structure.addDataType(new PacketDataType(Byte.class));
-		}
+		structure.addDataType(new PacketDataType(Byte.class, 4456));
+
 		
 	}
 	
@@ -39,6 +36,7 @@ public class ServerDataPacket extends Packet
 	{
 		
 		data.setDataAtIndex(structure.getLengthFromIndex(1), entId);
+        data.setDataAtIndex(structure.getLengthFromIndex(2), 0);
 	
 		return this;
 		
