@@ -1,9 +1,6 @@
 package org.glydar.protocol.serverpackets;
 
-import org.glydar.packets.Packet;
-import org.glydar.packets.PacketDataType;
-import org.glydar.packets.PacketStructure;
-import org.glydar.packets.ServerPacketType;
+import org.glydar.packets.*;
 
 public class ServerSeedPacket extends Packet{
 	
@@ -13,9 +10,15 @@ public class ServerSeedPacket extends Packet{
 		structure.addDataType(new PacketDataType(Integer.class));
 	}
 
-	public ServerSeedPacket(int seed) throws Exception {
+	public ServerSeedPacket() throws Exception {
 		super(ServerPacketType.SeedData.getId(), null);
-		data.setDataAtIndex(structure.getLengthFromIndex(0), seed);
+        data = new PacketData(structure);
 	}
+
+    public ServerSeedPacket setSeed(int seed) {
+        //TODO Wrap seed if too big
+        data.setDataAtIndex(structure.getLengthFromIndex(0), seed);
+        return this;
+    }
 
 }

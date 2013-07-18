@@ -40,7 +40,7 @@ public class ClientVersionPacketHandler extends PacketHandler
 		}
 		else {
 			client.getSocketChannel().write(new ServerDataPacket().setEntityId(1));
-            client.getSocketChannel().write(new ServerSeedPacket(Glydar.getServer().getSeed()));
+            client.getSocketChannel().write(new ServerSeedPacket().setSeed(Glydar.getServer().getSeed()));
 		}
 		
 	}
