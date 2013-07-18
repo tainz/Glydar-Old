@@ -15,7 +15,7 @@ public class ServerMismatchPacket extends Packet {
 
         super(ServerPacketType.ServerMismatch.getId(), null);
 
-        data = new PacketData(structure);
+        data = new StructuredPacketData(structure);
 
     }
 

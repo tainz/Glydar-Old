@@ -20,15 +20,15 @@ public class ServerDataPacket extends Packet {
 
         super(ServerPacketType.ServerData.getId(), null);
 
-        data = new PacketData(structure);
-        data.setDataAtIndex(structure.getLengthFromIndex(0), 0);
+        data = new StructuredPacketData(structure);
+        ((StructuredPacketData)data).setDataAtStructureIndex(0, 0);
 
     }
 
     public ServerDataPacket setEntityId(long entId) {
 
-        data.setDataAtIndex(structure.getLengthFromIndex(1), entId);
-        data.setDataAtIndex(structure.getLengthFromIndex(2), 0);
+        ((StructuredPacketData)data).setDataAtStructureIndex(1, entId);
+        ((StructuredPacketData)data).setDataAtStructureIndex(2, 0);
 
         return this;
 

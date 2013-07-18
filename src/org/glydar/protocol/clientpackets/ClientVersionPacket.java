@@ -12,11 +12,15 @@ public class ClientVersionPacket extends Packet {
     }
 
     public ClientVersionPacket(byte[] data) {
-        super(ClientPacketType.ClientVersion.getId(), new PacketData(data));
+        super(ClientPacketType.ClientVersion.getId(), new StructuredPacketData(structure).setDataAtStructureIndex(0, data));
     }
 
     public int getVersion() {
-        return data.getDataAtIndex(Integer.class, 0);
+        return data.getDataAtIndex(Integer.class, structure.getLengthFromIndex(0));
+    }
+    
+    public void setVersion(int version) {
+    	((StructuredPacketData)data).setDataAtStructureIndex(0, version);
     }
 
     public static PacketStructure getStructure() {

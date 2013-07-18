@@ -13,12 +13,12 @@ public class ServerSeedPacket extends Packet {
 
     public ServerSeedPacket() throws Exception {
         super(ServerPacketType.SeedData.getId(), null);
-        data = new PacketData(structure);
+        data = new StructuredPacketData(structure);
     }
 
     public ServerSeedPacket setSeed(int seed) {
         //TODO Wrap seed if too big
-        data.setDataAtIndex(structure.getLengthFromIndex(0), seed);
+        ((StructuredPacketData)data).setDataAtStructureIndex(0, seed);
         return this;
     }
 
