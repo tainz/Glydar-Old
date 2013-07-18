@@ -15,7 +15,7 @@ public class ServerSeedPacket extends Packet{
 
 	public ServerSeedPacket(int seed) throws Exception {
 		super(ServerPacketType.SeedData.getId(), null);
-		data.getDataAtIndex(structure.getLengthFromIndex(0), seed);
+		data.setDataAtIndex(structure.getLengthFromIndex(0), seed);
 	}
 
 }
