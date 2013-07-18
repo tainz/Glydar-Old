@@ -29,18 +29,18 @@ public class GlydarServerInitializer extends ChannelInitializer<SocketChannel>
 	protected void initChannel(SocketChannel ch) throws Exception
 	{
 		
+		GlydarClient client = new GlydarClient(clients.size() + 1, ch);
+		
+		ch.attr(clientKey).set(client);
+		
+		clients.add(client);
+		
 		ChannelPipeline pipeline = ch.pipeline();
 		
 		pipeline.addLast("decoder", new PacketDecoder());
 		pipeline.addLast("encoder", new PacketEncoder());
 		
 		pipeline.addLast("handler", new GlydarServerHandler());
-		
-		GlydarClient client = new GlydarClient(clients.size() + 1, ch);
-		
-		ch.attr(clientKey).set(client);
-		
-		clients.add(client);
 		
 	}
 	

@@ -41,6 +41,7 @@ public class CWServer
 		ConsoleHandler lch = new ConsoleHandler();
 		lch.setFormatter(format);
 		LOGGER.addHandler(lch);
+		
 		creatorList = new PacketCreatorList();
 		creatorList.addPacketCreator(new ClientVersionPacketCreator());
 		

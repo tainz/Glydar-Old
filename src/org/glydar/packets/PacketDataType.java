@@ -6,6 +6,7 @@ public class PacketDataType
 	public static final int IntegerSize = 4;
 	public static final int FloatSize = 4;
 	public static final int LongSize = 8;
+	public static final int ByteSize = 1;
 	
 	private Class<?> dataType;
 	
@@ -50,6 +51,10 @@ public class PacketDataType
 		else if (clazz.isAssignableFrom(Integer.class))
 		{
 			len += IntegerSize;
+		}
+		else if (clazz.isAssignableFrom(Byte.class))
+		{
+			len += ByteSize;
 		}
 		
 		return len;

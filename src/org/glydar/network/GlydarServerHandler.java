@@ -14,7 +14,7 @@ public class GlydarServerHandler extends SimpleChannelInboundHandler<Packet>
 	protected void messageReceived(ChannelHandlerContext ctx, Packet msg) throws Exception
 	{
 		
-		GlydarClient client = ctx.attr(GlydarServerInitializer.getClientAttrbKey()).get();
+		GlydarClient client = ctx.channel().attr(GlydarServerInitializer.getClientAttrbKey()).get();
 		
 		if (client == null)
 		{
@@ -37,7 +37,7 @@ public class GlydarServerHandler extends SimpleChannelInboundHandler<Packet>
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
 	{
-		cause.printStackTrace();
+		//		cause.printStackTrace();
 		ctx.close();
 	}
 	

@@ -84,6 +84,10 @@ public class PacketData
 		{
 			tmpDat.addAll(Util.toByteList((byte[]) dat));
 		}
+		else if (dat instanceof Byte)
+		{
+			tmpDat.add((Byte)dat);
+		}
 		
 		return tmpDat;
 		

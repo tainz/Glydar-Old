@@ -30,6 +30,15 @@ public class PacketDecoder extends ByteToMessageDecoder
 		
 		IPacketCreator creator = Glydar.getServer().getPacketCreatorList().getCreatorWithId(id);
 		
+		if (creator == null)
+		{
+			
+			in.resetReaderIndex();
+			
+			return;
+			
+		}
+		
 		PacketStructure structure = creator.getStructure();
 		
 		if (structure == null)
