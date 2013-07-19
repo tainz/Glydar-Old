@@ -1,9 +1,15 @@
 package org.glydar.network;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Logger;
+
 import org.glydar.Glydar;
 import org.glydar.LogFormatter;
 import org.glydar.packets.PacketCreatorList;
@@ -15,10 +21,6 @@ import org.glydar.plugin.CubePluginLoader;
 import org.glydar.protocol.handlers.ClientChatPacketHandler;
 import org.glydar.protocol.handlers.ClientEntityUpdatePacketHandler;
 import org.glydar.protocol.handlers.ClientVersionPacketHandler;
-
-import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Logger;
 
 public class CWServer {
 
@@ -63,9 +65,9 @@ public class CWServer {
                 ServerBootstrap b = new ServerBootstrap();
                 b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(initializer);
 
-                b.bind(PORT).sync().channel().closeFuture().sync();
-                
+                ChannelFuture cf = b.bind(PORT).sync();
                 loader.loadPlugins();
+                cf.channel().closeFuture().sync();
                 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -46,6 +46,7 @@ public class CubePluginLoader implements PluginLoader {
 				}
 			}
 		}
+		Glydar.getServer().getLogger().info("Loaded " + loadedPlugins.size() + " plugins!");
 	}
 
 	public void unloadPlugins() {
