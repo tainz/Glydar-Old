@@ -7,12 +7,14 @@ import java.net.InetSocketAddress;
 public class GlydarClient {
 
     private int id;
+    private boolean connected;
 
     private SocketChannel channel;
 
     public GlydarClient(int id, SocketChannel channel) {
         this.id = id;
         this.channel = channel;
+        this.connected = false;
     }
 
     public int getId() {
@@ -25,6 +27,14 @@ public class GlydarClient {
 
     public SocketChannel getSocketChannel() {
         return channel;
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean c) {
+        connected = c;
     }
 
 }
