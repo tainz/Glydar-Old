@@ -45,7 +45,16 @@ public class StructuredPacketData extends PacketData {
 		}
 		else {
 			
-			setDataAtIndex(bIndex, dat);
+			if (dType.getLength() != bytes.size()) {
+			
+				removeDataRange(bIndex, dType.getLength());
+			
+				data.addAll(bIndex, bytes);
+				
+			}
+			else {
+				setDataAtIndex(bIndex, dat);
+			}
 			
 		}
 		

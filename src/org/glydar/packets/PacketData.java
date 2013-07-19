@@ -4,9 +4,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.glydar.util.Util;
+import org.glydar.util.MiscUtil;
 
 public abstract class PacketData {
 	
@@ -17,7 +18,7 @@ public abstract class PacketData {
 	}
 	
 	protected PacketData(byte[] dat) {
-		data = Util.toByteList(dat);
+		data = MiscUtil.toByteList(dat);
 	}
 	
 	public <T> PacketData addData(T dat) {
@@ -33,27 +34,30 @@ public abstract class PacketData {
 		List<Byte> tmpDat = new ArrayList<Byte>();
 		
 		if (dat instanceof Float) {
-			tmpDat.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putFloat((Float) dat).array()));
+			tmpDat.addAll(MiscUtil.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putFloat((Float) dat).array()));
 		}
 		else if (dat instanceof Long) {
-			tmpDat.addAll(Util.toByteList(ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).putLong((Long) dat).array()));
+			tmpDat.addAll(MiscUtil.toByteList(ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).putLong((Long) dat).array()));
 		}
 		if (dat instanceof Integer) {
-			tmpDat.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt((Integer) dat).array()));
+			tmpDat.addAll(MiscUtil.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt((Integer) dat).array()));
 		}
 		else if (dat instanceof String) {
 			
 			byte[] dt = ((String) dat).getBytes(Charset.forName("UTF-16LE"));
 			
-			tmpDat.addAll(Util.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(dt.length / 2).array()));
-			tmpDat.addAll(Util.toByteList(dt));
+			tmpDat.addAll(MiscUtil.toByteList(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(dt.length / 2).array()));
+			tmpDat.addAll(MiscUtil.toByteList(dt));
 			
 		}
 		else if (dat instanceof byte[]) {
-			tmpDat.addAll(Util.toByteList((byte[]) dat));
+			tmpDat.addAll(MiscUtil.toByteList((byte[]) dat));
 		}
 		else if (dat instanceof Byte) {
 			tmpDat.add((Byte) dat);
+		}
+		else if (dat instanceof Byte[]) {
+			tmpDat.addAll(Arrays.asList((Byte[]) dat));
 		}
 		
 		return tmpDat;
@@ -64,6 +68,14 @@ public abstract class PacketData {
 		
 		for (int i = 0; i < dat.length; i++) {
 			data.set(index, dat[i]);
+		}
+		
+	}
+	
+	public void removeDataRange(int from, int to) {
+		
+		for (int i = from; i < to; i++) {
+			data.remove(i);
 		}
 		
 	}

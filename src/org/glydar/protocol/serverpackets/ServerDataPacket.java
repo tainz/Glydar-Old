@@ -1,6 +1,7 @@
 package org.glydar.protocol.serverpackets;
 
 import org.glydar.packets.*;
+import org.glydar.util.MiscUtil;
 
 public class ServerDataPacket extends Packet {
 	
@@ -27,7 +28,7 @@ public class ServerDataPacket extends Packet {
 	public ServerDataPacket setEntityId(long entId) {
 		
 		((StructuredPacketData) data).setDataAtStructureIndex(1, entId);
-		((StructuredPacketData) data).setDataAtStructureIndex(2, 0);
+		((StructuredPacketData) data).setDataAtStructureIndex(2, MiscUtil.getEmptyByteArray(4456));
 		
 		return this;
 		
