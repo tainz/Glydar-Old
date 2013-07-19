@@ -29,6 +29,7 @@ public class Glydar {
             }
 
             server.getLogger().info("Server shutting down.");
+            System.exit(0);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -64,14 +64,15 @@ public class CWServer {
                 b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(initializer);
 
                 b.bind(PORT).sync().channel().closeFuture().sync();
-
+                
+                loader.loadPlugins();
+                
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 bossGroup.shutdownGracefully();
                 workerGroup.shutdownGracefully();
             }
-
         }
 
     });
@@ -97,16 +98,15 @@ public class CWServer {
 
     public void startServer() {
         serverThread.start();
-
-        loader.loadPlugins();
-
     }
 
     public void stopServer() {
+        loader.unloadPlugins();
         if (bossGroup != null && workerGroup != null) {
             bossGroup.shutdownGracefully().awaitUninterruptibly();
             workerGroup.shutdownGracefully().awaitUninterruptibly();
         }
+        System.exit(0);
     }
 
     public synchronized PacketCreatorList getPacketCreatorList() {
