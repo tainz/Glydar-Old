@@ -3,7 +3,7 @@ Glydar
 
 An open source Java implementation of Cube World's server.
 
-**Status:** Client will connect (if it's the correct version) and be dropped into a world, then will be disconnected.
+**Status:** Client will connect (if it's the correct version) and be dropped into a world, be welcomed, and then do nothing of use.
 
 Building and running
 -----
