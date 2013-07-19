@@ -33,7 +33,7 @@ public class ServerEntityUpdatePacket extends Packet {
 	//temporary
 	public ServerEntityUpdatePacket setData(byte[] data) throws IOException {
 		
-		this.data = new RawPacketData(ZLibUtil.compress(data));
+		this.data = new RawPacketData(data);
 		
 		return this;
 		
