@@ -42,7 +42,8 @@ public class StructuredPacketData extends PacketData {
 			dType.setLength(bytes.size());
 			dType.setDynamicLength(false);
 			
-		} else {
+		}
+		else {
 			
 			setDataAtIndex(bIndex, dat);
 			

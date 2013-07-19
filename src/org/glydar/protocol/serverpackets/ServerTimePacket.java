@@ -27,25 +27,25 @@ public class ServerTimePacket extends Packet {
 	}
 	
 	public int getDay() {
-		return ((StructuredPacketData)data).getDataAtIndex(Integer.class, structure.getLengthFromIndex(0));
+		return ((StructuredPacketData) data).getDataAtIndex(Integer.class, structure.getLengthFromIndex(0));
 	}
 	
 	public int getTime() {
-		return ((StructuredPacketData)data).getDataAtIndex(Integer.class, structure.getLengthFromIndex(1));
+		return ((StructuredPacketData) data).getDataAtIndex(Integer.class, structure.getLengthFromIndex(1));
 	}
 	
 	public ServerTimePacket setDay(int day) {
 		
-		((StructuredPacketData)data).setDataAtStructureIndex(0, day);
-	
+		((StructuredPacketData) data).setDataAtStructureIndex(0, day);
+		
 		return this;
 		
 	}
 	
 	public ServerTimePacket setTime(int time) {
 		
-		((StructuredPacketData)data).setDataAtStructureIndex(1, time);
-	
+		((StructuredPacketData) data).setDataAtStructureIndex(1, time);
+		
 		return this;
 		
 	}

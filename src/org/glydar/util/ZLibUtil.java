@@ -33,12 +33,15 @@ public class ZLibUtil {
 		
 	}
 	
-	public byte[] decompress(byte[] data) throws DataFormatException, IOException {
+	public static byte[] decompress(byte[] data) throws DataFormatException, IOException {
+		
+		if (data.length == 0)
+			return null;
+		
+		System.out.println("START DECOMPRESS");
 		
 		Inflater inf = new Inflater();
 		inf.setInput(data);
-		
-		inf.end();
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(data.length);
 		
@@ -52,7 +55,10 @@ public class ZLibUtil {
 			
 		}
 		
+		inf.end();
 		baos.close();
+		
+		System.out.println("FINISHED DECOMPRESS");
 		
 		return baos.toByteArray();
 		
