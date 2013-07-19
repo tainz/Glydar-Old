@@ -5,6 +5,8 @@ An open source Java implementation of Cube World's server.
 
 **Status:** Client will connect (if it's the correct version) and be dropped into a world, be welcomed, and then do nothing of use.
 
+**Snapshot builds** are available at http://ci.glydar.org
+
 Building and running
 -----
 If you are using *Maven* from the commandline, simply run `mvn clean build package`
