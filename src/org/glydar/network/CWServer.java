@@ -8,9 +8,11 @@ import org.glydar.Glydar;
 import org.glydar.LogFormatter;
 import org.glydar.packets.PacketCreatorList;
 import org.glydar.packets.PacketHandlerList;
+import org.glydar.packets.creators.ClientChatPacketCreator;
 import org.glydar.packets.creators.ClientEntityUpdatePacketCreator;
 import org.glydar.packets.creators.ClientVersionPacketCreator;
 import org.glydar.plugin.CubePluginLoader;
+import org.glydar.protocol.handlers.ClientChatPacketHandler;
 import org.glydar.protocol.handlers.ClientEntityUpdatePacketHandler;
 import org.glydar.protocol.handlers.ClientVersionPacketHandler;
 
@@ -84,10 +86,12 @@ public class CWServer {
         creatorList = new PacketCreatorList();
         creatorList.addPacketCreator(new ClientVersionPacketCreator());
         creatorList.addPacketCreator(new ClientEntityUpdatePacketCreator());
+        creatorList.addPacketCreator(new ClientChatPacketCreator());
         
         handlerList = new PacketHandlerList();
         handlerList.addHandler(new ClientVersionPacketHandler());
         handlerList.addHandler(new ClientEntityUpdatePacketHandler());
+        handlerList.addHandler(new ClientChatPacketHandler());
 
     }
 
