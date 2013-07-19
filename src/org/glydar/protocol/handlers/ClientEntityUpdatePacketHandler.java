@@ -19,10 +19,20 @@ public class ClientEntityUpdatePacketHandler extends PacketHandler {
 	@Override
 	public void handlePacket(GlydarClient client, Packet packet) throws Exception {
 		
-		//		byte[] deData = ZLibUtil.decompress(packet.getData().getByteData());
-		//		
-		//        client.getSocketChannel().write(new ServerEntityUpdatePacket().setData(deData).compress());
-		//        client.getSocketChannel().write(new ServerEnitityUpdateFinishedPacket());
+		byte[] deData = ZLibUtil.decompress(packet.getData().getByteData());
+		int deDataLength = deData.length;
+		
+		Long conId = 1L;
+		byte conByte = conId.byteValue();
+		
+		byte[] newData = new byte[deDataLength + 1];
+		for (int i = 0; i < deDataLength ; i++){
+			newData[i] = deData[i];
+		}
+		newData[deDataLength] = conByte;
+		
+		client.getSocketChannel().write(new ServerEntityUpdatePacket().setData(newData));
+		client.getSocketChannel().write(new ServerEnitityUpdateFinishedPacket());
 		
 	}
 	
