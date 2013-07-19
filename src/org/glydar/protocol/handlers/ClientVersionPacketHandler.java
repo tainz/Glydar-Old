@@ -6,10 +6,7 @@ import org.glydar.packets.ClientPacketType;
 import org.glydar.packets.Packet;
 import org.glydar.packets.PacketHandler;
 import org.glydar.protocol.clientpackets.ClientVersionPacket;
-import org.glydar.protocol.serverpackets.ServerDataPacket;
-import org.glydar.protocol.serverpackets.ServerFullPacket;
-import org.glydar.protocol.serverpackets.ServerMismatchPacket;
-import org.glydar.protocol.serverpackets.ServerSeedPacket;
+import org.glydar.protocol.serverpackets.*;
 
 public class ClientVersionPacketHandler extends PacketHandler {
 
@@ -22,8 +19,8 @@ public class ClientVersionPacketHandler extends PacketHandler {
 
         super.handlePacket(client, packet);
 
-        System.out.println("Client Version Packet Received!");
-        System.out.println("Version: " + ((ClientVersionPacket) packet).getVersion());
+        //System.out.println("Client Version Packet Received!");
+        //System.out.println("Version: " + ((ClientVersionPacket) packet).getVersion());
 
         if (Glydar.getServer().getCurrentProtocolVersion() != ((ClientVersionPacket) packet).getVersion()) {
             System.out.println("Wrong Version");
@@ -34,6 +31,7 @@ public class ClientVersionPacketHandler extends PacketHandler {
         } else {
             client.getSocketChannel().write(new ServerDataPacket().setEntityId(1));
             client.getSocketChannel().write(new ServerSeedPacket().setSeed(Glydar.getServer().getSeed()));
+            client.getSocketChannel().write(new ServerChatPacket().setMessage("Welcome to the server!",0));
         }
 
     }
