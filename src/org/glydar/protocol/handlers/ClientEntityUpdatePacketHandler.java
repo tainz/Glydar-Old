@@ -6,6 +6,8 @@ import org.glydar.packets.Packet;
 import org.glydar.packets.PacketHandler;
 import org.glydar.packets.StructuredPacketData;
 import org.glydar.protocol.clientpackets.ClientEntityUpdatePacket;
+import org.glydar.protocol.serverpackets.ServerEnitityUpdateFinishedPacket;
+import org.glydar.protocol.serverpackets.ServerEntityUpdatePacket;
 import org.glydar.util.ZLibUtil;
 
 public class ClientEntityUpdatePacketHandler extends PacketHandler {
@@ -18,6 +20,8 @@ public class ClientEntityUpdatePacketHandler extends PacketHandler {
 	public void handlePacket(GlydarClient client, Packet packet) throws Exception {
 		
 		byte[] deData = ZLibUtil.decompress(packet.getData().getByteData());
+        client.getSocketChannel().write(new ServerEntityUpdatePacket().setCompressedData(ZLibUtil.compress(deData)));
+        client.getSocketChannel().write(new ServerEnitityUpdateFinishedPacket());
 		
 	}
 	

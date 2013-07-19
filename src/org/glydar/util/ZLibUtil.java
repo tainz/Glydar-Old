@@ -38,7 +38,7 @@ public class ZLibUtil {
 		if (data.length == 0)
 			return null;
 		
-		System.out.println("START DECOMPRESS");
+		//System.out.println("START DECOMPRESS");
 		
 		Inflater inf = new Inflater();
 		inf.setInput(data);
@@ -58,7 +58,7 @@ public class ZLibUtil {
 		inf.end();
 		baos.close();
 		
-		System.out.println("FINISHED DECOMPRESS");
+		//System.out.println("FINISHED DECOMPRESS");
 		
 		return baos.toByteArray();
 		

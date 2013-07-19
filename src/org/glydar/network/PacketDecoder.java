@@ -75,7 +75,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 		
 		if (in.readableBytes() < len) {
 			
-			System.out.println("RESET");
+			//System.out.println("RESET");
 			
 			in.resetReaderIndex();
 			
