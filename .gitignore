@@ -1,9 +1,31 @@
-/bin
-/target
-/.metadata
+# Eclipse
+/.classpath
+/.project
 /.settings
-.project
-.classpath
+
+# Netbeans
+/nbproject
+
+# Maven
+/build.xml
+/target
+
+# vim
+.*.sw[a-p]
+
+# Mac
+.DS_Store
+
+# IntelliJ
 atlassian-ide-plugin.xml
 *.iml
-/.idea
+*.ipr
+*.iws
+.idea/
+
+# various other potential build files
+/build
+/bin
+/dist
+/manifest.mf
+/.metadata
