@@ -1,8 +1,10 @@
 package org.glydar.packets;
 
+import java.util.ArrayList;
+
 public interface IPacketCreator {
 
-    PacketStructure getStructure();
+    ArrayList<PacketStructure> getStructures();
 
     int getPacketId();
 

@@ -28,5 +28,22 @@ public final class MiscUtil {
 		return empty;
 		
 	}
+
+    public static byte[] getPrimByteData(List<Byte> data, int index, int size) {
+
+        byte[] dt = new byte[size];
+
+        int ctr = 0;
+        for (int i = index; i < size; i++) {
+
+            dt[ctr] = data.get(i).byteValue();
+
+            ctr++;
+
+        }
+
+        return dt;
+
+    }
 	
 }

@@ -6,6 +6,9 @@ import org.glydar.packets.Packet;
 import org.glydar.packets.PacketStructure;
 import org.glydar.protocol.clientpackets.ClientVersionPacket;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class ClientVersionPacketCreator implements IPacketCreator {
 
     @Override
@@ -14,13 +17,13 @@ public class ClientVersionPacketCreator implements IPacketCreator {
     }
 
     @Override
-    public int getPacketId() {
-        return ClientPacketType.ClientVersion.getId();
+    public ArrayList<PacketStructure> getStructures() {
+        return ClientVersionPacket.getStructures();
     }
 
     @Override
-    public PacketStructure getStructure() {
-        return ClientVersionPacket.getStructure();
+    public int getPacketId() {
+        return ClientPacketType.ClientVersion.getId();
     }
 
 }

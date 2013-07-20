@@ -14,7 +14,7 @@ public class ServerEntityUpdatePacket extends Packet {
 	private static PacketStructure structure;
 	static {
 		structure = new PacketStructure();
-		structure.addDataType(new PacketDataType(Byte[].class, true)); //Data
+		structure.addDataType(new PacketDataType(Byte.class, true)); //Data
 	}
 	
 	public ServerEntityUpdatePacket() {

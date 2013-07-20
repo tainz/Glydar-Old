@@ -18,8 +18,13 @@ public class ServerSeedPacket extends Packet {
 
     public ServerSeedPacket setSeed(int seed) {
         //TODO Wrap seed if too big
-        ((StructuredPacketData)data).setDataAtStructureIndex(0, seed);
+
+        StructuredPacketData spd = (StructuredPacketData) data;
+
+        spd.setDataAtStructureIndex(0, 0, seed);
+
         return this;
+
     }
 
 }

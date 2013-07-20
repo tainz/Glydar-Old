@@ -2,29 +2,49 @@ package org.glydar.protocol.clientpackets;
 
 import org.glydar.packets.*;
 
-public class ClientVersionPacket extends Packet {
+import java.util.ArrayList;
 
-    private static PacketStructure structure;
+public class ClientVersionPacket extends StructuredPacket {
+
+    private static ArrayList<PacketStructure> structures;
 
     static {
-        structure = new PacketStructure();
+
+        structures = new ArrayList<PacketStructure>();
+
+        PacketStructure structure = new PacketStructure();
         structure.addDataType(new PacketDataType(Integer.class));
+
+        structures.add(structure);
+
     }
 
     public ClientVersionPacket(byte[] data) {
-        super(ClientPacketType.ClientVersion.getId(), new StructuredPacketData(structure).setDataAtStructureIndex(0, data));
+
+        super(ClientPacketType.ClientVersion.getId());
+
+        this.data = new StructuredPacketData(structures);
+
+        StructuredPacketData spd = (StructuredPacketData)this.data;
+
+        spd.setDataAtStructureIndex(0, spd.getPacketStructure(0).getLengthFromIndex(0), data);
+
     }
 
-    public int getVersion() {
-        return data.getDataAtIndex(Integer.class, structure.getLengthFromIndex(0));
+    public int getVersion() throws Exception {
+
+        StructuredPacketData spd = (StructuredPacketData)data;
+
+        return spd.getStructuredDataAtIndex(Integer.class, 0, 0);
+
     }
-    
+
     public void setVersion(int version) {
-    	((StructuredPacketData)data).setDataAtStructureIndex(0, version);
+        ((StructuredPacketData) data).setDataAtStructureIndex(0, 0, version);
     }
 
-    public static PacketStructure getStructure() {
-        return structure;
+    public static ArrayList<PacketStructure> getStructures() {
+        return structures;
     }
 
 }

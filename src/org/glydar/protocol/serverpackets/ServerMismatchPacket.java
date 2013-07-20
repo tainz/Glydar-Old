@@ -21,7 +21,9 @@ public class ServerMismatchPacket extends Packet {
 
     public ServerMismatchPacket setVersion(int newVersion) {
 
-        ((StructuredPacketData)data).setDataAtStructureIndex(structure.getLengthFromIndex(0), newVersion);
+        StructuredPacketData spd = (StructuredPacketData)data;
+
+        spd.setDataAtStructureIndex(0, spd.getPacketStructure(0).getLengthFromIndex(0), newVersion);
 
         return this;
 

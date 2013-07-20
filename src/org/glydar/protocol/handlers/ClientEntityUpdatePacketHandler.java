@@ -11,29 +11,21 @@ import org.glydar.protocol.serverpackets.ServerEntityUpdatePacket;
 import org.glydar.util.ZLibUtil;
 
 public class ClientEntityUpdatePacketHandler extends PacketHandler {
-	
-	public ClientEntityUpdatePacketHandler() {
-		super(ClientPacketType.EntityUpdate.getId());
-	}
-	
-	@Override
-	public void handlePacket(GlydarClient client, Packet packet) throws Exception {
-		
-		byte[] deData = ZLibUtil.decompress(packet.getData().getByteData());
-		int deDataLength = deData.length;
-		
-		Long conId = 1L;
-		byte conByte = conId.byteValue();
-		
-		byte[] newData = new byte[deDataLength + 1];
-		for (int i = 0; i < deDataLength ; i++){
-			newData[i] = deData[i];
-		}
-		newData[deDataLength] = conByte;
-		
-		client.getSocketChannel().write(new ServerEntityUpdatePacket().setData(newData));
-		client.getSocketChannel().write(new ServerEnitityUpdateFinishedPacket());
-		
-	}
-	
+
+    public ClientEntityUpdatePacketHandler() {
+        super(ClientPacketType.EntityUpdate.getId());
+    }
+
+    @Override
+    public void handlePacket(GlydarClient client, Packet packet) throws Exception {
+
+
+        ClientEntityUpdatePacket clientEntityUpdatePacket = (ClientEntityUpdatePacket) packet;
+
+        clientEntityUpdatePacket.decompress();
+
+        StructuredPacketData spd = (StructuredPacketData) clientEntityUpdatePacket.getData();
+
+    }
+
 }

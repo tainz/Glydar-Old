@@ -6,12 +6,14 @@ import org.glydar.packets.Packet;
 import org.glydar.packets.PacketStructure;
 import org.glydar.protocol.clientpackets.ClientChatPacket;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ClientChatPacketCreator implements IPacketCreator {
+
     @Override
-    public PacketStructure getStructure() {
-        return ClientChatPacket.getStructure();
+    public ArrayList<PacketStructure> getStructures() {
+        return ClientChatPacket.getStructures();
     }
 
     @Override

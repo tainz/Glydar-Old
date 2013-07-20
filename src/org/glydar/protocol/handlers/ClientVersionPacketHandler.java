@@ -20,7 +20,7 @@ public class ClientVersionPacketHandler extends PacketHandler {
         super.handlePacket(client, packet);
 
         //System.out.println("Client Version Packet Received!");
-        //System.out.println("Version: " + ((ClientVersionPacket) packet).getVersion());
+        System.out.println("Version: " + ((ClientVersionPacket) packet).getVersion());
 
         if (Glydar.getServer().getCurrentProtocolVersion() != ((ClientVersionPacket) packet).getVersion()) {
             System.out.println("Wrong Version");
@@ -31,7 +31,7 @@ public class ClientVersionPacketHandler extends PacketHandler {
         } else {
             client.getSocketChannel().write(new ServerDataPacket().setEntityId(1));
             client.getSocketChannel().write(new ServerSeedPacket().setSeed(Glydar.getServer().getSeed()));
-            client.getSocketChannel().write(new ServerChatPacket().setMessage("Welcome to the server!",0));
+//            client.getSocketChannel().write(new ServerChatPacket().setMessage("Welcome to the server!",0));
         }
 
     }
