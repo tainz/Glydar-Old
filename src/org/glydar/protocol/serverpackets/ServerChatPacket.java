@@ -16,7 +16,7 @@ public class ServerChatPacket extends StructuredPacket {
 
         structure.addDataType(new PacketDataType(Integer.class)); //EntityID
         structure.addDataType(new PacketDataType(Integer.class)); //Length
-        structure.addDataType(new PacketDataType(String.class, true)); //Message
+        structure.addDataType(new PacketDataType(String.class)); //Message
 
         structures.add(structure);
 
@@ -30,10 +30,10 @@ public class ServerChatPacket extends StructuredPacket {
 
     }
 
-    public ServerChatPacket setMessage(String message, int entId) {
+    public ServerChatPacket setMessage(String message, int entId) throws Exception{
 
         StructuredPacketData spd = (StructuredPacketData)data;
-
+        //String message2 = new String(message.getBytes(), "UTF-16LE");
         spd.setDataAtStructureIndex(0, 0, entId);
         spd.setDataAtStructureIndex(0, 1, message.length());
         spd.setDataAtStructureIndex(0, 2, message);

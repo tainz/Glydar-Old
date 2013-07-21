@@ -15,7 +15,6 @@ public class ClientChatPacket extends StructuredPacket {
         structures = new ArrayList<PacketStructure>();
 
         PacketStructure structure = new PacketStructure();
-        structure.addDataType(new PacketDataType(Integer.class));
         structure.addDataType(new PacketDataType(String.class, true));
 
         structures.add(structure);
@@ -33,12 +32,12 @@ public class ClientChatPacket extends StructuredPacket {
     }
 
     public String getMessage() {
-//        try {
-//            return new String(data.getDataAtIndex(1, ByteBuffer.wrap(data.getDataAtIndex(1, structure.getLengthFromIndex(0))).getInt()));
-//        } catch (Exception e) {
-//            Glydar.getServer().getLogger().info("ERROR Getting string!");
-//            e.printStackTrace();
-//        }
+        try {
+            return new String(data.getDataAtIndex(0, data.getByteData().length), "UTF-16LE");
+        } catch (Exception e) {
+            Glydar.getServer().getLogger().info("ERROR Getting string!");
+            e.printStackTrace();
+        }
 
         return "";
     }
