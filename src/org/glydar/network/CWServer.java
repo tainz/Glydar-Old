@@ -20,6 +20,7 @@ import org.glydar.protocol.handlers.ClientChatPacketHandler;
 import org.glydar.protocol.handlers.ClientEntityEchoHandler;
 import org.glydar.protocol.handlers.ClientEntityUpdatePacketHandler;
 import org.glydar.protocol.handlers.ClientVersionPacketHandler;
+import org.glydar.util.LogUtil;
 
 public class CWServer {
 
@@ -38,6 +39,7 @@ public class CWServer {
     private PacketHandlerList handlerList;
 
     private final Logger LOGGER = Logger.getLogger(Glydar.class.getName());
+    private static LogUtil log;
     private final CubePluginLoader loader = new CubePluginLoader();
 
     private EventLoopGroup bossGroup;
@@ -50,8 +52,9 @@ public class CWServer {
 
         @Override
         public void run() {
-
-            LOGGER.info("Starting server on port " + PORT);
+        	log = new LogUtil();
+        	
+			log.output("Server starting on port " + PORT);
 
             if (bossGroup != null || workerGroup != null || initializer != null)
                 stopServer();

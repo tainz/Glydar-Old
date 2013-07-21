@@ -1,13 +1,14 @@
 package org.glydar.plugin;
 
 import org.glydar.Glydar;
+import org.glydar.util.LogUtil;
 
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 public class PluginLogger extends Logger {
-
+	public LogUtil logger;
     private Plugin plugin;
 
     public PluginLogger(Plugin plugin) {
@@ -18,7 +19,8 @@ public class PluginLogger extends Logger {
     }
 
     public void log(LogRecord log) {
-        log.setMessage("[" + plugin.getName() + "] " + log.getMessage());
+    	logger = new LogUtil();
+		logger.output("[ " + plugin.getName() + "] " + log.getMessage());
         super.log(log);
     }
 
