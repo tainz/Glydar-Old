@@ -1,6 +1,9 @@
 package org.glydar;
 
+import java.util.Arrays;
+
 import org.glydar.network.CWServer;
+import org.glydar.util.ArgumentParser;
 
 /**
  * Glydar - Java CubeWorld Server
@@ -16,22 +19,18 @@ public class Glydar {
     public static boolean debugmode;
 
     public static void main(String[] args) {
-
-		if (args.length > 0 && args[0].equals("-debug")) {
-			debugmode = true;
-            server.getLogger().info("Debug output enabled. Only for developer use.");
-		}
-		
         try {
             server = new CWServer();
-
             server.startServer();
-
-
-            while (server.isRunning()) {
-
+            
+            ArgumentParser.parse(args);
+            
+            if (debugmode = true) {
+    			System.out.println("Debug mode enabled. Only intended for developers");
             }
-
+            
+            while (server.isRunning()) {
+            }
             server.getLogger().info("Server shutting down.");
             System.exit(0);
 
