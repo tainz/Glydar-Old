@@ -6,7 +6,7 @@ import org.glydar.Glydar;
 
 public class ArgumentParser {
 	public static void parse(String[] args) {
-    	java.util.List<String> list = Arrays.asList(args);  
+		java.util.List<String> list = Arrays.asList(args);
 
 		if (list.contains("-debug")) {
 			Glydar.debugmode = true;

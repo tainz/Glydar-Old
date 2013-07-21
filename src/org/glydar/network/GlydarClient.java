@@ -6,41 +6,41 @@ import java.net.InetSocketAddress;
 
 public class GlydarClient {
 
-    private int id;
-    private boolean connected;
+	private int id;
+	private boolean connected;
 
-    private SocketChannel channel;
+	private SocketChannel channel;
 
-    public GlydarClient(int id, SocketChannel channel) {
-        this.id = id;
-        this.channel = channel;
-        this.connected = false;
-    }
+	public GlydarClient(int id, SocketChannel channel) {
+		this.id = id;
+		this.channel = channel;
+		connected = false;
+	}
 
-    public int getId() {
-        return this.id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public InetSocketAddress getAddress() {
-        return channel.remoteAddress();
-    }
+	public InetSocketAddress getAddress() {
+		return channel.remoteAddress();
+	}
 
-    public SocketChannel getSocketChannel() {
-        return channel;
-    }
+	public SocketChannel getSocketChannel() {
+		return channel;
+	}
 
-    public boolean isConnected() {
-        return connected;
-    }
+	public boolean isConnected() {
+		return connected;
+	}
 
-    public void setConnected(boolean c) {
-        connected = c;
-    }
-  
-    public void disconnect(){
-    	if (connected == true){
-    		channel.close();
-        	setConnected(false);
-    	}
-    }
+	public void setConnected(boolean c) {
+		connected = c;
+	}
+
+	public void disconnect() {
+		if (connected == true) {
+			channel.close();
+			setConnected(false);
+		}
+	}
 }

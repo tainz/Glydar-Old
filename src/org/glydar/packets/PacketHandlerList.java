@@ -5,32 +5,32 @@ import java.util.List;
 
 public class PacketHandlerList {
 
-    private List<IPacketHandler> handlers;
+	private List<IPacketHandler> handlers;
 
-    public PacketHandlerList() {
-        handlers = new ArrayList<IPacketHandler>();
-    }
+	public PacketHandlerList() {
+		handlers = new ArrayList<IPacketHandler>();
+	}
 
-    public void addHandler(IPacketHandler handler) {
-        handlers.add(handler);
-    }
+	public void addHandler(IPacketHandler handler) {
+		handlers.add(handler);
+	}
 
-    public List<IPacketHandler> getHandlers() {
-        return this.handlers;
-    }
+	public List<IPacketHandler> getHandlers() {
+		return handlers;
+	}
 
-    public List<IPacketHandler> getHandlersWithId(int id) {
+	public List<IPacketHandler> getHandlersWithId(int id) {
 
-        List<IPacketHandler> pHandlers = new ArrayList<IPacketHandler>();
+		List<IPacketHandler> pHandlers = new ArrayList<IPacketHandler>();
 
-        for (IPacketHandler handler : handlers) {
-            if (handler.getPacketId() == id) {
-                pHandlers.add(handler);
-            }
-        }
+		for (IPacketHandler handler : handlers) {
+			if (handler.getPacketId() == id) {
+				pHandlers.add(handler);
+			}
+		}
 
-        return pHandlers;
+		return pHandlers;
 
-    }
+	}
 
 }

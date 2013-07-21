@@ -19,7 +19,8 @@ public class ServerTimePacket extends Packet {
 	}
 
 	public ServerTimePacket() {
-		super(ServerPacketType.CurrentTime.getId(), new StructuredPacketData(structure));
+		super(ServerPacketType.CurrentTime.getId(), new StructuredPacketData(
+				structure));
 	}
 
 	public PacketStructure getStructure() {
@@ -27,18 +28,20 @@ public class ServerTimePacket extends Packet {
 	}
 
 	public int getDay() {
-		return ((StructuredPacketData) data).getDataAtIndex(Integer.class, structure.getLengthFromIndex(0));
+		return ((StructuredPacketData) data).getDataAtIndex(Integer.class,
+				structure.getLengthFromIndex(0));
 	}
 
 	public int getTime() {
-		return ((StructuredPacketData) data).getDataAtIndex(Integer.class, structure.getLengthFromIndex(1));
+		return ((StructuredPacketData) data).getDataAtIndex(Integer.class,
+				structure.getLengthFromIndex(1));
 	}
 
 	public ServerTimePacket setDay(int day) {
 
-        StructuredPacketData spd = (StructuredPacketData)data;
+		StructuredPacketData spd = (StructuredPacketData) data;
 
-        spd.setDataAtStructureIndex(0, 0, day);
+		spd.setDataAtStructureIndex(0, 0, day);
 
 		return this;
 
@@ -46,9 +49,9 @@ public class ServerTimePacket extends Packet {
 
 	public ServerTimePacket setTime(int time) {
 
-        StructuredPacketData spd = (StructuredPacketData)data;
+		StructuredPacketData spd = (StructuredPacketData) data;
 
-        spd.setDataAtStructureIndex(0, 1, time);
+		spd.setDataAtStructureIndex(0, 1, time);
 
 		return this;
 

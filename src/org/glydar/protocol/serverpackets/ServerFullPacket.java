@@ -5,8 +5,8 @@ import org.glydar.packets.ServerPacketType;
 
 public class ServerFullPacket extends Packet {
 
-    public ServerFullPacket() throws Exception {
-        super(ServerPacketType.ServerFull.getId(), null);
-    }
+	public ServerFullPacket() throws Exception {
+		super(ServerPacketType.ServerFull.getId(), null);
+	}
 
 }

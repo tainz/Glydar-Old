@@ -6,6 +6,7 @@ import org.glydar.util.LogUtil;
 
 /**
  * Glydar: Java CubeWorld Server
+ * 
  * @author Glydar Team
  */
 public class Glydar {
@@ -33,7 +34,7 @@ public class Glydar {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static CWServer getServer() {
 		return server;
 	}

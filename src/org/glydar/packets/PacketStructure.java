@@ -4,77 +4,78 @@ import java.util.ArrayList;
 
 public class PacketStructure {
 
-    private ArrayList<PacketDataType> dataTypes;
+	private ArrayList<PacketDataType> dataTypes;
 
-    public PacketStructure() {
-        dataTypes = new ArrayList<PacketDataType>();
-    }
+	public PacketStructure() {
+		dataTypes = new ArrayList<PacketDataType>();
+	}
 
-    public PacketStructure(PacketStructure structure) {
-        dataTypes = new ArrayList<PacketDataType>(structure.getDataTypes());
-    }
+	public PacketStructure(PacketStructure structure) {
+		dataTypes = new ArrayList<PacketDataType>(structure.getDataTypes());
+	}
 
-    public int addDataType(PacketDataType type) {
+	public int addDataType(PacketDataType type) {
 
-        dataTypes.add(type);
+		dataTypes.add(type);
 
-        return getTotalLength() - type.getLength();
+		return getTotalLength() - type.getLength();
 
-    }
+	}
 
-    public void removeDataType(PacketDataType type) {
-        dataTypes.remove(type);
-    }
+	public void removeDataType(PacketDataType type) {
+		dataTypes.remove(type);
+	}
 
-    public ArrayList<PacketDataType> getDataTypes() {
-        return dataTypes;
-    }
+	public ArrayList<PacketDataType> getDataTypes() {
+		return dataTypes;
+	}
 
-    public boolean matchesStructureLength(byte[] data) {
+	public boolean matchesStructureLength(byte[] data) {
 
-        int len = 0;
+		int len = 0;
 
-        for (PacketDataType dType : dataTypes) {
-            len += dType.getLength();
-        }
+		for (PacketDataType dType : dataTypes) {
+			len += dType.getLength();
+		}
 
-        return data.length == len;
+		return data.length == len;
 
-    }
+	}
 
-    public PacketDataType getDataTypeAtIndex(int index) {
-        return dataTypes.get(index);
-    }
+	public PacketDataType getDataTypeAtIndex(int index) {
+		return dataTypes.get(index);
+	}
 
-    public int getLengthFromIndex(int index) {
+	public int getLengthFromIndex(int index) {
 
-        int len = 0;
+		int len = 0;
 
-        for (int i = 0; i < dataTypes.size(); i++) {
+		for (int i = 0; i < dataTypes.size(); i++) {
 
-            if (i == index)
-                break;
+			if (i == index) {
+				break;
+			}
 
-            PacketDataType dType = dataTypes.get(i);
+			PacketDataType dType = dataTypes.get(i);
 
-            len += dType.getLength();
+			len += dType.getLength();
 
-        }
+		}
 
-        return len;
+		return len;
 
-    }
+	}
 
-    public int getTotalLength() {
+	public int getTotalLength() {
 
-        int len = 0;
+		int len = 0;
 
-        for (PacketDataType dType : dataTypes) {
-            len += dType.getLength();
-        }
+		for (PacketDataType dType : dataTypes) {
+			len += dType.getLength();
+		}
 
-        return len;
+		return len;
 
-    }
+	}
 
 }

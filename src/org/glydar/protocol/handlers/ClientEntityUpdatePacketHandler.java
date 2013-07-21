@@ -1,35 +1,35 @@
 package org.glydar.protocol.handlers;
 
 import org.glydar.network.GlydarClient;
-import org.glydar.packets.*;
+import org.glydar.packets.ClientPacketType;
+import org.glydar.packets.Packet;
+import org.glydar.packets.PacketHandler;
 import org.glydar.protocol.clientpackets.ClientEntityUpdatePacket;
-import org.glydar.protocol.serverpackets.ServerEnitityUpdateFinishedPacket;
 import org.glydar.protocol.serverpackets.ServerEntityUpdatePacket;
-import org.glydar.util.ZLibUtil;
 
 public class ClientEntityUpdatePacketHandler extends PacketHandler {
 
-    public ClientEntityUpdatePacketHandler() {
-        super(ClientPacketType.EntityUpdate.getId());
-    }
+	public ClientEntityUpdatePacketHandler() {
+		super(ClientPacketType.EntityUpdate.getId());
+	}
 
-    @Override
-    public void handlePacket(GlydarClient client, Packet packet) throws Exception {
+	@Override
+	public void handlePacket(GlydarClient client, Packet packet)
+			throws Exception {
 
+		try {
 
-        try {
+			ClientEntityUpdatePacket clientEntityUpdatePacket = (ClientEntityUpdatePacket) packet;
 
-            ClientEntityUpdatePacket clientEntityUpdatePacket = (ClientEntityUpdatePacket) packet;
+			clientEntityUpdatePacket.decompress();
 
-            clientEntityUpdatePacket.decompress();
+			clientEntityUpdatePacket.getData();
 
-            StructuredPacketData spd = (StructuredPacketData) clientEntityUpdatePacket.getData();
+			new ServerEntityUpdatePacket();
 
-            ServerEntityUpdatePacket seup = new ServerEntityUpdatePacket();
+		} catch (Exception e) {
+		}
 
-        } catch (Exception e) {
-        }
-
-    }
+	}
 
 }

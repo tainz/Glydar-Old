@@ -14,150 +14,162 @@ import org.glydar.Glydar;
 import org.glydar.LogFormatter;
 import org.glydar.packets.PacketCreatorList;
 import org.glydar.packets.PacketHandlerList;
-import org.glydar.packets.creators.*;
+import org.glydar.packets.creators.ClientChatPacketCreator;
+import org.glydar.packets.creators.ClientChunkDiscoveredPacketCreator;
+import org.glydar.packets.creators.ClientEntityUpdateEchoCreator;
+import org.glydar.packets.creators.ClientHitNPCPacketCreator;
+import org.glydar.packets.creators.ClientInteractionPacketCreator;
+import org.glydar.packets.creators.ClientSectorDiscoveredPacketCreator;
+import org.glydar.packets.creators.ClientShootArrowPacketCreator;
+import org.glydar.packets.creators.ClientStealthPacketCreator;
+import org.glydar.packets.creators.ClientVersionPacketCreator;
 import org.glydar.plugin.CubePluginLoader;
 import org.glydar.protocol.handlers.ClientChatPacketHandler;
-import org.glydar.protocol.handlers.ClientEntityEchoHandler;
-import org.glydar.protocol.handlers.ClientEntityUpdatePacketHandler;
 import org.glydar.protocol.handlers.ClientVersionPacketHandler;
 import org.glydar.util.LogUtil;
 
 public class CWServer {
 
-    private static final int PORT = 12345;
-    private static final int PROTOCOL_VERSION = 3;
+	private static final int PORT = 12345;
+	private static final int PROTOCOL_VERSION = 3;
 
-    //TODO: Read value from an auto-generated Properties file
-    private int maxPlayers = 4;
+	// TODO: Read value from an auto-generated Properties file
+	private int maxPlayers = 4;
 
-    //TODO: Read value from an auto-generated Properties file
-    private int seed = 6969;
-    
-    private int conId = 0;
+	// TODO: Read value from an auto-generated Properties file
+	private int seed = 6969;
 
-    private PacketCreatorList creatorList;
-    private PacketHandlerList handlerList;
+	private int conId = 0;
 
-    private final Logger LOGGER = Logger.getLogger(Glydar.class.getName());
-    private static LogUtil log;
-    private final CubePluginLoader loader = new CubePluginLoader();
+	private PacketCreatorList creatorList;
+	private PacketHandlerList handlerList;
 
-    private EventLoopGroup bossGroup;
-    private EventLoopGroup workerGroup;
+	private final Logger LOGGER = Logger.getLogger(Glydar.class.getName());
+	private static LogUtil log;
+	private final CubePluginLoader loader = new CubePluginLoader();
 
-    private GlydarServerInitializer initializer;
+	private EventLoopGroup bossGroup;
+	private EventLoopGroup workerGroup;
 
-    private Thread serverThread = new Thread(new Runnable() //TODO Move into own class or make it look nicer.
-    {
+	private GlydarServerInitializer initializer;
 
-        @Override
-        public void run() {
-        	log = new LogUtil();
-        	
-			log.output("Server starting on port " + PORT);
+	private Thread serverThread = new Thread(new Runnable() // TODO Move into
+															// own class or make
+															// it look nicer.
+			{
 
-            if (bossGroup != null || workerGroup != null || initializer != null)
-                stopServer();
+				@Override
+				public void run() {
+					log = new LogUtil();
 
-            initializer = new GlydarServerInitializer();
+					log.output("Server starting on port " + PORT);
+					log.output("");
 
-            bossGroup = new NioEventLoopGroup();
-            workerGroup = new NioEventLoopGroup();
+					if (bossGroup != null || workerGroup != null
+							|| initializer != null) {
+						stopServer();
+					}
 
-            try {
+					initializer = new GlydarServerInitializer();
 
-                ServerBootstrap b = new ServerBootstrap();
-                b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(initializer);
+					bossGroup = new NioEventLoopGroup();
+					workerGroup = new NioEventLoopGroup();
 
-                ChannelFuture cf = b.bind(PORT).sync();
-                loader.loadPlugins();
-                cf.channel().closeFuture().sync();
-                
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                bossGroup.shutdownGracefully();
-                workerGroup.shutdownGracefully();
-            }
-        }
+					try {
 
-    });
+						ServerBootstrap b = new ServerBootstrap();
+						b.group(bossGroup, workerGroup)
+								.channel(NioServerSocketChannel.class)
+								.childHandler(initializer);
 
-    public CWServer() throws Exception {
-        LOGGER.setUseParentHandlers(false);
-        LogFormatter format = new LogFormatter();
-        ConsoleHandler lch = new ConsoleHandler();
-        lch.setFormatter(format);
-        LOGGER.addHandler(lch);
+						ChannelFuture cf = b.bind(PORT).sync();
+						loader.loadPlugins();
+						cf.channel().closeFuture().sync();
 
-        creatorList = new PacketCreatorList();
-        creatorList.addPacketCreator(new ClientVersionPacketCreator());
-        //creatorList.addPacketCreator(new ClientEntityUpdatePacketCreator());
-        creatorList.addPacketCreator(new ClientEntityUpdateEchoCreator());
-        creatorList.addPacketCreator(new ClientChatPacketCreator());
-        //TODO Can't we use a Class loader or something?
-        creatorList.addPacketCreator(new ClientInteractionPacketCreator());
-        creatorList.addPacketCreator(new ClientHitNPCPacketCreator());
-        creatorList.addPacketCreator(new ClientStealthPacketCreator());
-        creatorList.addPacketCreator(new ClientShootArrowPacketCreator());
-        creatorList.addPacketCreator(new ClientChunkDiscoveredPacketCreator());
-        creatorList.addPacketCreator(new ClientSectorDiscoveredPacketCreator());
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						bossGroup.shutdownGracefully();
+						workerGroup.shutdownGracefully();
+					}
+				}
 
-        
-        handlerList = new PacketHandlerList();
-        handlerList.addHandler(new ClientVersionPacketHandler());
-        //handlerList.addHandler(new ClientEntityUpdatePacketHandler());
-        //handlerList.addHandler(new ClientEntityEchoHandler());
-        handlerList.addHandler(new ClientChatPacketHandler());
+			});
 
-    }
+	public CWServer() throws Exception {
+		LOGGER.setUseParentHandlers(false);
+		LogFormatter format = new LogFormatter();
+		ConsoleHandler lch = new ConsoleHandler();
+		lch.setFormatter(format);
+		LOGGER.addHandler(lch);
 
-    public void startServer() {
-        serverThread.start();
-    }
+		creatorList = new PacketCreatorList();
+		creatorList.addPacketCreator(new ClientVersionPacketCreator());
+		// creatorList.addPacketCreator(new ClientEntityUpdatePacketCreator());
+		creatorList.addPacketCreator(new ClientEntityUpdateEchoCreator());
+		creatorList.addPacketCreator(new ClientChatPacketCreator());
+		// TODO Can't we use a Class loader or something?
+		creatorList.addPacketCreator(new ClientInteractionPacketCreator());
+		creatorList.addPacketCreator(new ClientHitNPCPacketCreator());
+		creatorList.addPacketCreator(new ClientStealthPacketCreator());
+		creatorList.addPacketCreator(new ClientShootArrowPacketCreator());
+		creatorList.addPacketCreator(new ClientChunkDiscoveredPacketCreator());
+		creatorList.addPacketCreator(new ClientSectorDiscoveredPacketCreator());
 
-    public void stopServer() {
-        loader.unloadPlugins();
-        if (bossGroup != null && workerGroup != null) {
-            bossGroup.shutdownGracefully().awaitUninterruptibly();
-            workerGroup.shutdownGracefully().awaitUninterruptibly();
-        }
-        System.exit(0);
-    }
+		handlerList = new PacketHandlerList();
+		handlerList.addHandler(new ClientVersionPacketHandler());
+		// handlerList.addHandler(new ClientEntityUpdatePacketHandler());
+		// handlerList.addHandler(new ClientEntityEchoHandler());
+		handlerList.addHandler(new ClientChatPacketHandler());
 
-    public synchronized PacketCreatorList getPacketCreatorList() {
-        return new PacketCreatorList(creatorList);
-    }
+	}
 
-    public synchronized PacketHandlerList getPacketHandlerList() {
-        return handlerList;
-    }
+	public void startServer() {
+		serverThread.start();
+	}
 
-    public Logger getLogger() {
-        return LOGGER;
-    }
+	public void stopServer() {
+		loader.unloadPlugins();
+		if (bossGroup != null && workerGroup != null) {
+			bossGroup.shutdownGracefully().awaitUninterruptibly();
+			workerGroup.shutdownGracefully().awaitUninterruptibly();
+		}
+		System.exit(0);
+	}
 
-    public List<GlydarClient> getClients() {
-        return initializer.getClients();
-    }
+	public synchronized PacketCreatorList getPacketCreatorList() {
+		return new PacketCreatorList(creatorList);
+	}
 
-    public int getCurrentProtocolVersion() {
-        return PROTOCOL_VERSION;
-    }
+	public synchronized PacketHandlerList getPacketHandlerList() {
+		return handlerList;
+	}
 
-    public int getMaxPlayers() {
-        return maxPlayers;
-    }
+	public Logger getLogger() {
+		return LOGGER;
+	}
 
-    public int getSeed() {
-        return seed;
-    }
+	public List<GlydarClient> getClients() {
+		return initializer.getClients();
+	}
 
-    public boolean isRunning() {
-        return serverThread.isAlive();
-    }
-    
-    public int incrementConId(){
-    	return ++conId;
-    }
+	public int getCurrentProtocolVersion() {
+		return PROTOCOL_VERSION;
+	}
+
+	public int getMaxPlayers() {
+		return maxPlayers;
+	}
+
+	public int getSeed() {
+		return seed;
+	}
+
+	public boolean isRunning() {
+		return serverThread.isAlive();
+	}
+
+	public int incrementConId() {
+		return ++conId;
+	}
 }

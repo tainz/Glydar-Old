@@ -7,119 +7,124 @@ import java.util.List;
 
 public class StructuredPacketData extends PacketData {
 
-    private HashMap<Integer, PacketStructure> packetStructures;
+	private HashMap<Integer, PacketStructure> packetStructures;
 
-    public StructuredPacketData(PacketStructure... structures) {
+	public StructuredPacketData(PacketStructure... structures) {
 
-        super();
+		super();
 
-        packetStructures = new HashMap<Integer, PacketStructure>();
+		packetStructures = new HashMap<Integer, PacketStructure>();
 
-        for (int i = 0; i < structures.length; i++) {
+		for (int i = 0; i < structures.length; i++) {
 
-            PacketStructure newStructure = new PacketStructure(structures[i]);
+			PacketStructure newStructure = new PacketStructure(structures[i]);
 
-            packetStructures.put(i, newStructure);
+			packetStructures.put(i, newStructure);
 
-            for (PacketDataType dType : newStructure.getDataTypes()) {
+			for (PacketDataType dType : newStructure.getDataTypes()) {
 
-                Byte[] emptyDat = new Byte[dType.getLength()];
+				Byte[] emptyDat = new Byte[dType.getLength()];
 
-                for (int x = 0; x < emptyDat.length; x++) {
-                    emptyDat[x] = 0;
-                }
+				for (int x = 0; x < emptyDat.length; x++) {
+					emptyDat[x] = 0;
+				}
 
-                data.addAll(Arrays.asList(emptyDat));
+				data.addAll(Arrays.asList(emptyDat));
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
-    public StructuredPacketData(ArrayList<PacketStructure> structures) {
-        this(structures.toArray(new PacketStructure[structures.size()]));
-    }
+	public StructuredPacketData(ArrayList<PacketStructure> structures) {
+		this(structures.toArray(new PacketStructure[structures.size()]));
+	}
 
-    public byte[] getDataAtStructure(int structureIndex) throws Exception {
+	public byte[] getDataAtStructure(int structureIndex) throws Exception {
 
+		PacketStructure structure = getPacketStructure(structureIndex);
 
-        PacketStructure structure = getPacketStructure(structureIndex);
+		return getDataAtIndex(getLengthToStructure(structureIndex),
+				structure.getTotalLength());
 
-        return getDataAtIndex(getLengthToStructure(structureIndex), structure.getTotalLength());
+	}
 
-    }
+	public <T> StructuredPacketData setDataAtStructureIndex(int structureIndex,
+			int index, T dat) {
 
-    public <T> StructuredPacketData setDataAtStructureIndex(int structureIndex, int index, T dat) {
+		List<Byte> bytes = getDataList(dat);
 
-        List<Byte> bytes = getDataList(dat);
+		PacketStructure packetStructure = packetStructures.get(structureIndex);
 
-        PacketStructure packetStructure = packetStructures.get(structureIndex);
+		int bIndex = getLengthToStructure(structureIndex)
+				+ packetStructure.getLengthFromIndex(index);
 
-        int bIndex = getLengthToStructure(structureIndex) + packetStructure.getLengthFromIndex(index);
+		PacketDataType dType = packetStructure.getDataTypeAtIndex(index);
 
-        PacketDataType dType = packetStructure.getDataTypeAtIndex(index);
+		if (dType.isDynamicLength()) {
 
-        if (dType.isDynamicLength()) {
+			data.addAll(bIndex, bytes);
 
-            data.addAll(bIndex, bytes);
+			dType.setLength(bytes.size());
+			dType.setDynamicLength(false);
 
-            dType.setLength(bytes.size());
-            dType.setDynamicLength(false);
+		} else {
 
-        } else {
+			if (dType.getLength() != bytes.size()) {
 
-            if (dType.getLength() != bytes.size()) {
+				removeDataRange(bIndex, dType.getLength());
 
-                removeDataRange(bIndex, dType.getLength());
+				if (bIndex < data.size()) {
+					data.addAll(bIndex, bytes);
+				} else {
+					data.addAll(bytes);
+				}
 
-                if (bIndex < data.size())
-                    data.addAll(bIndex, bytes);
-                else
-                    data.addAll(bytes);
+			} else {
+				setDataAtIndex(bIndex, dat);
+			}
 
-            } else {
-                setDataAtIndex(bIndex, dat);
-            }
+		}
 
-        }
+		return this;
 
-        return this;
+	}
 
-    }
+	public <T> T getStructuredDataAtIndex(Class<T> dataType,
+			int structureIndex, int index) throws Exception {
 
-    public <T> T getStructuredDataAtIndex(Class<T> dataType, int structureIndex, int index) throws Exception {
+		PacketStructure structure = packetStructures.get(structureIndex);
 
-        PacketStructure structure = packetStructures.get(structureIndex);
+		return getDataAtIndex(dataType, getLengthToStructure(structureIndex)
+				+ structure.getLengthFromIndex(index));
 
-        return (T) getDataAtIndex(dataType, getLengthToStructure(structureIndex) + structure.getLengthFromIndex(index));
+	}
 
-    }
+	public PacketStructure getPacketStructure(int index) {
+		return packetStructures.get(index);
+	}
 
-    public PacketStructure getPacketStructure(int index) {
-        return packetStructures.get(index);
-    }
+	public int getStructureCount() {
+		return packetStructures.size();
+	}
 
-    public int getStructureCount() {
-        return packetStructures.size();
-    }
+	public int getLengthToStructure(int structureIndex) {
 
-    public int getLengthToStructure(int structureIndex) {
+		int ctr = 0;
+		for (int i = 0; i < packetStructures.size(); i++) {
 
-        int ctr = 0;
-        for (int i = 0; i < packetStructures.size(); i++) {
+			PacketStructure structure = packetStructures.get(i);
 
-            PacketStructure structure = packetStructures.get(i);
+			if (structureIndex == i)
+				return ctr;
 
-            if (structureIndex == i)
-                return ctr;
+			ctr += structure.getTotalLength();
 
-            ctr += structure.getTotalLength();
+		}
 
-        }
+		return 0;
 
-        return 0;
-
-    }
+	}
 
 }
