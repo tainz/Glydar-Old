@@ -43,7 +43,7 @@
     <repositories>
         <repository>
             <id>buildserver</id>
-            <url>http://maven.cyberkitsune.net/</url>
+            <url>http://maven.cyberkitsune.net</url>
         </repository>
     </repositories>
 
