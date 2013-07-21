@@ -13,11 +13,15 @@ import org.glydar.network.CWServer;
 public class Glydar {
 
     private static CWServer server;
+    public static boolean debugmode;
 
     public static void main(String[] args) {
 
-        //TODO Argument Processing
-
+		if (args.length > 0 && args[0].equals("-debug")) {
+			debugmode = true;
+			System.out.println("debug mode activated!");
+		}
+		
         try {
             server = new CWServer();
 
