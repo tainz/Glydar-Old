@@ -8,6 +8,8 @@ import io.netty.util.AttributeKey;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.glydar.Glydar;
+
 public class GlydarServerInitializer extends ChannelInitializer<SocketChannel> {
 
     private List<GlydarClient> clients;
@@ -25,7 +27,7 @@ public class GlydarServerInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
 
-        GlydarClient client = new GlydarClient(clients.size() + 1, ch);
+        GlydarClient client = new GlydarClient(Glydar.getServer().incrementConId(), ch);
 
         ch.attr(clientKey).set(client);
 

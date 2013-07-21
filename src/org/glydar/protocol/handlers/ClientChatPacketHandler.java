@@ -20,9 +20,9 @@ public class ClientChatPacketHandler extends PacketHandler {
         super.handlePacket(client, packet);
         String message = ((ClientChatPacket)packet).getMessage();
         if(message != null) {
-            Glydar.getServer().getLogger().info("(CHAT) "+message);
+            Glydar.getServer().getLogger().info("(CHAT " + client.getId() + ") "+message);
             for(GlydarClient g : Glydar.getServer().getClients()) {
-                g.getSocketChannel().write(new ServerChatPacket().setMessage(message, 1));
+                g.getSocketChannel().write(new ServerChatPacket().setMessage(message, client.getId()));
             }
         } else {
             Glydar.getServer().getLogger().info("Got null packet!");

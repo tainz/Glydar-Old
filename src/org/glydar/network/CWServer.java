@@ -31,6 +31,8 @@ public class CWServer {
 
     //TODO: Read value from an auto-generated Properties file
     private int seed = 6969;
+    
+    private int conId = 0;
 
     private PacketCreatorList creatorList;
     private PacketHandlerList handlerList;
@@ -150,5 +152,9 @@ public class CWServer {
 
     public boolean isRunning() {
         return serverThread.isAlive();
+    }
+    
+    public int incrementConId(){
+    	return ++conId;
     }
 }

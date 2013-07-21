@@ -29,9 +29,10 @@ public class ClientVersionPacketHandler extends PacketHandler {
             System.out.println("Server Full");
             client.getSocketChannel().write(new ServerFullPacket());
         } else {
-            client.getSocketChannel().write(new ServerDataPacket().setEntityId(1));
+        	client.setConnected(true);
+            client.getSocketChannel().write(new ServerDataPacket().setEntityId(client.getId()));
             client.getSocketChannel().write(new ServerSeedPacket().setSeed(Glydar.getServer().getSeed()));
-//            client.getSocketChannel().write(new ServerChatPacket().setMessage("Welcome to the server!",0));
+            client.getSocketChannel().write(new ServerChatPacket().setMessage("Welcome to the server!",0));
         }
 
     }

@@ -36,5 +36,11 @@ public class GlydarClient {
     public void setConnected(boolean c) {
         connected = c;
     }
-
+  
+    public void disconnect(){
+    	if (connected == true){
+    		channel.close();
+        	setConnected(false);
+    	}
+    }
 }
