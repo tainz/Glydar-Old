@@ -15,6 +15,10 @@ import java.util.jar.JarFile;
 import org.glydar.Glydar;
 import org.glydar.exceptions.PluginException;
 
+/**
+ * Plugin loader for Glydar
+ *
+ */
 public class CubePluginLoader implements PluginLoader {
 
 	private List<Plugin> loadedPlugins = new ArrayList<Plugin>();
@@ -41,7 +45,7 @@ public class CubePluginLoader implements PluginLoader {
 				try {
 					enablePlugin(p);
 				} catch (Exception e) {
-					Glydar.getServer().getLogger().warning("Error initializing plugin " + p.getName() + "!");
+					Glydar.getServer().getLogger().warning("Error initializing plugin " + p.name() + "!");
 					e.printStackTrace();
 				}
 			}
@@ -51,7 +55,7 @@ public class CubePluginLoader implements PluginLoader {
 
 	public void unloadPlugins() {
 		for (Plugin plugin : loadedPlugins) {
-			Glydar.getServer().getLogger().info("Disabling " + plugin.getName() + " v" + plugin.getVersion());
+			Glydar.getServer().getLogger().info("Disabling " + plugin.name() + " v" + plugin.version());
 			disablePlugin(plugin);
 		}
 	}
@@ -70,8 +74,8 @@ public class CubePluginLoader implements PluginLoader {
 			return;
 		}
 
-		plugin.initialize(Glydar.getServer(), this, new PluginLogger(plugin));
-		plugin.getLogger().info("Loading " + plugin.getName() + " v" + plugin.getVersion());
+		PluginBase.initialize(Glydar.getServer(), this, new PluginLogger(plugin));
+		PluginBase.getLogger().info("Loading " + plugin.name() + " v" + plugin.version());
 		pending.add(plugin);
 	}
 
@@ -125,13 +129,13 @@ public class CubePluginLoader implements PluginLoader {
 
 	@Override
 	public void enablePlugin(Plugin plugin) {
-		plugin.setEnabled(true);
+		PluginBase.setEnabled(true);
 		loadedPlugins.add(plugin);
 	}
 
 	@Override
 	public void disablePlugin(Plugin plugin) {
-		plugin.setEnabled(false);
+		PluginBase.setEnabled(false);
 		loadedPlugins.remove(plugin);
 	}
 

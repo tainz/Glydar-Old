@@ -18,7 +18,7 @@ public class PluginLogger extends Logger {
     }
 
     public void log(LogRecord log) {
-        log.setMessage("[" + plugin.getName() + "] " + log.getMessage());
+        log.setMessage("[" + plugin.name() + "] " + log.getMessage());
         super.log(log);
     }
 
