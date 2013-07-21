@@ -12,7 +12,6 @@ public class ClientEntityEchoPacket extends Packet {
     private static ArrayList<PacketStructure> structures = new ArrayList<PacketStructure>();
     static {
         PacketStructure structure = new PacketStructure();
-        structure.addDataType(new PacketDataType(Integer.class));
         structure.addDataType(new PacketDataType(Byte.class, true));
         structures.add(structure);
     }
@@ -22,11 +21,6 @@ public class ClientEntityEchoPacket extends Packet {
         super(ClientPacketType.EntityUpdate.getId(), null);
         this.data = new RawPacketData(data);
 
-    }
-
-    public ClientEntityEchoPacket convertToEncode() {
-        this.data = new RawPacketData(ByteBuffer.wrap(this.data.getByteData()).order(ByteOrder.BIG_ENDIAN).array());
-        return this;
     }
 
     public static ArrayList<PacketStructure> getStructures() {

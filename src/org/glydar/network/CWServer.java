@@ -14,10 +14,7 @@ import org.glydar.Glydar;
 import org.glydar.LogFormatter;
 import org.glydar.packets.PacketCreatorList;
 import org.glydar.packets.PacketHandlerList;
-import org.glydar.packets.creators.ClientChatPacketCreator;
-import org.glydar.packets.creators.ClientEntityUpdateEchoCreator;
-import org.glydar.packets.creators.ClientEntityUpdatePacketCreator;
-import org.glydar.packets.creators.ClientVersionPacketCreator;
+import org.glydar.packets.creators.*;
 import org.glydar.plugin.CubePluginLoader;
 import org.glydar.protocol.handlers.ClientChatPacketHandler;
 import org.glydar.protocol.handlers.ClientEntityEchoHandler;
@@ -93,11 +90,19 @@ public class CWServer {
         //creatorList.addPacketCreator(new ClientEntityUpdatePacketCreator());
         creatorList.addPacketCreator(new ClientEntityUpdateEchoCreator());
         creatorList.addPacketCreator(new ClientChatPacketCreator());
+        //TODO Can't we use a Class loader or something?
+        creatorList.addPacketCreator(new ClientInteractionPacketCreator());
+        creatorList.addPacketCreator(new ClientHitNPCPacketCreator());
+        creatorList.addPacketCreator(new ClientStealthPacketCreator());
+        creatorList.addPacketCreator(new ClientShootArrowPacketCreator());
+        creatorList.addPacketCreator(new ClientChunkDiscoveredPacketCreator());
+        creatorList.addPacketCreator(new ClientSectorDiscoveredPacketCreator());
+
         
         handlerList = new PacketHandlerList();
         handlerList.addHandler(new ClientVersionPacketHandler());
         //handlerList.addHandler(new ClientEntityUpdatePacketHandler());
-        handlerList.addHandler(new ClientEntityEchoHandler());
+        //handlerList.addHandler(new ClientEntityEchoHandler());
         handlerList.addHandler(new ClientChatPacketHandler());
 
     }

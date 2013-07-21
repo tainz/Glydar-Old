@@ -22,6 +22,6 @@ public class ClientEntityUpdateEchoCreator implements IPacketCreator {
 
     @Override
     public Packet createPacket(byte[] data) throws Exception {
-        return new ClientEntityUpdatePacket(data);
+        return new ClientEntityEchoPacket(data);
     }
 }

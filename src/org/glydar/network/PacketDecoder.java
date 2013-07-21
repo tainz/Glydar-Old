@@ -26,13 +26,14 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
         int id = in.readInt();
 
-        Glydar.getServer().getLogger().info("Got Packet ID "+id+"!");
+        if(id != 0)
+            Glydar.getServer().getLogger().info("Got Packet ID "+id+"!");
 
         IPacketCreator creator = Glydar.getServer().getPacketCreatorList().getCreatorWithId(id);
 
         if (creator == null) {
 
-            in.markReaderIndex();
+            in.markReaderIndex(); //Sets new 0 to current position
 
             return;
 
@@ -66,13 +67,16 @@ public class PacketDecoder extends ByteToMessageDecoder {
                  * Read next integer, which *should* contain the size of the dynamic data type. This would, for example, be used for chat messages
 				 */
                     int dLen = in.readInt();
+
                     //TODO Change to PROPERLY handle types with mixed data
                     if (!pdt.getDataType().isAssignableFrom(String.class))
-                        len = dLen + 4;
+                        len += dLen - 4;
                     else
-                        len = (dLen * 2) + 4;
+                        len += (dLen * 2) - 4;
 
-                    Glydar.getServer().getLogger().info("Discovered length "+len+" dLength "+dLen);
+                    //Glydar.getServer().getLogger().info("Discovered length "+len+" dLength "+dLen);
+
+
 
                 }
 
