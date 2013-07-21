@@ -12,14 +12,11 @@ import java.util.logging.Logger;
 
 import org.glydar.Glydar;
 import org.glydar.LogFormatter;
-import org.glydar.packets.PacketCreatorList;
 import org.glydar.packets.PacketHandlerList;
-import org.glydar.packets.creators.*;
+import org.glydar.packets.PacketReaderList;
 import org.glydar.plugin.CubePluginLoader;
-import org.glydar.protocol.handlers.ClientChatPacketHandler;
-import org.glydar.protocol.handlers.ClientEntityEchoHandler;
-import org.glydar.protocol.handlers.ClientEntityUpdatePacketHandler;
 import org.glydar.protocol.handlers.ClientVersionPacketHandler;
+import org.glydar.protocol.readers.ClientVersionPacketReader;
 
 public class CWServer {
 
@@ -34,7 +31,7 @@ public class CWServer {
     
     private int conId = 0;
 
-    private PacketCreatorList creatorList;
+    private PacketReaderList pReaderList;
     private PacketHandlerList handlerList;
 
     private final Logger LOGGER = Logger.getLogger(Glydar.class.getName());
@@ -92,25 +89,29 @@ public class CWServer {
         lch.setFormatter(format);
         LOGGER.addHandler(lch);
 
-        creatorList = new PacketCreatorList();
-        creatorList.addPacketCreator(new ClientVersionPacketCreator());
-        //creatorList.addPacketCreator(new ClientEntityUpdatePacketCreator());
-        creatorList.addPacketCreator(new ClientEntityUpdateEchoCreator());
-        creatorList.addPacketCreator(new ClientChatPacketCreator());
-        //TODO Can't we use a Class loader or something?
-        creatorList.addPacketCreator(new ClientInteractionPacketCreator());
-        creatorList.addPacketCreator(new ClientHitNPCPacketCreator());
-        creatorList.addPacketCreator(new ClientStealthPacketCreator());
-        creatorList.addPacketCreator(new ClientShootArrowPacketCreator());
-        creatorList.addPacketCreator(new ClientChunkDiscoveredPacketCreator());
-        creatorList.addPacketCreator(new ClientSectorDiscoveredPacketCreator());
+        pReaderList = new PacketReaderList();
+
+        pReaderList.addPacketReader(new ClientVersionPacketReader());
+
+//        creatorList = new PacketCreatorList();
+//        creatorList.addPacketCreator(new ClientVersionPacketCreator());
+//        creatorList.addPacketCreator(new ClientEntityUpdatePacketCreator());
+////        creatorList.addPacketCreator(new ClientEntityUpdateEchoCreator());
+//        creatorList.addPacketCreator(new ClientChatPacketCreator());
+//        //TODO Can't we use a Class loader or something?
+//        creatorList.addPacketCreator(new ClientInteractionPacketCreator());
+//        creatorList.addPacketCreator(new ClientHitNPCPacketCreator());
+//        creatorList.addPacketCreator(new ClientStealthPacketCreator());
+//        creatorList.addPacketCreator(new ClientShootArrowPacketCreator());
+//        creatorList.addPacketCreator(new ClientChunkDiscoveredPacketCreator());
+//        creatorList.addPacketCreator(new ClientSectorDiscoveredPacketCreator());
 
         
         handlerList = new PacketHandlerList();
         handlerList.addHandler(new ClientVersionPacketHandler());
-        //handlerList.addHandler(new ClientEntityUpdatePacketHandler());
+//        handlerList.addHandler(new ClientEntityUpdatePacketHandler());
         //handlerList.addHandler(new ClientEntityEchoHandler());
-        handlerList.addHandler(new ClientChatPacketHandler());
+//        handlerList.addHandler(new ClientChatPacketHandler());
 
     }
 
@@ -127,12 +128,12 @@ public class CWServer {
         System.exit(0);
     }
 
-    public synchronized PacketCreatorList getPacketCreatorList() {
-        return new PacketCreatorList(creatorList);
+    public PacketHandlerList getPacketHandlerList() {
+        return handlerList;
     }
 
-    public synchronized PacketHandlerList getPacketHandlerList() {
-        return handlerList;
+    public PacketReaderList getPacketReaderList() {
+        return pReaderList;
     }
 
     public Logger getLogger() {

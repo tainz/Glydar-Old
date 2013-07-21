@@ -1,47 +1,46 @@
 package org.glydar.protocol.serverpackets;
 
 import org.glydar.packets.*;
-import org.glydar.util.MiscUtil;
+import org.glydar.packets.annotations.PacketStruct;
 
 import java.util.ArrayList;
 
-public class ServerDataPacket extends StructuredPacket {
+public class ServerDataPacket extends WritablePacket {
 
-    private static ArrayList<PacketStructure> structures;
+    @PacketStruct(index = 0)
+    private int unknown0;
 
-	static {
+    @PacketStruct(index = 1)
+    private long entityId;
 
-        structures = new ArrayList<PacketStructure>();
+    @PacketStruct(index = 2, length = 4456)
+    private byte emptyData;
 
-		PacketStructure structure = new PacketStructure();
-		structure.addDataType(new PacketDataType(Integer.class));
-		structure.addDataType(new PacketDataType(Long.class));
-		structure.addDataType(new PacketDataType(Byte.class, 4456));
-
-        structures.add(structure);
-
-	}
-
-	public ServerDataPacket() {
-
-		super(ServerPacketType.ServerData.getId());
-
-        this.data = new StructuredPacketData(structures);
-	}
-
-	public ServerDataPacket setEntityId(long entId) {
-
-        StructuredPacketData spd = (StructuredPacketData)data;
-
-        spd.setDataAtStructureIndex(0, 1, entId);
-//        spd.setDataAtStructureIndex(0, 1, MiscUtil.getEmptyByteArray(4456));
-
-		return this;
-
-	}
-
-    public static ArrayList<PacketStructure> getStructures() {
-        return structures;
+    public ServerDataPacket() {
+        super(ServerPacketType.ServerData.getId());
     }
 
+    public int getUnknown0() {
+        return unknown0;
+    }
+
+    public void setUnknown0(int unknown0) {
+        this.unknown0 = unknown0;
+    }
+
+    public long getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(long entityId) {
+        this.entityId = entityId;
+    }
+
+    public byte getEmptyData() {
+        return emptyData;
+    }
+
+    public void setEmptyData(byte emptyData) {
+        this.emptyData = emptyData;
+    }
 }
