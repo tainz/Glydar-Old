@@ -67,7 +67,12 @@ public class CWServer {
                 b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(initializer);
 
                 ChannelFuture cf = b.bind(PORT).sync();
-                loader.loadPlugins();
+                try {
+                	loader.loadPlugins();
+                } catch (Exception e) {
+                	getLogger().warning("Error while loading plugins: " + e.getMessage());
+                	e.printStackTrace();
+                }
                 cf.channel().closeFuture().sync();
                 
             } catch (Exception e) {

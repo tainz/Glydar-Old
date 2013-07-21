@@ -2,13 +2,18 @@ package org.glydar.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -19,7 +24,8 @@ public class CubePluginLoader implements PluginLoader {
 
 	private List<Plugin> loadedPlugins = new ArrayList<Plugin>();
 	private List<Plugin> pending = new ArrayList<Plugin>();
-	
+	private Map<String, URL> jarMap = new HashMap<String, URL>();
+
 	public void loadPlugins() {
 		File pluginDir = new File("plugins");
 		if (!pluginDir.exists()) {
@@ -63,7 +69,7 @@ public class CubePluginLoader implements PluginLoader {
 
 		Plugin plugin = null;
 		try {
-			plugin = getPluginFile(file);
+			plugin = getPlugin(file);
 		} catch (Exception e) {
 			Glydar.getServer().getLogger().warning("Failed to load file " + file.getName() + "! " + e.getMessage());
 			e.printStackTrace();
@@ -71,51 +77,84 @@ public class CubePluginLoader implements PluginLoader {
 		}
 
 		plugin.initialize(Glydar.getServer(), this, new PluginLogger(plugin));
-		plugin.getLogger().info("Loading " + plugin.getName() + " v" + plugin.getVersion());
+		StringBuffer sb = new StringBuffer();
+		try {
+			jarMap.put(plugin.getName(), file.toURI().toURL());
+		} catch (MalformedURLException e) {
+			Glydar.getServer().getLogger().warning("Failed to load plugin " + plugin.getName() + "! " + e.getMessage());
+			e.printStackTrace();
+			return;
+		}
+		sb.append("Loading " + plugin.getName() + " v" + plugin.getVersion());
+		if (plugin.getAuthor() != null) {
+			sb.append(" by " + plugin.getAuthor());
+		}
+		Glydar.getServer().getLogger().info(sb.toString());
 		pending.add(plugin);
 	}
 
-	@SuppressWarnings({ "unchecked", "resource" })
-	public Plugin getPluginFile(File file) throws PluginException, NoSuchMethodException, SecurityException, IOException,
+	@SuppressWarnings({ "unchecked" })
+	private Plugin getPlugin(File file) throws PluginException, NoSuchMethodException, SecurityException, IOException,
 		InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		if (!file.getName().endsWith(".jar"))
 			throw new PluginException("File must be a jar file!");
-		JarFile jFile;
+		JarFile jFile = new JarFile(file.getPath());
 		URL[] urls = { file.toURI().toURL() };
-		ClassLoader cl;
-		jFile = new JarFile(file.getPath());
-		cl = new URLClassLoader(urls, getClass().getClassLoader()); // TODO
-																	// Figure
-																	// out why
-																	// this says
-																	// potential
-																	// resource
-																	// leak...
+		URLClassLoader cl = new URLClassLoader(urls, getClass().getClassLoader());
 		Enumeration<JarEntry> e = jFile.entries();
-
 		Class<? extends Plugin> clazz = null;
-		while (e.hasMoreElements()) {
-			JarEntry entry = e.nextElement();
-			if (entry.isDirectory() || !entry.getName().endsWith(".class"))
-				continue;
-			String className = entry.getName().substring(0, entry.getName().length() - 6);
-			className = className.replace('/', '.');
+		try {
+			InputStream is = cl.getResourceAsStream("plugin.properties");
+			Properties props = new Properties();
+			props.load(is);
+			String main = props.getProperty("main");
 			try {
-				Class<?> c = cl.loadClass(className);
+				Glydar.getServer().getLogger().info("Loading from plugin.properties");
+				Class<?> c = cl.loadClass(main);
 				if (c.getSuperclass() == Plugin.class) {
 					clazz = (Class<? extends Plugin>) c;
-					break;
+					while (e.hasMoreElements()) {
+						JarEntry entry = e.nextElement();
+						if (entry.isDirectory() || !entry.getName().endsWith(".class"))
+							continue;
+						String className = entry.getName().substring(0, entry.getName().length() - 6);
+						className = className.replace('/', '.');
+						try {
+							cl.loadClass(className);
+						} catch (Exception ex) {
+							Glydar.getServer().getLogger().warning("Error loading plugin class from " + className);
+						}
+					}
+				} else {
+					throw new PluginException("File plugin.properties main class for " + file.getName() + " is invalid!");
 				}
-			} catch (ClassNotFoundException e1) {
-				Glydar.getServer().getLogger().warning("Error loading plugin class from " + className);
+			} catch (Exception ex) {
+				Glydar.getServer().getLogger().warning(ex.getMessage());
+			}
+		} catch (Exception ex) {
+			while (e.hasMoreElements()) {
+				JarEntry entry = e.nextElement();
+				if (entry.isDirectory() || !entry.getName().endsWith(".class"))
+					continue;
+				String className = entry.getName().substring(0, entry.getName().length() - 6);
+				className = className.replace('/', '.');
+				try {
+					Class<?> c = cl.loadClass(className);
+					if (c.getSuperclass() == Plugin.class) {
+						clazz = (Class<? extends Plugin>) c;
+					}
+				} catch (ClassNotFoundException e1) {
+					Glydar.getServer().getLogger().warning("Error loading plugin class from " + className);
+				}
 			}
 		}
 		jFile.close();
+		cl.close();
 		if (clazz == null)
-			throw new PluginException("PLugin " + file.getName().replace(".jar", "") + " does not contain a main class!");
-
+			throw new PluginException("Plugin " + file.getName().replace(".jar", "") + " does not contain a main class!");
 		Constructor<? extends Plugin> constructor = clazz.asSubclass(Plugin.class).getConstructor();
-		return constructor.newInstance();
+		Plugin plugin = constructor.newInstance();
+		return plugin;
 	}
 
 	@Override
@@ -125,14 +164,27 @@ public class CubePluginLoader implements PluginLoader {
 
 	@Override
 	public void enablePlugin(Plugin plugin) {
-		plugin.setEnabled(true);
+		try {
+			plugin.setEnabled(true);
+		} catch (Exception e) {
+
+		}
 		loadedPlugins.add(plugin);
 	}
 
 	@Override
 	public void disablePlugin(Plugin plugin) {
-		plugin.setEnabled(false);
+		try {
+			plugin.setEnabled(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		loadedPlugins.remove(plugin);
+	}
+
+	public URLClassLoader getClassLoader(Plugin plugin) {
+		URLClassLoader cl = new URLClassLoader(new URL[] { jarMap.get(plugin.getName()) });
+		return cl;
 	}
 
 }
