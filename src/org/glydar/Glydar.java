@@ -19,7 +19,7 @@ public class Glydar {
 
 		if (args.length > 0 && args[0].equals("-debug")) {
 			debugmode = true;
-			System.out.println("debug mode activated!");
+            server.getLogger().info("Debug output enabled. Only for developer use.");
 		}
 		
         try {
