@@ -109,7 +109,6 @@ public class CubePluginLoader implements PluginLoader {
 			props.load(is);
 			String main = props.getProperty("main");
 			try {
-				Glydar.getServer().getLogger().info("Loading from plugin.properties");
 				Class<?> c = cl.loadClass(main);
 				if (c.getSuperclass() == Plugin.class) {
 					clazz = (Class<? extends Plugin>) c;
