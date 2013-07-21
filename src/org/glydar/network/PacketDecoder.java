@@ -15,15 +15,16 @@ import java.nio.ByteOrder;
 public class PacketDecoder extends ByteToMessageDecoder {
 
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf in, MessageList<Object> out) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf inb, MessageList<Object> out) throws Exception {
 
+    	ByteBuf in = inb.order(ByteOrder.LITTLE_ENDIAN);
+    	
         if (in.readableBytes() < 4)
             return;
 
         in.markReaderIndex();
 
         int id = in.readInt();
-        id = ByteBufUtil.swapInt(id);
 
         IPacketCreator creator = Glydar.getServer().getPacketCreatorList().getCreatorWithId(id);
 
@@ -62,7 +63,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 				/*
                  * Read next integer, which *should* contain the size of the dynamic data type. This would, for example, be used for chat messages
 				 */
-                    int dLen = in.order(ByteOrder.LITTLE_ENDIAN).readInt();
+                    int dLen = in.readInt();
 
                     if (!pdt.getDataType().isAssignableFrom(String.class))
                         len += dLen;
@@ -93,7 +94,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
         byte[] data = new byte[len];
 
-        in.order(ByteOrder.LITTLE_ENDIAN).readBytes(data);
+        in.readBytes(data);
 
         out.add(creator.createPacket(data));
 
