@@ -2,13 +2,13 @@ package org.glydar.exceptions;
 
 public class StructureMismatchException extends Exception {
 
-    /**
-     * TODO
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 * TODO
+	 */
+	private static final long serialVersionUID = 1L;
 
-    public StructureMismatchException(String message) {
-        super(message);
-    }
+	public StructureMismatchException(String message) {
+		super(message);
+	}
 
 }

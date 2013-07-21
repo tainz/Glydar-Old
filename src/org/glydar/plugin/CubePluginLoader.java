@@ -14,25 +14,29 @@ import java.util.jar.JarFile;
 
 import org.glydar.Glydar;
 import org.glydar.exceptions.PluginException;
+import org.glydar.util.LogUtil;
 
 public class CubePluginLoader implements PluginLoader {
+	private LogUtil log;
 
 	private List<Plugin> loadedPlugins = new ArrayList<Plugin>();
 	private List<Plugin> pending = new ArrayList<Plugin>();
-	
+
 	public void loadPlugins() {
+		log = new LogUtil();
+
 		File pluginDir = new File("plugins");
 		if (!pluginDir.exists()) {
 			pluginDir.mkdirs();
 			return;
 		}
-		Glydar.getServer().getLogger().info("Loading plugins...");
+		log.output("Loading plugins");
 		for (File file : pluginDir.listFiles()) {
 			if (!file.isDirectory() && !file.getName().startsWith(".")) {
 				try {
 					loadPlugin(file);
 				} catch (PluginException ex) {
-					Glydar.getServer().getLogger().warning(ex.getMessage());
+					log.output(ex.getMessage());
 				}
 			}
 		}
@@ -41,17 +45,19 @@ public class CubePluginLoader implements PluginLoader {
 				try {
 					enablePlugin(p);
 				} catch (Exception e) {
-					Glydar.getServer().getLogger().warning("Error initializing plugin " + p.getName() + "!");
+					log.output("Error starting " + p.getName());
 					e.printStackTrace();
 				}
 			}
 		}
-		Glydar.getServer().getLogger().info("Loaded " + loadedPlugins.size() + " plugins!");
+		Glydar.getServer().getLogger()
+				.info("Loaded " + loadedPlugins.size() + " plugins!");
 	}
 
 	public void unloadPlugins() {
 		for (Plugin plugin : loadedPlugins) {
-			Glydar.getServer().getLogger().info("Disabling " + plugin.getName() + " v" + plugin.getVersion());
+			log.output("Disabling " + plugin.getName() + " v"
+					+ plugin.getVersion());
 			disablePlugin(plugin);
 		}
 	}
@@ -65,19 +71,24 @@ public class CubePluginLoader implements PluginLoader {
 		try {
 			plugin = getPluginFile(file);
 		} catch (Exception e) {
-			Glydar.getServer().getLogger().warning("Failed to load file " + file.getName() + "! " + e.getMessage());
+			log.output("Failed to load file " + file.getName() + " for "
+					+ e.getMessage());
 			e.printStackTrace();
 			return;
 		}
 
 		plugin.initialize(Glydar.getServer(), this, new PluginLogger(plugin));
-		plugin.getLogger().info("Loading " + plugin.getName() + " v" + plugin.getVersion());
+		plugin.getLogger().info(
+				"Loading " + plugin.getName() + " v" + plugin.getVersion());
+		log.output("Loading " + plugin.getName() + " v" + plugin.getVersion());
 		pending.add(plugin);
 	}
 
 	@SuppressWarnings({ "unchecked", "resource" })
-	public Plugin getPluginFile(File file) throws PluginException, NoSuchMethodException, SecurityException, IOException,
-		InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public Plugin getPluginFile(File file) throws PluginException,
+			NoSuchMethodException, SecurityException, IOException,
+			InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 		if (!file.getName().endsWith(".jar"))
 			throw new PluginException("File must be a jar file!");
 		JarFile jFile;
@@ -96,9 +107,11 @@ public class CubePluginLoader implements PluginLoader {
 		Class<? extends Plugin> clazz = null;
 		while (e.hasMoreElements()) {
 			JarEntry entry = e.nextElement();
-			if (entry.isDirectory() || !entry.getName().endsWith(".class"))
+			if (entry.isDirectory() || !entry.getName().endsWith(".class")) {
 				continue;
-			String className = entry.getName().substring(0, entry.getName().length() - 6);
+			}
+			String className = entry.getName().substring(0,
+					entry.getName().length() - 6);
 			className = className.replace('/', '.');
 			try {
 				Class<?> c = cl.loadClass(className);
@@ -107,14 +120,17 @@ public class CubePluginLoader implements PluginLoader {
 					break;
 				}
 			} catch (ClassNotFoundException e1) {
-				Glydar.getServer().getLogger().warning("Error loading plugin class from " + className);
+				log.output("Error loading plugin class from " + className);
 			}
 		}
 		jFile.close();
 		if (clazz == null)
-			throw new PluginException("PLugin " + file.getName().replace(".jar", "") + " does not contain a main class!");
+			throw new PluginException("Plugin "
+					+ file.getName().replace(".jar", "")
+					+ " does not contain a main class!");
 
-		Constructor<? extends Plugin> constructor = clazz.asSubclass(Plugin.class).getConstructor();
+		Constructor<? extends Plugin> constructor = clazz.asSubclass(
+				Plugin.class).getConstructor();
 		return constructor.newInstance();
 	}
 

@@ -4,8 +4,8 @@ import org.glydar.network.GlydarClient;
 
 public interface IPacketHandler {
 
-    void handlePacket(GlydarClient client, Packet packet) throws Exception;
+	void handlePacket(GlydarClient client, Packet packet) throws Exception;
 
-    int getPacketId();
+	int getPacketId();
 
 }
