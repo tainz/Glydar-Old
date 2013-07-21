@@ -4,13 +4,16 @@ import org.glydar.packets.*;
 import org.glydar.paraglydar.vectors.Vec3;
 import org.glydar.util.ZLibUtil;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 
 public class ClientEntityUpdatePacket extends StructuredPacket {
 
     private static ArrayList<PacketStructure> compressedStructures;
-
     private static ArrayList<PacketStructure> decompressedStructures;
+
+    private static int nameIndex;
 
     static {
 
@@ -201,7 +204,7 @@ public class ClientEntityUpdatePacket extends StructuredPacket {
         }
 
         structure2.addDataType(new PacketDataType(Integer.class)); //mana cubes
-        structure2.addDataType(new PacketDataType(String.class, 16)); //name
+        nameIndex = structure2.addDataType(new PacketDataType(String.class, 16)); //name
 
         decompressedStructures.add(structure2);
         decompressedStructures.add(structure3);
@@ -223,11 +226,18 @@ public class ClientEntityUpdatePacket extends StructuredPacket {
 
         byte[] dat = ZLibUtil.decompress(spd1.getDataAtStructure(0));
 
-
         spd.setDataAtStructureIndex(0, 0, dat);
         spd.setDataAtStructureIndex(1, 0, spd1.getDataAtStructure(1));
 
         this.data = spd;
+
+    }
+
+    public String getName() throws Exception {
+
+        StructuredPacketData spd = (StructuredPacketData)data;
+
+        return new String(spd.getDataAtIndex(spd.getLengthToStructure(0) + nameIndex, 16));
 
     }
 

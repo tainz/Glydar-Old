@@ -29,7 +29,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
         if (creator == null) {
 
-            in.resetReaderIndex();
+            in.markReaderIndex();
 
             return;
 

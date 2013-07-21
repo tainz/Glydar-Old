@@ -1,10 +1,7 @@
 package org.glydar.protocol.handlers;
 
 import org.glydar.network.GlydarClient;
-import org.glydar.packets.ClientPacketType;
-import org.glydar.packets.Packet;
-import org.glydar.packets.PacketHandler;
-import org.glydar.packets.StructuredPacketData;
+import org.glydar.packets.*;
 import org.glydar.protocol.clientpackets.ClientEntityUpdatePacket;
 import org.glydar.protocol.serverpackets.ServerEnitityUpdateFinishedPacket;
 import org.glydar.protocol.serverpackets.ServerEntityUpdatePacket;
@@ -20,11 +17,18 @@ public class ClientEntityUpdatePacketHandler extends PacketHandler {
     public void handlePacket(GlydarClient client, Packet packet) throws Exception {
 
 
-        ClientEntityUpdatePacket clientEntityUpdatePacket = (ClientEntityUpdatePacket) packet;
+        try {
 
-        clientEntityUpdatePacket.decompress();
+            ClientEntityUpdatePacket clientEntityUpdatePacket = (ClientEntityUpdatePacket) packet;
 
-        StructuredPacketData spd = (StructuredPacketData) clientEntityUpdatePacket.getData();
+            clientEntityUpdatePacket.decompress();
+
+            StructuredPacketData spd = (StructuredPacketData) clientEntityUpdatePacket.getData();
+
+            ServerEntityUpdatePacket seup = new ServerEntityUpdatePacket();
+
+        } catch (Exception e) {
+        }
 
     }
 

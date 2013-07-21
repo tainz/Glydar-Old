@@ -104,7 +104,7 @@ public class StructuredPacketData extends PacketData {
         return packetStructures.size();
     }
 
-    private int getLengthToStructure(int structureIndex) {
+    public int getLengthToStructure(int structureIndex) {
 
         int ctr = 0;
         for (int i = 0; i < packetStructures.size(); i++) {
@@ -114,9 +114,7 @@ public class StructuredPacketData extends PacketData {
             if (structureIndex == i)
                 return ctr;
 
-            for (int x = 0; x < structure.getDataTypes().size(); x++) {
-                ctr += structure.getDataTypes().get(i).getLength();
-            }
+            ctr += structure.getTotalLength();
 
         }
 
