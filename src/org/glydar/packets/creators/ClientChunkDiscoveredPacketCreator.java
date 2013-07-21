@@ -4,14 +4,14 @@ import org.glydar.packets.ClientPacketType;
 import org.glydar.packets.IPacketCreator;
 import org.glydar.packets.Packet;
 import org.glydar.packets.PacketStructure;
-import org.glydar.protocol.clientpackets.ClientChunkDiscoveryPacket;
+import org.glydar.protocol.clientpackets.ClientChunkDiscoveredPacket;
 
 import java.util.ArrayList;
 
 public class ClientChunkDiscoveredPacketCreator implements IPacketCreator{
     @Override
     public ArrayList<PacketStructure> getStructures() {
-        return ClientChunkDiscoveryPacket.getStructures();
+        return ClientChunkDiscoveredPacket.getStructures();
     }
 
     @Override
@@ -21,6 +21,6 @@ public class ClientChunkDiscoveredPacketCreator implements IPacketCreator{
 
     @Override
     public Packet createPacket(byte[] data) throws Exception {
-        return new ClientChunkDiscoveryPacket(data);
+        return new ClientChunkDiscoveredPacket(data);
     }
 }
