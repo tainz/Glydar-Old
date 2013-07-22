@@ -7,6 +7,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import org.glydar.Glydar;
 import org.glydar.packets.PacketReader;
 import org.glydar.packets.annotations.PacketStruct;
+import org.glydar.paraglydar.vectors.Vec3;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
@@ -26,8 +27,8 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
         int id = in.readInt();
 
-        if (id != 0)
-            Glydar.getServer().getLogger().info("Got Packet ID " + id + "!");
+//        if (id != 0)
+//            Glydar.getServer().getLogger().info("Got Packet ID " + id + "!");
 
         PacketReader reader = Glydar.getServer().getPacketReaderList().getReaderWithId(id);
 
@@ -51,6 +52,15 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
                 if (struct.dynamicLength()) {
 
+                    if (in.readableBytes() < len + 4)
+                    {
+
+                        in.resetReaderIndex();
+
+                        return;
+
+                    }
+
                     len += in.readInt();
 
                 } else {
@@ -71,6 +81,8 @@ public class PacketDecoder extends ByteToMessageDecoder {
                             len += 4;
                         } else if (sType.equals(long.class)) {
                             len += 8;
+                        } else if (sType.equals(Vec3.class)) {
+                            len += 12;
                         }
 
                     } else {
@@ -91,6 +103,8 @@ public class PacketDecoder extends ByteToMessageDecoder {
             return;
 
         }
+
+
 
         byte[] data = new byte[len];
 

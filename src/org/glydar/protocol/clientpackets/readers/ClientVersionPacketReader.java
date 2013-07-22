@@ -1,8 +1,6 @@
-package org.glydar.protocol.readers;
+package org.glydar.protocol.clientpackets.readers;
 
-import io.netty.buffer.ByteBuf;
 import org.glydar.packets.ClientPacketType;
-import org.glydar.packets.Packet;
 import org.glydar.packets.PacketReader;
 import org.glydar.protocol.clientpackets.ClientVersionPacket;
 

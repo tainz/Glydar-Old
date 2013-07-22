@@ -5,6 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.glydar.packets.Packet;
 import org.glydar.packets.annotations.PacketStruct;
+import org.glydar.paraglydar.vectors.Vec3;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
@@ -36,8 +37,6 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
                 if (sLen == 0) {
 
                     Class<?> sType = f.getType();
-
-                    System.out.println(sType.getName());
 
                     if (sType.equals(byte.class)) {
                         len += 1;
@@ -82,6 +81,14 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
                 buffer.putFloat((float) obj);
             } else if (sType.equals(long.class)) {
                 buffer.putLong((long) obj);
+            } else if (sType.equals(Vec3.class)) {
+
+                Vec3 vec = (Vec3)obj;
+
+                buffer.putFloat(vec.getX());
+                buffer.putFloat(vec.getY());
+                buffer.putFloat(vec.getZ());
+
             }
 
         }

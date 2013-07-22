@@ -15,8 +15,9 @@ import org.glydar.LogFormatter;
 import org.glydar.packets.PacketHandlerList;
 import org.glydar.packets.PacketReaderList;
 import org.glydar.plugin.CubePluginLoader;
-import org.glydar.protocol.handlers.ClientVersionPacketHandler;
-import org.glydar.protocol.readers.ClientVersionPacketReader;
+import org.glydar.protocol.clientpackets.handlers.ClientVersionPacketHandler;
+import org.glydar.protocol.clientpackets.readers.ClientEntityUpdatePacketReader;
+import org.glydar.protocol.clientpackets.readers.ClientVersionPacketReader;
 
 public class CWServer {
 
@@ -92,6 +93,7 @@ public class CWServer {
         pReaderList = new PacketReaderList();
 
         pReaderList.addPacketReader(new ClientVersionPacketReader());
+        pReaderList.addPacketReader(new ClientEntityUpdatePacketReader());
 
 //        creatorList = new PacketCreatorList();
 //        creatorList.addPacketCreator(new ClientVersionPacketCreator());

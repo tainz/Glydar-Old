@@ -1,4 +1,4 @@
-package org.glydar.protocol.handlers;
+package org.glydar.protocol.clientpackets.handlers;
 
 import org.glydar.Glydar;
 import org.glydar.network.GlydarClient;
@@ -26,7 +26,11 @@ public class ClientVersionPacketHandler extends PacketHandler {
         sdp.setUnknown0(0);
         sdp.setEntityId(1);
 
+        ServerSeedPacket ssp = new ServerSeedPacket();
+        ssp.setSeed(Glydar.getServer().getSeed());
+
         client.getSocketChannel().write(sdp);
+        client.getSocketChannel().write(ssp);
 
 //        if (Glydar.getServer().getCurrentProtocolVersion() != ((ClientVersionPacket) packet).getVersion()) {
 //            System.out.println("Wrong Version");
